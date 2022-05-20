@@ -539,9 +539,31 @@ def product_in_store(request):
  
 #  store manager
 
+
+#         price.append(product.Price_in_creates)
+#         data=zip(prods,price,quantity,sub_total)
+#         quantity.append(getattr(order,product.Product_Name))
+#         sub_total.append(product.Price_in_creates*getattr(order,product.Product_Name))
+#         grand_total+=float(product.Price_in_creates*getattr(order,product.Product_Name))
+#         total_quantity+=(getattr(order,product.Product_Name))
+#         VAT_Paid = float(grand_total * 0.15)
+
+#     data=zip(prods,price,quantity,sub_total)
+
+#     context={
+#         'transaction':transaction,
+#         'data':data,
+#         'total_quantity':total_quantity,
+#         'grand_total' :grand_total,
+#         'VAT':VAT_Paid,
+     
+#     }
+#     return render (request,'Company/store_manager/check_slip.html',context)
+
 def store_manager_view(request):
     table_data={}
     Total=0
+    img=[]
     user = User.objects.get(id=request.user.id)
     all_Product = Product.objects.all()
     company_manager=Company_Store_Manager.objects.get(user=user)
@@ -550,14 +572,18 @@ def store_manager_view(request):
     spesific_store = Company_Store.objects.get(id=store_id)
     product_amount=Product_Amount_in_Store.objects.get(store=spesific_store)
     for product in all_Product:
+        img.append(product.img)
         table_data[product.Product_Name]=((getattr(product_amount, product.Product_Name)))
         Total += getattr(product_amount, product.Product_Name)
 
-        print(table_data)
-        print(Total)
-        context = {
-       'table_data' : table_data,
+        
+        
+        data=zip(table_data,img)
        
+        context = {
+            'table_data' : table_data,
+            'Total' : Total,
+            'data' : data,
         }
 
     return render(request,'Company/store_manager/home_page.html',context)
@@ -702,6 +728,7 @@ def approve_view(request,pk):
         'all_tranaction':all_tranaction,
       
     }
+
     return render(request,'Company/finance/home.html',context)
 
 def check_store_view(request):
