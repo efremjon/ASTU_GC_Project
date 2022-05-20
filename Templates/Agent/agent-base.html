@@ -2,53 +2,55 @@
 <!DOCTYPE html>
 <html lang="en">
 
-  <head>
-    <meta charset="utf-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  
-    <title>BGI Ethiopia</title>
-    <meta content="" name="description">
-    <meta content="" name="keywords">
-  
-    <!-- Favicons -->
-    <link href="{% static 'assets/img/logo2.png' %}" rel="icon">
-    <link href="{% static 'assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
-  
-    <!-- Google Fonts -->
-    <link href="https://fonts.gstatic.com" rel="preconnect">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-  
-    <!-- Vendor CSS Files -->
-    <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
-    <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
-    <link href="{% static 'assets/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
-    <link href="{% static 'assets/vendor/quill/quill.snow.css' %}" rel="stylesheet">
-    <link href="{% static 'assets/vendor/quill/quill.bubble.css' %}" rel="stylesheet">
-    <link href="{% static 'assets/vendor/remixicon/remixicon.css' %}" rel="stylesheet">
-    <link href="{% static 'assets/vendor/simple-datatables/style.css' %}" rel="stylesheet">
-  
-    <!-- Template Main CSS File -->
-    <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
-        {% block post %}
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <!-- =======================================================
+  <title>BGI Ethiopia</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="{% static 'assets/img/logo2.png' %}" rel="icon">
+  <link href="{% static 'assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/quill/quill.snow.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/quill/quill.bubble.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/remixicon/remixicon.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/simple-datatables/style.css' %}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
+  {% block post %}
+
+  <!-- =======================================================
     * Template Name: NiceAdmin - v2.2.2
     * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
     * Author: BootstrapMade.com
     * License: https://bootstrapmade.com/license/
     ======================================================== -->
-  </head>
-  
+</head>
+
 <body>
-  
+
   <!-- ===  ==== Header ======= -->
   <header id="header" class="header fixed-top d-flex align-items-center">
 
     <div class="d-flex align-items-center justify-content-between">
       <a href="{% url 'agent_dashbord' %}" class="logo d-flex align-items-center">
-          <img src="{% static 'assets/img/logo3.png' %}" alt="">
-  
-        </a>
+        <img src="{% static 'assets/img/logo3.png' %}" alt="">
+
+      </a>
     </div><!-- End Logo -->
     <nav class="header-nav ms-auto">
       <ul class="d-flex align-items-center">
@@ -205,7 +207,7 @@
               <h6>{{user.first_name}} {{user.last_name}}</h6>
               <span>Company Admin</span>
             </li>
-           
+
             <li>
               <hr class="dropdown-divider">
             </li>
@@ -241,19 +243,19 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link " href="{% url 'agent_dashbord' %}">
+        <a class="nav-link collapsed" href="{% url 'agent_dashbord' %}">
           <i class="bi bi-grid"></i>
           <span>Dashboard</span>
         </a>
       </li><!-- End Dashboard Nav -->
-        
+
       <!-- customer orders -->
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#view-nav"  href="{% url 'customer_order' %}">
+        <a class="nav-link collapsed" data-bs-target="#view-nav" href="{% url 'customer_order' %}">
           <i class="bi bi-shop"></i><span>Customer orders</span>
         </a>
       </li>
-      
+
       <!-- make orders -->
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#make-order-nav" href="{% url 'agent_make_order' %}">
@@ -262,28 +264,28 @@
       </li>
 
       <!--add customer -->
-      <li class="nav-item"> 
-        <a class="nav-link collapsed" data-bs-target="#manage-cust-nav"  href="{% url 'manage_customers' %}">
-          <i class="bi bi-shop-window"></i><span>Manage Customers</span>
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#manage-cust-nav" href="{% url 'manage_customers' %}">
+          <i class="bi bi-people"></i><span>Manage Customers</span>
         </a>
       </li>
-      
+
       <!--add drivers -->
-      <li class="nav-item"> 
-        <a class="nav-link collapsed" data-bs-target="#drivers-nav"  href="{% url 'manage_drivers' %}">
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#drivers-nav" href="{% url 'manage_drivers' %}">
           <i class="bi bi-truck"></i><span>Manage drivers</span>
         </a>
       </li>
 
       <!--transactions -->
-      <li class="nav-item"> 
-        <a class="nav-link collapsed" data-bs-target="#transactions-nav"  href="{% url 'transactions' %}">
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#transactions-nav" href="{% url 'transactions' %}">
           <i class="bi bi-currency-dollar"></i><span>Transactions</span>
         </a>
       </li>
       <!--contact admin -->
-      <li class="nav-item"> 
-        <a class="nav-link collapsed" data-bs-target="#message-nav"  href="{% url 'send_message' %}">
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#message-nav" href="{% url 'send_message' %}">
           <i class="bi bi-chat-dots"></i><span>Send Message</span>
         </a>
       </li>
@@ -299,13 +301,13 @@
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="agent-dashboard.html">Home</a></li>
-          <li class="breadcrumb-item active">Dashboard</li>
+          <!-- <li class="breadcrumb-item active">Dashboard</li> -->
         </ol>
       </nav>
     </div><!-- End Page Title -->
-{% block content %}
+    {% block content %}
 
-{% endblock %}
+    {% endblock %}
   </main><!-- End #main -->
 
   <!-- ======= Footer ======= -->
@@ -313,13 +315,13 @@
     <div class="copyright">
       &copy; Copyright <strong><span>BGI Ethiopia</span></strong>. All Rights Reserved
     </div>
-   
+
   </footer><!-- End Footer -->
 
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center bg-warning">
     <i class="bi bi-arrow-up-short"></i>
   </a>
-{% endblock %}
+  {% endblock %}
   <!-- Vendor JS Files -->
   <script src="{% static 'assets/vendor/apexcharts/apexcharts.min.js' %}"></script>
   <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>

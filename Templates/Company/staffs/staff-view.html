@@ -11,7 +11,7 @@
         </ol>
         <div class="text-end">
             <a href="{% url 'add-staff' %}" class="item-end">
-                <button type="button" class="btn btn-sm rounded-pill btn-secondary"><i class="bi bi-plus me-1"></i>Add staff</button>
+                <button type="button" class="btn btn-sm rounded-pill btn-warning"><i class="bi bi-plus me-1"></i>Add staff</button>
               </a>
         </div>
         
@@ -45,7 +45,7 @@
                       <td>{{staff.staff}}</td>
                       <td>{{staff.date_created }}</td>
                       <td>{{staff.phone}}</td>
-                      <td>  <a href="{% url 'staff-detail' staff.id staff.staff %}" class="btn btn-info">View</a></td>
+                      <td>  <a href="{% url 'staff-detail' staff.id staff.staff %}" class="btn btn-secondary">View</a></td>
                     </tr>
                 {% endfor %}     
                 {% for staff in staff_company_store_manager %}
@@ -55,7 +55,7 @@
                       <td>{{staff.staff}}</td>
                       <td>{{staff.date_created }}</td>
                       <td>{{staff.phone}}</td>
-                      <td>  <a href="{% url 'staff-detail' staff.id staff.staff %}" class="btn btn-info">View</a></td>
+                      <td>  <a href="{% url 'staff-detail' staff.id staff.staff %}" class="btn btn-secondary">View</a></td>
                     </tr>
                 {% endfor %}                
                   </tbody>

@@ -48,7 +48,7 @@ class Company_Store_Manager(models.Model):
     facebook = models.CharField(max_length=200, null=True)
     instagrm = models.CharField(max_length=200, null=True)
     def __str__(self):
-        return str(self.Store)
+        return str(self.user)
     
 class Product(models.Model):
     Product_Name=models.CharField(max_length=200, null=True)
@@ -88,10 +88,6 @@ class Agent(models.Model):
     def __str__(self):
         return str(self.user)
         
-class Advertisment(models.Model):
-    auther=models.OneToOneField(User,null=True, on_delete=models.CASCADE)
-    data=models.TextField(null=True,blank=True,max_length=500)
-    date_created = models.DateTimeField(auto_now_add=True, null=True)
 
 class Finance_Manager(models.Model):
     user=models.OneToOneField(User,null=True, on_delete=models.CASCADE)
@@ -107,7 +103,13 @@ class Finance_Manager(models.Model):
     instagrm = models.CharField(max_length=200, null=True)
     def __str__(self):
         return self.user.first_name
-
+class Advertisment(models.Model):
+    # auther=models.OneToOneField(User,null=True, on_delete=models.CASCADE)
+    description=models.TextField(null=True,blank=True,max_length=500)
+    date_created = models.DateTimeField(auto_now_add=True, null=True)
+    product_name= models.CharField(max_length=200, null=True)
+    product_price=models.FloatField(default=0.0)
+    product_photo=models.ImageField(null=True,blank=True, default='Product_img/new.png',upload_to='Product_img/')
 
 class Agents_message(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE)

@@ -11,7 +11,7 @@
         </ol>
         <div class="text-end">
             <a href="{% url 'add-store-company' %}" class="item-end">
-                <button type="button" class="btn btn-sm rounded-pill btn-secondary"><i class="bi bi-plus me-1"></i>Add Store</button>
+                <button type="button" class="btn btn-sm rounded-pill btn-warning"><i class="bi bi-plus me-1"></i>Add Store</button>
               </a>
         </div>
         
@@ -54,7 +54,7 @@
                       <td>{{store.Store_Name}}</td>
                       <td>{{store.date_created}}</td>
                       <td>{{store.Address}}</td>
-                      <td>  <a href="{% url 'store_detile' store.id %}" class="btn btn-info">View</a></td>
+                      <td>  <a href="{% url 'store_detile' store.id %}" class="btn btn-secondary">View</a></td>
                     </tr>
                 {% endfor %}     
                      

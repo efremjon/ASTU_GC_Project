@@ -8,14 +8,16 @@
   <title>BGI Ethiopia</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
-{% load static %}
+  {% load static %}
   <!-- Favicons -->
   <link href="{% static 'assets/img/logo2.png' %}" rel="icon">
   <link href="{% static 'assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
   <link href="{% static 'https://fonts.gstatic.com" rel="preconnect">
-  <link href="{% static 'https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i' %}" rel="stylesheet">
+  <link
+    href="{% static 'https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i' %}"
+    rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
@@ -30,24 +32,19 @@
   <!-- Template Main CSS File -->
   <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
 
- 
+
 </head>
 
 <body>
-  
+
   <!-- ======= Header ======= -->
   <header id="header" class="header fixed-top d-flex align-items-center">
 
     <div class="d-flex align-items-center justify-content-between">
-    <a href="{% url 'admin-dashbord' %}" class="logo d-flex align-items-center">
+      <a href="{% url 'admin-dashbord' %}" class="logo d-flex align-items-center">
         <img src="{% static 'assets/img/logo3.png' %}" alt="">
-
       </a>
-     
     </div><!-- End Logo -->
-
-  
-
     <nav class="header-nav ms-auto">
       <ul class="d-flex align-items-center">
 
@@ -203,7 +200,7 @@
               <h6>{{user.first_name}} {{user.last_name}}</h6>
               <span>Company Admin</span>
             </li>
-           
+
             <li>
               <hr class="dropdown-divider">
             </li>
@@ -239,22 +236,22 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link " href="{% url 'admin-dashbord' %}">
+        <a class="nav-link collapsed" href="{% url 'admin-dashbord' %}">
           <i class="bi bi-grid"></i>
           <span>Dashboard</span>
         </a>
       </li><!-- End Dashboard Nav -->
-        
+
       <!-- agent -->
-       <!-- agent -->
-       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#agents-nav"  href="{%  url 'agent-view'  %}">
+      <!-- agent -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#agents-nav" href="{%  url 'agent-view'  %}">
           <i class="ri-admin-fill"></i><span>Manage Agents</span>
         </a>
       </li>
       <!-- staff -->
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#agents-nav"  href="{% url 'view-staff' %}">
+        <a class="nav-link collapsed" data-bs-target="#agents-nav" href="{% url 'view-staff' %}">
           <i class="ri-admin-line"></i><span>Manage Staff</span>
         </a>
       </li>
@@ -277,37 +274,37 @@
           </li>
         </ul>
       </li> -->
-      
+
       <!-- store manager-->
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#store-nav"  href="{% url 'view-store' %}">
+        <a class="nav-link collapsed" data-bs-target="#store-nav" href="{% url 'view-store' %}">
           <i class="ri-home-2-line"></i><span>Manage Store</span></i>
         </a>
-      
+
       </li>
-      
+
       <!-- Region manager-->
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#store-nav"  href="{% url 'view-region' %}">
+        <a class="nav-link collapsed" data-bs-target="#store-nav" href="{% url 'view-region' %}">
           <i class="bi bi-bounding-box"></i> <span>Manage Region</span></i>
         </a>
-        
+
       </li>
       <!-- manage product -->
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#store-nav"  href="{% url 'view-product' %}">
-          <i class="bi bi-bounding-box"></i> <span>Manage Product</span></i>
+        <a class="nav-link collapsed" data-bs-target="#store-nav" href="{% url 'view-product' %}">
+          <i class="bi bi-cart"></i> <span>Manage Product</span></i>
         </a>
-        
+
       </li>
       <!-- Generate report -->
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#reports-nav"href="{% url 'view-report' %}">
+        <a class="nav-link collapsed" data-bs-target="#reports-nav" href="{% url 'view-report' %}">
           <i class="bi bi-journal-text"></i><span>Generate Report</span>
         </a>
-      
+
       </li>
-      
+
       <!-- Post advertisement -->
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#tables-nav" href="{% url 'add-advertisments' %}">
@@ -315,23 +312,24 @@
         </a>
       </li>
 
- 
+
     </ul>
-</aside><!-- End Sidebar-->
+  </aside><!-- End Sidebar-->
 
- {% block content %}
+  {% block content %}
 
- {% endblock %}
+  {% endblock %}
 
- <!-- ======= Footer ======= -->
- <footer id="footer" class="footer">
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
     <div class="copyright">
       &copy; Copyright <strong><span>BGI Ethiopia</span></strong>. All Rights Reserved
     </div>
-   
+
   </footer><!-- End Footer -->
 
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center bg-warning"><i
+      class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->
   <script src="{% static 'assets/vendor/apexcharts/apexcharts.min.js' %}"></script>
@@ -342,14 +340,16 @@
   <script src="{% static 'assets/vendor/simple-datatables/simple-datatables.js' %}"></script>
   <script src="{% static 'assets/vendor/tinymce/tinymce.min.js' %}"></script>
   <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
- 
- 
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.11.5/b-2.2.2/b-html5-2.2.2/b-print-2.2.2/datatables.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.22/pdfmake.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
-<script src="table2excel.js"></script>
+
+
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+  <script type="text/javascript"
+    src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.11.5/b-2.2.2/b-html5-2.2.2/b-print-2.2.2/datatables.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.22/pdfmake.min.js"></script>
+  <script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+  <script src="table2excel.js"></script>
   <!-- Template Main JS File -->
 
 

@@ -540,15 +540,26 @@ def product_in_store(request):
 #  store manager
 
 def store_manager_view(request):
+    table_data={}
+    Total=0
     user = User.objects.get(id=request.user.id)
-    # a=Company_Store_Manager.objects.get(user=user)
-   
-    context = {
-       'user' : user,
-    #    'a' :a,
-      
-        
-    }
+    all_Product = Product.objects.all()
+    company_manager=Company_Store_Manager.objects.get(user=user)
+    spesific_store_from_manager=company_manager.Store
+    store_id = spesific_store_from_manager.id
+    spesific_store = Company_Store.objects.get(id=store_id)
+    product_amount=Product_Amount_in_Store.objects.get(store=spesific_store)
+    for product in all_Product:
+        table_data[product.Product_Name]=((getattr(product_amount, product.Product_Name)))
+        Total += getattr(product_amount, product.Product_Name)
+
+        print(table_data)
+        print(Total)
+        context = {
+       'table_data' : table_data,
+       
+        }
+
     return render(request,'Company/store_manager/home_page.html',context)
 def add_produc_to_store_view(request):
     all_tranaction = Agent_Transaction.objects.all()
