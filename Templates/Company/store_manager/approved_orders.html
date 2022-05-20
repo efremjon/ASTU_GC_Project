@@ -13,60 +13,35 @@
                     <h5 class="card-title">Approved orders for loading</h5>
                     <table class="table table-border datatable" id="available">
                       <thead>
-                        <tr>
-                          <th scope="col">#</th>
-                          <th scope="col">Driver</th>
-                          <th scope="col">Agent</th>
-                          <th scope="col">Product</th>                    
-                          <th scope="col">Quantity</th>
-                          <th scope="col">Paid</th>
-                          <th scope="col">Due date</th>
-                          <th scope="col">Load</th>
+                        <thead>
+                          <tr>
+                            <th scope="col">#</th>
+                      
+                              <th scope="col">Date</th>
+                              <th scope="col">Agent</th>
+                              <th scope="col">Order Code</th>
+                              <th scope="col">Total paid</th>
+                              <th scope="col">Approval Status</th>
+                              <th scope="col">Check Slip</th>
+                              <th scope="col">Allow Load</th>
+                          </tr>
                         </tr>
                       </thead>
                       <tbody>
+                        {% for transaction in all_tranaction %}
+                        {% if transaction.Agent_order_id.status == 'Approved'  %}                   
                         <tr>
-                          <th>1</th> 
-                          <td >Zemen</td>
-                          <td>Gebrekidam</td>
-                          <td>Castle</td>
-                          <td>6000</td>
-                          <td>1,278,175</td>
-                          <td>12-6-2022</td>
-                          <td>
-                            <button id="load" onclick="withdraw()" type="button" class="btn btn-success">
-                                <i class="bi bi-check-circle">Load</i>
-                            </button>
-                        </td>
+                          <th>{{transaction.id}}</th> 
+                          <td>{{transaction.date_created}}</td>
+                          <td>{{transaction.Agent_order_id.Agent}}</td>
+                          <td>{{transaction.TransactionCode}}</td>
+                          <td>{{transaction.Total_Amount}}</td>
+                          <td><span class="badge bg-success">Approved</span></td>
+                          <td><a href="{% url 'stor_check_slip_view' transaction.id %}"  type="button" class="btn btn-primary"><i class="bi bi-eye"></i></a></td>
+                          <td><a href="{% url 'allow_load' transaction.id %}" type="button" class="btn btn-success"><i class="bi bi-check-circle"></i></a></td> 
                         </tr>
-                        <tr>
-                            <th>1</th> 
-                            <td >Zemen</td>
-                            <td>Gebrekidam</td>
-                            <td>Castle</td>
-                            <td>6000</td>
-                            <td>1,278,175</td>
-                            <td>12-6-2022</td>
-                            <td>
-                              <button id="load" onclick="withdraw()" type="button" class="btn btn-success">
-                                  <i class="bi bi-check-circle">Load</i>
-                              </button>
-                          </td>
-                          </tr>
-                          <tr>
-                            <th>1</th> 
-                            <td >Zemen</td>
-                            <td>Gebrekidam</td>
-                            <td>Castle</td>
-                            <td>6000</td>
-                            <td>1,278,175</td>
-                            <td>12-6-2022</td>
-                            <td>
-                              <button id="load" onclick="withdraw()" type="button" class="btn btn-success">
-                                  <i class="bi bi-check-circle">Load</i>
-                              </button>
-                          </td>
-                          </tr>
+                         {% endif %}
+                        {% endfor %}                     
                       </tbody>
                     </table>
                   </div>

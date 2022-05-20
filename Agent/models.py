@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from Company.models import Agent,Product
+from Company.models import Agent,Product,Company_Store
 # Create your models here.
 class Route(models.Model):
 	Root_No=models.IntegerField()
@@ -101,15 +101,18 @@ class Agent_order(models.Model):
 	STATUS = (
 			('Pending', 'Pending'),
 			('Approved', 'Approved'),
+			('Recived', 'Recived'),
 			('Reject', 'Reject'),
+
 			) 
 	
-
+    
 	Agent = models.ForeignKey(Agent, on_delete= models.CASCADE, null=True)
+	Store = models.ForeignKey(Company_Store,on_delete= models.CASCADE, null=True)
 	date_created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 	status = models.CharField(max_length=200, null=True, choices=STATUS)
 	def __str__(self) -> str:
-		return str(self.Agent)
+		return str(self.id)
 products=Product.objects.all()
 for product in products:
 	Agent_order.add_to_class(product.Product_Name,models.IntegerField(default=0))

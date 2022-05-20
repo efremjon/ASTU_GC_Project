@@ -80,12 +80,20 @@ path('add_advertisments/',views.advertisments_view,name='add-advertisments'),
 
 path('Store_Manager/',views.store_manager_view,name='store-manager-home'),
 path('Store_Manager/add_produc_to_store',views.add_produc_to_store_view,name='add-to-store'),
-path('Store_Manager/aprove_order',views.aprove_order_view,name='aprove-order'),
-# endstore manager
+path('Store_Manager/view_aproved_order',views.aprove_order_view,name='view-aprove-order'),
+path('Store_Manager/check_slip/<int:pk>',views.stor_check_slip_view,name='stor_check_slip_view'),
+path('Store_Manager/allow_load/<int:pk>',views.allow_load_view,name='allow_load'),
+path('Store_Manager/loaded_order',views.loaded_order,name='loaded-order'),
+
+
+
+# End Store manager
+
 
 # finance admin
 path('Finance_Admin/',views.finance_admin_view,name='finance_admin_home'),
 path('Finance_Admin/check_slip/<int:pk>',views.check_slip_view,name='check_slip_view'),
+path('Finance_Admin/approve/<int:pk>',views.approve_view,name='approve-order'),
 path('Finance_Admin/check_store',views.check_store_view,name='finance-check-store'),
 path('Finance_Admin/aprove_order_history',views.aprove_order_history_view,name='aprove-order-history'),
 

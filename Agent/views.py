@@ -125,7 +125,7 @@ def make_order(request):
 
 def order_summer(request):
     #  b = Blog(name='Beatles Blog', tagline='All the latest Beatles news.')
-    ag=Agent_order.objects.create(status='Pending')
+    
     all_product = Product.objects.all()
     all_store = Company_Store.objects.all()
     ary1=[]
@@ -136,6 +136,9 @@ def order_summer(request):
     arr={}
     arr3=[]
     if request.method == 'POST':
+        store = request.POST['store']
+        storee=Company_Store.objects.get(Store_Name=store)
+        ag=Agent_order.objects.create(status='Pending',Store=storee)
         for product in all_product:
             a=request.POST[product.Product_Name]
             arr[product.Product_Name]=a
@@ -224,7 +227,7 @@ def success(request):
         redirect('transactions')
     else:
         Agent_Transaction.objects.create(Agent_order_id=Agent_Orders,Total_Amount=total,Paid_status=status,TransactionCode = TransactionCode,MarchentId=MerchantCode)
-    return render(request, 'Agent/post-payment.html',context )
+    return render(request, 'Agent/new_post-payment.html',context )
 
 def cancel(request):
     return render(request, 'Agent/cancel.html')
@@ -244,23 +247,25 @@ def transaction_detail(request,pk):
     quantity=[]
     sub_total=[] 
     grand_total=0
+    VAT_Paid=0.0
     total_quantity=0
     for product in products:
         price.append(product.Price_in_creates)
         prods.append(product.Product_Name)
         quantity.append(getattr(order,product.Product_Name))
         sub_total.append(product.Price_in_creates*getattr(order,product.Product_Name))
-       
+        grand_total+=float(product.Price_in_creates*getattr(order,product.Product_Name))
         total_quantity+=(getattr(order,product.Product_Name))
-    
-    
-   
+        VAT_Paid = float(grand_total * 0.15)
+
     data=zip(prods,price,quantity,sub_total)
 
     context={
         'transaction':transaction,
         'data':data,
         'total_quantity':total_quantity,
+        'grand_total' :grand_total,
+        'VAT':VAT_Paid,
      
     }
     return render(request,'Agent/transaction-details.html',context)
@@ -273,7 +278,7 @@ def manage_drivers(request):
 
 def transactions(request):
 
-    all_transaction = Agent_Transaction.objects.all()
+    all_transaction = Agent_Transaction.objects.all().order_by('-date_created')
     context = {
     'all_transaction' :all_transaction,
     }

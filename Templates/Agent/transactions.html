@@ -20,6 +20,7 @@
                     <th scope="col">Total paid</th>
                     <th scope="col">Marchent Id</th>
                     <th scope="col">Pay Status</th>
+                    <th scope="col"> Status</th>
                    
                     
                   </tr>
@@ -34,7 +35,15 @@
                     <td>{{transaction.Total_Amount}}</td>
                     <td>{{transaction.MarchentId}}</td>
                     <td>{{transaction.Paid_status}}</td>
-                  
+                    {% if transaction.Agent_order_id.status == 'Pending'  %}
+                      <td><span class="badge bg-warning">Pending</span></td>
+                    {% elif transaction.Agent_order_id.status == 'Approved' %}
+                    <td><span class="badge bg-primary">Approved</span></td>
+                    {% elif transaction.Agent_order_id.status == 'Recived' %}
+                    <td><span class="badge bg-success">Recived</span></td>
+                    {% elif transaction.Agent_order_id.status == 'Reject' %}
+                    <td><span class="badge bg-danger">Rejected</span></td>
+                    {% endif %}
                   </tr>
                   {% endfor %}
                 </tbody>
