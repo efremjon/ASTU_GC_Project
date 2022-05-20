@@ -130,9 +130,11 @@ def order_summer(request):
     all_store = Company_Store.objects.all()
     ary1=[]
     ary2=[]
+    q=0
     a=0
     tl=0
     arr={}
+    arr3=[]
     if request.method == 'POST':
         for product in all_product:
             a=request.POST[product.Product_Name]
@@ -141,8 +143,8 @@ def order_summer(request):
             ary1.append(a)
             ary2.append(tp)
             tl=tl+tp
-        
-        print(arr)
+            q+=int(a)
+            vat=0.15 * tl
         for key ,value in arr.items():
             setattr(ag,key,value)
         ag.save()
@@ -155,10 +157,10 @@ def order_summer(request):
             "merchantId": "SB1560",
             "merchantOrderId": ag.id,
             "expiresAfter": 24,
-            "totalItemsDeliveryFee": 19,
-            "totalItemsDiscount": 1,
-            "totalItemsHandlingFee": 12,
-            "totalItemsTax1": 250,
+            "totalItemsDeliveryFee": 0,
+            "totalItemsDiscount": 0,
+            "totalItemsHandlingFee": 0,
+            "totalItemsTax1": vat,
             "totalItemsTax2": 0
         }
         cart = { "cartitems": [{ "itemId":"sku-01", "itemName":"Beer","unitPrice":tl,"quantity":1},]}
@@ -171,7 +173,9 @@ def order_summer(request):
             'mylist':mylist,
             'tl':tl,
             'obj': obj, 
-            'cart': cart
+            'cart': cart,
+            'q':q
+            
 
         }
         return render(request,'Agent/order_summer.html',context)
@@ -252,13 +256,12 @@ def transaction_detail(request,pk):
     
    
     data=zip(prods,price,quantity,sub_total)
+
     context={
         'transaction':transaction,
         'data':data,
-        
         'total_quantity':total_quantity,
      
-       
     }
     return render(request,'Agent/transaction-details.html',context)
 
@@ -269,11 +272,10 @@ def manage_drivers(request):
 
 
 def transactions(request):
+
     all_transaction = Agent_Transaction.objects.all()
-   
     context = {
     'all_transaction' :all_transaction,
-    
     }
     return render(request,'Agent/transactions.html',context)
 

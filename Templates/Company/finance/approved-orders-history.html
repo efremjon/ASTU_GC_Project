@@ -18,42 +18,29 @@
                     <thead>
                       <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Agent</th>
-                        <th scope="col">Driver</th>
-                        <th scope="col">Product</th>                    
-                        <th scope="col">Quantity</th>
-                        <th scope="col">Paid</th>
-                        <th scope="col">Approval date</th>
+                        
+                          <th scope="col">Date</th>
+                          <th scope="col">Agent</th>
+                          <th scope="col">Order Code</th>
+                          <th scope="col">Total paid</th>
+                        <th scope="col">Approval Status</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <th>1</th> 
-                        <td >Zemen</td>
-                        <td>Gebrekidam</td>
-                        <td>Castle</td>
-                        <td>6000</td>
-                        <td>1,278,175</td>
-                        <td>12-6-2022</td>
-                      </tr>
-                      <tr>
-                          <th>1</th> 
-                          <td >Zemen</td>
-                          <td>Gebrekidam</td>
-                          <td>Castle</td>
-                          <td>6000</td>
-                          <td>1,278,175</td>
-                          <td>12-6-2022</td>
-                        </tr>
+                      {% for transaction in all_tranaction %}
+
+                        {% if transaction.Agent_order_id.status == 'Approve'  %}
+                        
                         <tr>
-                          <th>1</th> 
-                          <td >Zemen</td>
-                          <td>Gebrekidam</td>
-                          <td>Castle</td>
-                          <td>6000</td>
-                          <td>1,278,175</td>
-                          <td>12-6-2022</td>
-                        </tr>
+                          <th>{{transaction.id}}</th> 
+                          <td>{{transaction.date_created}}</td>
+                          <td>{{transaction.Agent_order_id.Agent}}</td>
+                          <td>{{transaction.TransactionCode}}</td>
+                          <td>{{transaction.Total_Amount}}</td>
+                        <td><span class="badge bg-success">Approved</span></td>
+                      </tr>
+                      {% endif %}
+                      {% endfor %}
                     </tbody>
                   </table>
                 </div>

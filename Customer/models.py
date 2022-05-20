@@ -27,3 +27,16 @@ class Customer_order(models.Model):
 products=Product.objects.all()
 for product in products:
     Customer_order.add_to_class(product.Product_Name,models.IntegerField(default=0))  
+
+
+class Customer_Transaction(models.Model):
+	Paid_status = (
+			('Paid', 'Paid'),
+			('Not Paid', 'Not Paid'),
+			) 
+	Agent_order_id=models.OneToOneField(Customer_order, on_delete=models.CASCADE)
+	date_created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+	Total_Amount = models.FloatField(null=True) 
+	Paid_status = models.CharField(max_length=200, null=True, choices=Paid_status)
+	TransactionCode = models.CharField(max_length=200,null=True)
+	MarchentId = models.CharField(max_length=200, null=True, )

@@ -9,27 +9,35 @@
             <div class="card info-card">
                 <div class="card-body">
                     <h5 class="card-title text-center">Order Information</h5>
-                    <ul class="list-group">
-                        <li class="list-group-item d-flex justify-content-between lh-con  densed bg-light">
-                          <span id="product">Product</span>
-                          <span id="product">unit price</span>
-                          <span id="product">quantity</span>
-                          <span id="product">Sub price</span>
-                        </li>
-                        {% for row in data %}
-                        
-                        <li class="list-group-item d-flex justify-content-between lh-condensed">{% for cell in row %}
-                            <span id="product">{{cell}}</span>
+                   
+                      <table class="table table-border">
+                        <thead>
+                          <tr>
+                            <th scope="col">Product</th>
+                            <th scope="col">unit price</th>
+                            <th scope="col">quantity</th>
+                            <th scope="col">Sub price</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                      
+                            {% for row in data %}
+                          <tr>
+                            {% for cell in row %}
+                            <th>{{cell}}</th> 
+                            {% endfor %}
+                          </tr>
                           {% endfor %}
-                        </li>
-                     {% endfor %}
-                        <li class="list-group-item d-flex justify-content-between lh-con  densed bg-light">
-                            <div>
-                                <strong class="my-0">Total Quantity</strong>
-                              </div>
-                              <span class="text-success" id="grand_total">{{total_quantity}}</span>
-                        </li>
-                      </ul>
+                          <tr>
+                              
+                                <th scope="col">Total Quantity</th>
+                                <th scope="col">  --------  </th>
+                                <th scope="col">{{total_quantity}}</th>
+                                <th scope="col">  --------  </th>
+                             
+                          </tr>
+                        </tbody>
+                      </table>
                   </div>
             </div>
         </div>
@@ -47,10 +55,10 @@
                         <span id="store" class="card-title">Requested Store: </span>
                         <span id="store" class="text-muted">Awasa</span>
                     </div>
-                    <div>
+                    <!-- <div>
                         <span class="card-title">Order Date: </span>
                         <span id="order_date" class="text-muted">{{transaction.created_date}}</span>
-                    </div>
+                    </div> -->
                     <div>
                         <span class="card-title">Payment: </span>
                         <span id="payment_type" class="text-muted">YenePay</span>

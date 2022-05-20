@@ -100,16 +100,16 @@ class Product_in_Agent_Stor(models.Model):
 class Agent_order(models.Model):
 	STATUS = (
 			('Pending', 'Pending'),
-			('Out for delivery', 'Out for delivery'),
-			('Delivered', 'Delivered'),
+			('Approved', 'Approved'),
+			('Reject', 'Reject'),
 			) 
 	
 
-	# Agent = models.ForeignKey(Agent, on_delete= models.SET_NULL, null=True)
+	Agent = models.ForeignKey(Agent, on_delete= models.CASCADE, null=True)
 	date_created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 	status = models.CharField(max_length=200, null=True, choices=STATUS)
 	def __str__(self) -> str:
-		return str(self.id)
+		return str(self.Agent)
 products=Product.objects.all()
 for product in products:
 	Agent_order.add_to_class(product.Product_Name,models.IntegerField(default=0))

@@ -11,7 +11,7 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User,Group
 from django.contrib.auth.forms import PasswordChangeForm
 from .models import *
-
+from Agent.models import *
 from .form import passwordform,NameForm
 from django.core.mail import send_mail
 
@@ -567,11 +567,52 @@ def view_report(request):
 #  Finance admin
 
 def finance_admin_view(request):
-    return render(request,'Company/finance/home_page.html',)
+    all_tranaction = Agent_Transaction.objects.all()
+    
+    context = {
+        'all_tranaction':all_tranaction,
+      
+    }
+    return render(request,'Company/finance/home.html',context)
+def check_slip_view(request,pk):
+    transaction=Agent_Transaction.objects.get(id=pk) 
+    products=Product.objects.all()
+    order=Agent_order.objects.get(id=transaction.Agent_order_id.id)
+    price=[]
+    prods=[]
+    quantity=[]
+    sub_total=[] 
+    grand_total=0
+    VAT_Paid=0.0
+    total_quantity=0
+    for product in products:
+        price.append(product.Price_in_creates)
+        prods.append(product.Product_Name)
+        quantity.append(getattr(order,product.Product_Name))
+        sub_total.append(product.Price_in_creates*getattr(order,product.Product_Name))
+        grand_total+=float(product.Price_in_creates*getattr(order,product.Product_Name))
+        total_quantity+=(getattr(order,product.Product_Name))
+        VAT_Paid = float(grand_total * 0.15)
+
+    data=zip(prods,price,quantity,sub_total)
+
+    context={
+        'transaction':transaction,
+        'data':data,
+        'total_quantity':total_quantity,
+        'grand_total' :grand_total,
+        'VAT':VAT_Paid,
+     
+    }
+    return render(request,'Company/finance/new_order-details.html',context)
 def check_store_view(request):
     return render(request,'Company/finance/check-store.html',{})
 
 def aprove_order_history_view(request):
-    return render(request,'Company/finance/approved-orders-history.html',{})
+    all_tranaction = Agent_Transaction.objects.all()
+    context = {
+        'all_tranaction' : all_tranaction,
+    }
+    return render(request,'Company/finance/approved-orders-history.html',context)
 
-# END store manager
+# END Finance admin

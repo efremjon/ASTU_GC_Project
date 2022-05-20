@@ -122,7 +122,7 @@ def make_order(request):
     products=Product.objects.all()
     
     context={
-        'products':products,
+        'all_product':products,
     
     }
 
@@ -148,3 +148,146 @@ def transaction_history(request):
     customer_orders=Customer_order.objects.filter(Customer=request.user.customer)
     context={'customer_orders':customer_orders}
     return render(request,'Customer/transaction_history.html',context)
+
+
+
+
+
+def order_summer(request):
+    
+    ag=Customer_order.objects.create(status='Pending')
+    all_product = Product.objects.all()
+
+    ary1=[]
+    ary2=[]
+    a=0
+    tl=0
+    arr={}
+    if request.method == 'POST':
+        for product in all_product:
+            a=request.POST[product.Product_Name]
+            arr[product.Product_Name]=a
+            tp=product.Price_in_creates * int(request.POST[product.Product_Name])
+            ary1.append(a)
+            ary2.append(tp)
+            tl=tl+tp
+        
+        print(arr)
+        for key ,value in arr.items():
+            setattr(ag,key,value)
+        ag.save()
+        
+        obj = {
+            "process": "Cart",
+            "successUrl": "http://localhost:8000/Customer/success/",
+            "ipnUrl": "http://localhost:8000/Agent/ipn",
+            "cancelUrl": "http://localhost:8000/Customer/cancel",
+            "merchantId": "SB1560",
+            "merchantOrderId": ag.id,
+            "expiresAfter": 24,
+            "totalItemsDeliveryFee": 19,
+            "totalItemsDiscount": 1,
+            "totalItemsHandlingFee": 12,
+            "totalItemsTax1": 250,
+            "totalItemsTax2": 0
+        }
+        cart = { "cartitems": [{ "itemId":"sku-01", "itemName":"Beer","unitPrice":tl,"quantity":1},]}
+        mylist = zip(all_product,ary1,ary2)        
+        context = {
+            'all_product' : all_product,
+           
+            'a':a,
+            'ary':ary1,
+            'mylist':mylist,
+            'tl':tl,
+            'obj': obj, 
+            'cart': cart
+
+        }
+        return render(request,'Customer/order_summer.html',context)
+    return redirect('make_order')
+    
+def success(request):
+
+    ii= request.GET.get('itemId')
+    total = request.GET.get('TotalAmount')
+    moi = request.GET.get('MerchantOrderId')
+    ti = request.GET.get('TransactionId')
+    status = request.GET.get('Status')
+    TransactionCode = request.GET.get('TransactionCode')
+    MerchantCode = request.GET.get('MerchantCode')
+    BuyerId = request.GET.get('BuyerId')
+    Currency = request.GET.get('Currency')
+
+    url = 'https://testapi.yenepay.com/api/verify/pdt/'
+    datax = {
+        "requestType": "PDT",
+        "pdtToken": "Q1woj27RY1EBsm",
+        "transactionId": ti,
+        "merchantOrderId": moi
+    }
+    x = requests.post(url, datax)
+    if x.status_code == 200:
+        print("It's Paid")
+    else:
+        print('Invalid payment process')
+    Customer_Orders=Customer_order.objects.get(id=moi)
+    context = {
+        'total': total, 
+        'status': status,
+        'TransactionCode' :TransactionCode,
+        'MerchantCode' : MerchantCode,
+        'BuyerId' : BuyerId,
+        'Currency' :Currency,
+        'moi':moi,
+        'Agent_Orders':Agent_Orders,
+
+        }
+    
+    TC = Customer_Transaction.objects.filter(TransactionCode = TransactionCode)  
+   
+    if TC.exists():  
+        redirect('transactions')
+    else:
+        Agent_Transaction.objects.create(Agent_order_id=Agent_Orders,Total_Amount=total,Paid_status=status,TransactionCode = TransactionCode,MarchentId=MerchantCode)
+    return render(request, 'Customer/post-payment.html',context )
+
+# def cancel(request):
+#     return render(request, 'Agent/cancel.html')
+
+# def ipn(request):
+#     return render(request, 'Agent/ipn.html')
+# def manage_customers(request):
+
+#      return render(request,'Agent/manage-customers.html',{})
+
+# def transaction_detail(request,pk):
+#     transaction=Agent_Transaction.objects.get(id=pk) 
+#     products=Product.objects.all()
+#     order=Agent_order.objects.get(id=transaction.Agent_order_id.id)
+#     price=[]
+#     prods=[]
+#     quantity=[]
+#     sub_total=[] 
+#     grand_total=0
+#     total_quantity=0
+#     for product in products:
+#         price.append(product.Price_in_creates)
+#         prods.append(product.Product_Name)
+#         quantity.append(getattr(order,product.Product_Name))
+#         sub_total.append(product.Price_in_creates*getattr(order,product.Product_Name))
+       
+#         total_quantity+=(getattr(order,product.Product_Name))
+    
+    
+   
+#     data=zip(prods,price,quantity,sub_total)
+#     context={
+#         'transaction':transaction,
+#         'data':data,
+        
+#         'total_quantity':total_quantity,
+     
+       
+#     }
+#     return render(request,'Agent/transaction-details.html',context)
