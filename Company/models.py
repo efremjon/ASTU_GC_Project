@@ -60,8 +60,10 @@ class Product(models.Model):
 
 class Product_Amount_in_Store(models.Model):
     store=models.OneToOneField(Company_Store, null=True, on_delete=models.CASCADE)
+    date_created = models.DateField(auto_now_add=True, null=True)
     def __str__(self) -> str:
         return str(self.store)
+
 products=Product.objects.all()
 for product in products:
     Product_Amount_in_Store.add_to_class(product.Product_Name,models.IntegerField(default=0))  

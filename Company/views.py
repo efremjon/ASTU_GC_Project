@@ -3,6 +3,7 @@
 from http.client import CONTINUE
 from multiprocessing import context
 from multiprocessing.dummy import JoinableQueue
+from operator import attrgetter
 from django.contrib import messages
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
@@ -563,7 +564,9 @@ def product_in_store(request):
 def store_manager_view(request):
     table_data={}
     Total=0
-    img=[]
+    arrimg=[]
+    arrvalu=[]
+    arrkey=[]
     user = User.objects.get(id=request.user.id)
     all_Product = Product.objects.all()
     company_manager=Company_Store_Manager.objects.get(user=user)
@@ -572,26 +575,47 @@ def store_manager_view(request):
     spesific_store = Company_Store.objects.get(id=store_id)
     product_amount=Product_Amount_in_Store.objects.get(store=spesific_store)
     for product in all_Product:
-        img.append(product.img)
+        arrimg.append(product.img)
         table_data[product.Product_Name]=((getattr(product_amount, product.Product_Name)))
         Total += getattr(product_amount, product.Product_Name)
-
         
         
-        data=zip(table_data,img)
+    for key,valu in table_data.items():
+        arrkey.append(key)
+        arrvalu.append(valu)
+          
+    data=zip(arrkey,arrvalu,arrimg)
        
-        context = {
+    context = {
             'table_data' : table_data,
             'Total' : Total,
             'data' : data,
-        }
+            'company_manager':company_manager,
+            'spesific_store': spesific_store,
+    }
 
-    return render(request,'Company/store_manager/home_page.html',context)
+    return render(request,'Company/store_manager/view-store.html',context)
 def add_produc_to_store_view(request):
-    all_tranaction = Agent_Transaction.objects.all()
-    
+    all_Product = Product.objects.all()
+    user = User.objects.get(id=request.user.id)
+    company_manager=Company_Store_Manager.objects.get(user=user)
+    spesific_store_from_manager=company_manager.Store
+    store_id = spesific_store_from_manager.id
+    spesific_store = Company_Store.objects.get(id=store_id)
+    product_amount=Product_Amount_in_Store.objects.get(store=spesific_store)
+    name =''
+    if request.method == 'POST':
+        name = request.POST['product']
+        old_amount = getattr(product_amount,name)
+        new_amount = request.POST['amount']
+        update_amount = old_amount + int(new_amount)
+        setattr(product_amount, name , update_amount)
+        product_amount.save()
+        messages.info(request, 'Store refilled successfully')
+        return redirect('store-manager-home')
+   
     context = {
-        'all_tranaction':all_tranaction,
+        'all_Product' :all_Product,
       
     }
     return render(request,'Company/store_manager/add_to_store.html',context)
