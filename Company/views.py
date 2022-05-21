@@ -437,6 +437,8 @@ def add_store_company(request):
         store=Company_Store.objects.create(Store_Name=Store_Name,Address=Address)
         Product_Amount_in_Store.objects.create(store=store)
         Company_Store_Manager.objects.create(Store=store)
+        Product_Amount_in_Store.objects.create(store=store)
+   
         messages.info(request, 'Store Successfully added')
         
         return redirect('view-store')
@@ -574,6 +576,7 @@ def store_manager_view(request):
     store_id = spesific_store_from_manager.id
     spesific_store = Company_Store.objects.get(id=store_id)
     product_amount=Product_Amount_in_Store.objects.get(store=spesific_store)
+    refile_product = add_to_store.objects.filter(Store=spesific_store).order_by('-date_created')
     for product in all_Product:
         arrimg.append(product.img)
         table_data[product.Product_Name]=((getattr(product_amount, product.Product_Name)))
@@ -592,6 +595,7 @@ def store_manager_view(request):
             'data' : data,
             'company_manager':company_manager,
             'spesific_store': spesific_store,
+            'refile_product' : refile_product,
     }
 
     return render(request,'Company/store_manager/view-store.html',context)
@@ -603,6 +607,7 @@ def add_produc_to_store_view(request):
     store_id = spesific_store_from_manager.id
     spesific_store = Company_Store.objects.get(id=store_id)
     product_amount=Product_Amount_in_Store.objects.get(store=spesific_store)
+    
     name =''
     if request.method == 'POST':
         name = request.POST['product']
@@ -611,17 +616,26 @@ def add_produc_to_store_view(request):
         update_amount = old_amount + int(new_amount)
         setattr(product_amount, name , update_amount)
         product_amount.save()
+        add_to_store.objects.create(Store=spesific_store,product=name,qunitiy=new_amount)
         messages.info(request, 'Store refilled successfully')
         return redirect('store-manager-home')
-   
+    
     context = {
         'all_Product' :all_Product,
-      
+       
+       
     }
     return render(request,'Company/store_manager/add_to_store.html',context)
 
 def aprove_order_view(request):
-    all_tranaction = Agent_Transaction.objects.all()
+    user = User.objects.get(id=request.user.id)
+    
+    company_manager=Company_Store_Manager.objects.get(user=user)
+    spesific_store_from_manager=company_manager.Store
+    store_id = spesific_store_from_manager.id
+    spesific_store = Company_Store.objects.get(id=store_id)
+    product_amount=Product_Amount_in_Store.objects.get(store=spesific_store)
+    all_tranaction = Agent_Transaction.objects.filter()
     
     context = {
         'all_tranaction':all_tranaction,

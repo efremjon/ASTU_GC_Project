@@ -45,15 +45,15 @@
                   </tr>
                 </thead>
                 <tbody>
-
+                  {{date_created}}
+                  {% for refile in refile_product %}
                   <tr>
                     <th>1</th>
-                    <td>Castle</td>
-                    <td>6000</td>
-                    <td>12-6-2022</td>
+                    <td>{{refile.product}}</td>
+                    <td>{{refile.qunitiy}}</td>
+                    <td>{{refile.date_created}}</td>
                   </tr>
-                  
-
+                  {% endfor %}
                 </tbody>
               </table>
             </div>
@@ -84,17 +84,17 @@
         </div>
 
       </div>
-   
-    {% if messages %}
-    {% for message in messages %}
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <script>
-      var m = "{{ message }}";
-      swal(m, "Perfect !", "success")
-    </script>
-    {% endfor %}
-    {% endif %}
-    {% endblock %}
-  </section>
+
+      {% if messages %}
+      {% for message in messages %}
+      <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+      <script>
+        var m = "{{ message }}";
+        swal(m, "Perfect !", "success")
+      </script>
+      {% endfor %}
+      {% endif %}
+      {% endblock %}
+    </section>
   </div>
 </main><!-- End #main -->

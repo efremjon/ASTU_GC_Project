@@ -33,6 +33,8 @@ class Company_Store(models.Model):
     date_created = models.DateField(auto_now_add=True, null=True)
     def __str__(self) -> str:
         return self.Store_Name
+    
+
 
 class Company_Store_Manager(models.Model):
     user=models.ForeignKey(User,null=True, on_delete=models.CASCADE)
@@ -118,3 +120,10 @@ class Agents_message(models.Model):
     email=models.TextField(max_length=200,blank=True,null=True)
     mssg=models.TextField(null=True,blank=True)
     status=models.BooleanField(default=False)
+
+class add_to_store(models.Model):
+    Store= models.ForeignKey(Company_Store,null=True, on_delete=models.CASCADE) 
+    product = models.CharField(max_length=200, blank=True, null=True)
+    qunitiy = models.IntegerField(null=True)
+    date_created = models.DateTimeField(auto_now_add=True, null=True)
+
