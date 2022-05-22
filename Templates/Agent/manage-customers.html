@@ -9,7 +9,7 @@
         <li class="breadcrumb-item active">My customers</li>
       </ol>
       <div class="text-end">
-        <a href="add-customer.html" class="item-end">
+        <a href="{% url 'add-customers' %}" class="item-end">
           <button type="button" class="btn btn-sm rounded-pill btn-warning"><i class="bi bi-plus me-1"></i>Add
             customer</button>
         </a>
@@ -20,12 +20,14 @@
     <div class="row">
       <div class="col-lg-12">
         <div class="row">
-          <!-- customers view -->
           <div class="col">
+            
+          <!-- customers view -->
+         
             <div class="card recent-sales overflow-auto">
 
               <div class="card-body">
-
+               
                 <table class="table table-border datatable">
                   <thead>
                     <tr>
@@ -35,18 +37,22 @@
                       <th scope="col">House No.</th>
                       <th scope="col">Phone number</th>
                       <th scope="col">View</th>
+                      <th scope="col">Remove</th>
                     </tr>
                   </thead>
                   <tbody>
+                    {% for customer in all_customer %}
+                  
                     <tr>
                       <th>1</th>
-                      <td>Chole K/Mihret Butchery</td>
-                      <td>Wendwesen Zenebe</a></td>
-
-                      <td>23232</td>
-                      <td>0051228128</td>
-                      <td><button class="btn btn-sm btn-primary">View </button></td>
+                      <td>{{customer.Compan_name}}</td>
+                      <td>{{customer.Adderes}}</a></td>
+                      <td>{{customer.House_No}}</td>
+                      <td>{{customer.phone1}}</td>
+                      <td><a href="{% url 'customers-ditel' customer.id %}" class="btn btn-sm btn-primary">View </a></td>
+                      <td><a href="{% url 'customers-delete' customer.id %}" class="btn btn-sm btn-danger">Remove </a></td>
                     </tr>
+                    {% endfor %}
                   </tbody>
                 </table>
               </div>

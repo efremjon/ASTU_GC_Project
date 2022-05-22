@@ -4,7 +4,7 @@ from .models import *
 
 admin.site.register(Customer)
 admin.site.register(Agent_Store)
-admin.site.register(Agent_Store_Manager)
+
 admin.site.register(Agent_finance)
 admin.site.register(Driver)
 admin.site.register(Vehicle)

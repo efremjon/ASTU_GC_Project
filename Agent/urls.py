@@ -30,8 +30,10 @@ urlpatterns = [
     path('ipn/', views.ipn, name='ipn'),
 
 
-
+    path('add_customers/',views.add_customers,name="add-customers"),
     path('manage_customers/',views.manage_customers,name="manage_customers"),
+    path('customers_ditel/<int:pk>/',views.customers_ditel,name="customers-ditel"),
+    path('customers_delete/<int:pk>/',views.customers_delete,name="customers-delete"),
     path('product_in_store/',views.product_in_store,name="product-in-store"),
     path('manage_drivers/',views.manage_drivers,name="manage_drivers"),
     path('transactions/',views.transactions,name="transactions"),

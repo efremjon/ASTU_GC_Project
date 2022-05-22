@@ -11,34 +11,24 @@ class Customer(models.Model):
 	phone1 = models.CharField(max_length=200, null=True)
 	phone2 = models.CharField(max_length=200, null=True)
 	Adderes = models.CharField(max_length=200, null=True)
+	House_No = models.CharField(max_length=200, null=True)
 	profile_pic=models.ImageField(null=True,blank=True, upload_to='Profile/')		
 	TIN_NO = models.CharField(max_length=500, null=True)
 	License = models.FileField(null=True, blank=True, upload_to='License')
 	agreement = models.FileField(null=True, blank=True, upload_to='Agreement')
 	date_created = models.DateTimeField(auto_now_add=True, null=True)
 	def __str__(self):
-		return self.user.first_name
-		
+		return self.user
 class Agent_Store(models.Model):
     Store_Name = models.CharField(max_length=200, null=True)
     Location = models.CharField(max_length=200, null=True)
-	
-class Agent_Store_Manager(models.Model):
-	user=models.OneToOneField(User,null=True, on_delete=models.CASCADE)
-	Store=models.OneToOneField(Agent_Store,null=True, on_delete=models.CASCADE)
-	Agent=models.OneToOneField(Agent,null=True, on_delete=models.CASCADE)
-	phone1 = models.CharField(max_length=200, null=True)
-	Adderes = models.CharField(max_length=200, null=True)
-	about=models.TextField(null=True,blank=True,max_length=500)
-	date_created = models.DateTimeField(auto_now_add=True, null=True)
-	Telegram = models.CharField(max_length=200, null=True)
-	facebook = models.CharField(max_length=200, null=True)
-	instagrm = models.CharField(max_length=200, null=True)
-	def __str__(self):
-		return self.user.first_name
 
 class Vehicle(models.Model):
-	vichel_type = models.CharField(max_length=200, null=True)
+	Product_Type = (
+			('Fetch track:', 'Fetch track'),
+			('Distribution track', 'Distribution track'),) 
+	vichel_name = models.CharField(max_length=100,null=True)
+	vichel_type = models.CharField(max_length=200, null=True,choices=Product_Type)
 	vichel_No = models.CharField(max_length=200, null=True)
 	Agent=models.OneToOneField(Agent,null=True, on_delete=models.CASCADE)
 
@@ -48,11 +38,7 @@ class Driver(models.Model):
 	Vichel=models.OneToOneField(Vehicle,null=True, on_delete=models.CASCADE)
 	phone1 = models.CharField(max_length=200, null=True)
 	Adderes = models.CharField(max_length=200, null=True)
-	about=models.TextField(null=True,blank=True,max_length=500)
 	date_created = models.DateTimeField(auto_now_add=True, null=True)
-	Telegram = models.CharField(max_length=200, null=True)
-	facebook = models.CharField(max_length=200, null=True)
-	instagrm = models.CharField(max_length=200, null=True)
 	def __str__(self):
 		return self.user.first_name
 

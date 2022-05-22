@@ -19,8 +19,16 @@ import json
 # Create your views here.
 # Dashbord part
 def Agent_dashboard(request):
-
-    return render(request,'Agent/agent-dashboard.html',{})
+    users=User.objects.get(id=request.user.id)
+    request_agent =Agent.objects.get(user=users)
+    all_customer=Customer.objects.filter(Agent=request_agent)
+    total_customer = all_customer.count()
+   
+    context = {
+        'all_customer':all_customer,
+        'total_customer':total_customer,
+    }
+    return render(request,'Agent/agent-dashboard.html',context)
 def my_draiver(request):
 
     return render(request,'Agent/my_draiver.html',{})
@@ -245,8 +253,31 @@ def cancel(request):
 def ipn(request):
     return render(request, 'Agent/ipn.html')
 def manage_customers(request):
+    users=User.objects.get(id=request.user.id)
+    request_agent =Agent.objects.get(user=users)
+    all_customer=Customer.objects.filter(Agent=request_agent)
+    total_customer = all_customer.count()
+   
+    context = {
+        'all_customer':all_customer,
+        'total_customer':total_customer,
+    }
+    return render(request,'Agent/manage-customers.html',context)
 
-     return render(request,'Agent/manage-customers.html',{})
+
+def add_customers(request):
+    
+    return render(request,'Agent/add-customer.html')
+
+
+def customers_ditel(request,pk):
+    return render(request,'Agent/customer-ditel.html')
+
+def customers_delete(request,pk):
+    
+    return render(request,'Agent/manage-customers.html',)
+
+
 
 def product_in_store(request):
     return render(request,'Agent/product-in-agent-store.html',{})
