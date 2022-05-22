@@ -15,6 +15,8 @@ from .models import *
 from Agent.models import *
 from .form import passwordform,NameForm
 from django.core.mail import send_mail
+import requests
+
 
 # Create your views here.
 
@@ -41,6 +43,8 @@ def Admin_dashboard(request):
         'all_product':all_product,
      
     }
+
+    
     return render(request,'Company/dashboard/admin.html',context)
 
 def staff_dashboard(request):

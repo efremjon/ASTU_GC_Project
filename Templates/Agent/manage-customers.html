@@ -1,50 +1,61 @@
 {% extends 'Agent/agent-base.html' %}
 {% block content %}
-<section class="section">
-  <div class="row">
-    <div class="col-lg-12">
-      <div class="row">
-        <!-- customers view -->
-        <div class="col">
-          <div class="card recent-sales overflow-auto">
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Manage customers</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'agent_dashbord' %}">Home</a></li>
+        <li class="breadcrumb-item active">My customers</li>
+      </ol>
+      <div class="text-end">
+        <a href="add-customer.html" class="item-end">
+          <button type="button" class="btn btn-sm rounded-pill btn-warning"><i class="bi bi-plus me-1"></i>Add
+            customer</button>
+        </a>
+      </div>
+    </nav>
+  </div><!-- End Page Title -->
+  <section class="section">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="row">
+          <!-- customers view -->
+          <div class="col">
+            <div class="card recent-sales overflow-auto">
 
-            <div class="card-body">
+              <div class="card-body">
 
-              <table class="table table-border datatable">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Customer</th>
-                    <th scope="col">Owner</th>
-                    <th scope="col">Route</th>
-                    <th scope="col">Tin Reg. No.</th>
-                    <th scope="col">Address</th>
-                    <th scope="col">House No.</th>
-                    <th scope="col">Phone number</th>
-                    
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th>1</th> 
-                    <td >Chole K/Mihret Butchery</td>
-                    <td>Wendwesen Zenebe</a></td>
-                    <td>1A</td>
-                    <td>0051228128</td>
-                    <td>Bole</td>
-                    <td>45/487</td>
-                    <td>0917998877</td>
-                  </tr>
+                <table class="table table-border datatable">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Customer</th>
+                      <th scope="col">Address</th>
+                      <th scope="col">House No.</th>
+                      <th scope="col">Phone number</th>
+                      <th scope="col">View</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th>1</th>
+                      <td>Chole K/Mihret Butchery</td>
+                      <td>Wendwesen Zenebe</a></td>
 
-                 
-                </tbody>
-              </table>
+                      <td>23232</td>
+                      <td>0051228128</td>
+                      <td><button class="btn btn-sm btn-primary">View </button></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
-          </div>
-        </div><!-- End Recent Sales -->
-    
+          </div><!-- End Recent Sales -->
+
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
+</main>
 {% endblock %}

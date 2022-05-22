@@ -1,6 +1,16 @@
 {% extends 'Agent/agent-base.html' %}
 {% load static %}
 {% block content %}
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Agent Dashboard</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="agent-dashboard.html">Home</a></li>
+        <!-- <li class="breadcrumb-item active">Dashboard</li> -->
+      </ol>
+    </nav>
+  </div><!-- 
     <section class="section">
       <div class="row">
         <div class="col-lg-12">
@@ -16,32 +26,75 @@
                     <thead>
                       <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Customer</th>
-                        <th scope="col">Product</th>
-                        <th scope="col">Route</th>
-                        <th scope="col">Quantity</th>
-                        <th scope="col">Total price</th>
                         <th scope="col">Date</th>
-                        <th scope="col">Driver</th>
+                        <th scope="col">Customer</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">House No.</th>
+                        <th scope="col">Order Code</th>
+                        <th scope="col">Total Paid</th>                                              
                         <th scope="col">Status</th>
+                        <th scope="col">Check silp</th>
+                        <th scope="col">Driver</th>
+                      
                       </tr>
                     </thead>
                     <tbody>
                     
                       <tr>
                         <th>4</th> 
-                        <td class="text-primary">Mesfin Kurs Bet</td>
-                        <td>Castle</a></td>
-                        <td>9A</td>
-                        <td>7</td>
-                        <td>1986 birr</td>
                         <td>23-1-2022</td>
-                        <td>Gezaw Tata</td>
+                        <td class="text-primary">Mesfin Kurs Bet</td>
+                        <td>Franko</a></td>
+                        <td>9434563</td>
+                        <td>AK784TG</td>
+                        <td>1986 ETB</td> 
                         <td><span class="badge bg-warning">Pending</span></td>
-                        <td><span class="badge bg-primary">Approved</span></td>
-                        <td><span class="badge bg-success">Recived</span></td>
-                        <td><span class="badge bg-danger">Not delivered</span></td>
+                         <td><button class="btn btn-sm btn-primary">View</button></td>
+                        <td><span class="badge bg-danger">Not Assigned</span></td>
+                        
                       </tr>
+                      <tr>
+                        <th>4</th> 
+                        <td>23-1-2022</td>
+                        <td class="text-primary">Mesfin Kurs Bet</td>
+                        <td>Franko</a></td>
+                        <td>9434563</td>
+                        <td>AK784TG</td>
+                        <td>1986 ETB</td> 
+                        <td><span class="badge bg-warning">Pending</span></td>
+                         <td><button class="btn btn-sm btn-primary">View</button></td>
+                        <td><span class="badge bg-primary">Assigned</span></td>
+                        
+                      </tr>
+                      <tr>
+                        <th>4</th> 
+                        <td>23-1-2022</td>
+                        <td class="text-primary">Mesfin Kurs Bet</td>
+                        <td>Franko</a></td>
+                        <td>9434563</td>
+                        <td>AK784TG</td>
+                        <td>1986 ETB</td> 
+                        <td><span class="badge bg-success">delivered</span></td>
+                         <td><button class="btn btn-sm btn-primary">View</button></td>
+                        <td><span class="badge bg-primary">Assigned</span></td>
+                        
+                        
+                      </tr>
+                      <tr>
+                        <th>4</th> 
+                        <td>23-1-2022</td>
+                        <td class="text-primary">Mesfin Kurs Bet</td>
+                        <td>Franko</a></td>
+                        <td>9434563</td>
+                        <td>AK784TG</td>
+                        <td>1986 ETB</td> 
+                        <td><span class="badge bg-danger">Not delivered</span></td> 
+                         <td><button class="btn btn-sm btn-primary">View</button></td>
+                        <td><span class="badge bg-primary">Assigned</span></td>
+                        
+                        
+                      </tr>
+
 
                       
                     </tbody>
@@ -54,4 +107,5 @@
         </div>
       </div>
     </section>
+    </main>
 {% endblock %}

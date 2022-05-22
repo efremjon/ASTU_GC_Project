@@ -1,27 +1,17 @@
 from django.db import models
 from django.contrib.auth.models import User
 from Company.models import Agent,Product,Company_Store
+
 # Create your models here.
-class Route(models.Model):
-	Root_No=models.IntegerField()
-	City=models.CharField(max_length=2002,null=True)
-	Kebel=models.CharField(max_length=200,null=True)
-	def __str__(self) -> str:
-		return self.City + "|" + "Root_No."  + str(self.Root_No)
 
 class Customer(models.Model):
 	user=models.OneToOneField(User,null=True, on_delete=models.CASCADE)
+	Agent=models.ForeignKey(Agent,null=True, on_delete=models.CASCADE)
 	Compan_name = models.CharField(max_length=200, null=True)
 	phone1 = models.CharField(max_length=200, null=True)
 	phone2 = models.CharField(max_length=200, null=True)
 	Adderes = models.CharField(max_length=200, null=True)
-	profile_pic=models.ImageField(null=True,blank=True, upload_to='Profile/')	
-	about=models.TextField(null=True,blank=True,max_length=500)
-	Routing=models.OneToOneField(Route,null=True, on_delete=models.CASCADE)
-	Telegram = models.CharField(max_length=200, null=True)
-	facebook = models.CharField(max_length=200, null=True)
-	instagrm = models.CharField(max_length=200, null=True)
-	address = models.CharField(max_length=200, null=True)
+	profile_pic=models.ImageField(null=True,blank=True, upload_to='Profile/')		
 	TIN_NO = models.CharField(max_length=500, null=True)
 	License = models.FileField(null=True, blank=True, upload_to='License')
 	agreement = models.FileField(null=True, blank=True, upload_to='Agreement')

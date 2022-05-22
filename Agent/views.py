@@ -17,10 +17,20 @@ import json
 
 
 # Create your views here.
-
+# Dashbord part
 def Agent_dashboard(request):
 
     return render(request,'Agent/agent-dashboard.html',{})
+def my_draiver(request):
+
+    return render(request,'Agent/my_draiver.html',{})
+def my_vichile(request):
+
+    return render(request,'Agent/my_vichile.html',{})
+def my_product(request):
+
+    return render(request,'Agent/my_product.html',{})
+
 
 # user profile part
 
@@ -121,7 +131,7 @@ def make_order(request):
          'all_product' : all_product,
          'all_store':all_store,
      }
-     return render(request,'Agent/cust_order.html',context)
+     return render(request,'Agent/agent_order.html',context)
 
 def order_summer(request):
     #  b = Blog(name='Beatles Blog', tagline='All the latest Beatles news.')
@@ -237,6 +247,12 @@ def ipn(request):
 def manage_customers(request):
 
      return render(request,'Agent/manage-customers.html',{})
+
+def product_in_store(request):
+    return render(request,'Agent/product-in-agent-store.html',{})
+
+
+
 
 def transaction_detail(request,pk):
     transaction=Agent_Transaction.objects.get(id=pk) 
