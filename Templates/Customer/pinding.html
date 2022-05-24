@@ -1,0 +1,59 @@
+{% extends 'Customer/Customer-base.html' %}
+{% block content %}
+<section class="section dashboard m-5 pt-5">
+  <div class="card">
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+      <strong>message</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+    {% endif %}
+    <div class="card-body">
+      <h5 class="card-title">My Order</h5>
+
+      <!-- Default Table -->
+      <table class="table table-border datatable">
+        <thead>
+          <tr>
+
+            <th scope="col">Date</th>
+            <th scope="col">Order Code</th>
+            <th scope="col">Total Paid</th>
+            <th scope="col">Payment</th>
+
+            <th scope="col">Received</th>
+            <th scope="col">Not Received</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for order, trans in transactions.items %}
+          <tr>
+
+            <td>{{trans.date_created}}</td>
+            <td>{{trans.TransactionCode}}</td>
+            <td>{{trans.Total_Amount}}</td>
+
+            <td>{{trans.Paid_status}}</td>
+
+            <td>
+              <a href="{{order}}" id="received" type="button" class="btn btn-success">
+                <i class="bi bi-check-circle"></i>
+              </a>
+
+            </td>
+            <td>
+              <a href="{{order}}" id="not_received" type="button" class="btn btn-danger">
+                <i class="bi bi-exclamation-octagon"></i>
+              </a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <!-- End Default Table Example -->
+    </div>
+  </div>
+</section>
+{% endblock %}

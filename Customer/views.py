@@ -11,9 +11,10 @@ from django.contrib.auth.models import User,Group
 from django.contrib.auth.forms import PasswordChangeForm
 from Agent.models import Customer
 from Company.models import Product
-from .models import Customer_order
+from .models import Customer_order,Customer_Transaction
 from .form import passwordform
 from django.core.mail import send_mail
+import requests
 
 
 from django.shortcuts import render
@@ -23,6 +24,8 @@ from django.shortcuts import render
 
 def Customer_dashboard(request):
     customer_orders=Customer_order.objects.filter(Customer=request.user.customer)
+    transactions=Customer_Transaction.objects.all()
+   
     products=Product.objects.all()
     orders=customer_orders
     total_pending=0
@@ -37,20 +40,25 @@ def Customer_dashboard(request):
     
   
     for order in orders:
-        total_paid+=order.total_payment
+       
         if order.status == 'Pending':
             total_pending+=1
         elif order.status == 'Out for delivery':
             total_rejected+=1
         elif order.status == 'Delivered':
             total_received+=1
-        total_paid
-    context={'customer_orders':customer_orders,
-    'total_payment':total_paid,'total_pending':total_pending,
-    'total_rejected':total_rejected,
-    'total_received':total_received,
-    'total_quantity':total_quantity
-    }
+        
+
+    for transaction in transactions:
+        total_paid+=transaction.Total_Amount
+    context={
+        'customer_orders':customer_orders,
+        'total_payment':total_paid,
+        'total_pending':total_pending,
+        'total_rejected':total_rejected,
+        'total_received':total_received,
+        'total_quantity':total_quantity
+            }
     return render(request,'Customer/home.html',context)
     
 # User Profile
@@ -115,9 +123,6 @@ def delete_profile_pic(request):
 
 # end user profile
 
-
-
-
 def make_order(request):
     products=Product.objects.all()
     
@@ -129,25 +134,121 @@ def make_order(request):
     return render(request,'Customer/cust_order.html',context)
 
 def send_delivery(request):
+    users=User.objects.get(id=request.user.id)
+    requrd_customer = Customer.objects.get(user=users)
+    cust_orders=Customer_order.objects.filter(Customer=requrd_customer,status='Delivered').order_by('-date_created')
+    transactions={}
+    order_arry=[]
+    trans_arr=[]
+    
+    for cust_order in cust_orders:
+        transactions[cust_order.id]=Customer_Transaction.objects.get(Customer_order_id=cust_order.id)
+        order_arry.append(cust_order)
 
-    delivereds=Customer_order.objects.filter(status='Pending',Customer=request.user.customer)
-    products=Product.objects.all()
-    tests=delivereds
-    quantity=[]
-    for test in tests:
-        total_quantity=0
-        for product in products:
-            total_quantity+=getattr(test,product.Product_Name)
-        quantity.append(total_quantity)
+    for order ,transa in transactions.items():
+        trans_arr.append(transa)
 
-    context={'deliverds':delivereds,'quantity':quantity}
+
+    data=zip(trans_arr,order_arry)
+
+
+    # my_transaction = Customer_Transaction.objects.filter(Customer_order_id.Customer=requrd_customer)
+    context = {
+    # 'all_transaction' :all_transaction,
+    'data' : data,
+
+    }
     return render(request,'Customer/send-delivery-status.html',context)
 
-def transaction_history(request):
+
+def customer_transactions(request):
+    users=User.objects.get(id=request.user.id)
+    requrd_customer = Customer.objects.get(user=users)
+    cust_orders=Customer_order.objects.filter(Customer=requrd_customer,status='Pending' ).order_by('-date_created')
+    transactions={}
+    order_arry=[]
+    trans_arr=[]
     
-    customer_orders=Customer_order.objects.filter(Customer=request.user.customer)
-    context={'customer_orders':customer_orders}
-    return render(request,'Customer/transaction_history.html',context)
+    for cust_order in cust_orders:
+        transactions[cust_order.id]=Customer_Transaction.objects.get(Customer_order_id=cust_order.id)
+        order_arry.append(cust_order)
+
+    for order ,transa in transactions.items():
+      
+        trans_arr.append(transa)
+
+
+      
+
+
+    # my_transaction = Customer_Transaction.objects.filter(Customer_order_id.Customer=requrd_customer)
+    context = {
+    # 'all_transaction' :all_transaction,
+    'transactions' : transactions,
+
+    }
+    return render(request,'Customer/pinding.html',context)
+
+def customer_recived(request,pk):
+
+    users=User.objects.get(id=request.user.id)
+    requrd_customer = Customer.objects.get(user=users)
+    recived_order=Customer_order.objects.get(Customer=requrd_customer,pk=pk)
+    recived_order.status = 'Delivered'
+    recived_order.save()
+    cust_orders=Customer_order.objects.filter(Customer=requrd_customer,status='Delivered').order_by('-date_created')
+   
+    transactions={}
+    order_arry=[]
+    trans_arr=[]
+    
+    for cust_order in cust_orders:
+        transactions[cust_order.id]=Customer_Transaction.objects.get(Customer_order_id=cust_order.id)
+        order_arry.append(cust_order)
+
+    for order ,transa in transactions.items():
+        trans_arr.append(transa)
+
+    context = {
+    'transactions' : transactions,
+    }
+
+    return render(request,'Customer/recived_order.html',context)
+
+
+
+
+
+
+def customer_not_recived(request,pk):
+
+    users=User.objects.get(id=request.user.id)
+    requrd_customer = Customer.objects.get(user=users)
+    recived_order=Customer_order.objects.get(Customer=requrd_customer,pk=pk)
+    recived_order.status = 'Not Recived'
+    recived_order.save()
+    messages.info(request, 'Not Recived Notification Sent')
+    cust_orders=Customer_order.objects.filter(Customer=requrd_customer,status='Not Recived').order_by('-date_created')
+   
+    transactions={}
+    order_arry=[]
+    trans_arr=[]
+    
+    for cust_order in cust_orders:
+        transactions[cust_order.id]=Customer_Transaction.objects.get(Customer_order_id=cust_order.id)
+        order_arry.append(cust_order)
+
+    for order ,transa in transactions.items():
+        trans_arr.append(transa)
+
+    context = {
+    'transactions' : transactions,
+    }
+
+    return render(request,'Customer/transactions.html',context)
+
+
+
 
 
 
@@ -155,7 +256,7 @@ def transaction_history(request):
 
 def order_summer(request):
     
-    ag=Customer_order.objects.create(status='Pending')
+    ag=Customer_order.objects.create(Customer=request.user.customer,status='Pending')
     all_product = Product.objects.all()
 
     ary1=[]
@@ -180,7 +281,7 @@ def order_summer(request):
         obj = {
             "process": "Cart",
             "successUrl": "http://localhost:8000/Customer/success/",
-            "ipnUrl": "http://localhost:8000/Agent/ipn",
+            "ipnUrl": "http://localhost:8000/Customer/ipn",
             "cancelUrl": "http://localhost:8000/Customer/cancel",
             "merchantId": "SB1560",
             "merchantOrderId": ag.id,
@@ -218,6 +319,9 @@ def success(request):
     MerchantCode = request.GET.get('MerchantCode')
     BuyerId = request.GET.get('BuyerId')
     Currency = request.GET.get('Currency')
+    if not moi:
+        return redirect('')
+
 
     url = 'https://testapi.yenepay.com/api/verify/pdt/'
     datax = {
@@ -231,7 +335,7 @@ def success(request):
         print("It's Paid")
     else:
         print('Invalid payment process')
-    Customer_Orders=Customer_order.objects.get(id=moi)
+    Customer_Order=Customer_order.objects.get(id=moi)
     context = {
         'total': total, 
         'status': status,
@@ -240,16 +344,16 @@ def success(request):
         'BuyerId' : BuyerId,
         'Currency' :Currency,
         'moi':moi,
-        'Agent_Orders':Agent_Orders,
+        'Customer_Order':Customer_Order,
 
         }
     
     TC = Customer_Transaction.objects.filter(TransactionCode = TransactionCode)  
    
     if TC.exists():  
-        redirect('transactions')
+        redirect('customer_transactions')
     else:
-        Agent_Transaction.objects.create(Agent_order_id=Agent_Orders,Total_Amount=total,Paid_status=status,TransactionCode = TransactionCode,MarchentId=MerchantCode)
+        Customer_Transaction.objects.create(Customer_order_id=Customer_Order,Paid_status=status,Total_Amount=total,TransactionCode = TransactionCode,MarchentId=MerchantCode)
     return render(request, 'Customer/post-payment.html',context )
 
 # def cancel(request):
@@ -291,3 +395,33 @@ def success(request):
        
 #     }
 #     return render(request,'Agent/transaction-details.html',context)
+
+def customer_transaction_detail(request,pk):
+    transaction=Customer_Transaction.objects.get(id=pk) 
+    products=Product.objects.all()
+    order=Customer_order.objects.get(id=transaction.Customer_order_id.id)
+    price=[]
+    prods=[]
+    quantity=[]
+    sub_total=[] 
+    grand_total=0
+    total_quantity=0
+    for product in products:
+        price.append(product.Price_in_creates)
+        prods.append(product.Product_Name)
+        quantity.append(getattr(order,product.Product_Name))
+        sub_total.append(product.Price_in_creates*getattr(order,product.Product_Name))
+       
+        total_quantity+=(getattr(order,product.Product_Name))
+    
+    
+   
+    data=zip(prods,price,quantity,sub_total)
+
+    context={
+        'transaction':transaction,
+        'data':data,
+        'total_quantity':total_quantity,
+     
+    }
+    return render(request,'Customer/Customer-transaction-details.html',context)

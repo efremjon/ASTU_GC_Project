@@ -10,10 +10,15 @@ urlpatterns = [
     path('delete_profile_pic/',views.delete_profile_pic,name='delete_profile_pic_customer'),
 
 
-
+    path('success/',views.success,name="success"),
     path('make_order/',views.make_order,name="make_order"),
     path('order_summer/',views.order_summer,name="customer_order_summer"),
     path('send_delivery/',views.send_delivery,name="send_delivery"),
-    path('transaction_history/',views.transaction_history,name="transaction_history"),
-        
+    path('customer_transactions/',views.customer_transactions,name="customer_transactions"),
+    path('customer_transactions/<int:pk>',views.customer_recived,name="customer_recived"),
+    path('customer_transactions/<int:pk>',views.customer_not_recived,name="customer_not_recived"),
+    
+    path('customer-transaction-detail/<int:pk>',views.customer_transaction_detail,name="customer-transaction-detail"),
+
+  
 ]

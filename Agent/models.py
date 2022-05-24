@@ -18,7 +18,8 @@ class Customer(models.Model):
 	agreement = models.FileField(null=True, blank=True, upload_to='Agreement')
 	date_created = models.DateTimeField(auto_now_add=True, null=True)
 	def __str__(self):
-		return self.user
+		return str(self.user)
+
 class Agent_Store(models.Model):
     Store_Name = models.CharField(max_length=200, null=True)
     Location = models.CharField(max_length=200, null=True)

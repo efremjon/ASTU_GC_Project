@@ -11,6 +11,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from .form import *
 from .models import *
 from Company.models import * 
+from Customer.models import Customer_order
 import requests
 import json
 
@@ -129,8 +130,26 @@ def delete_profile_pic(request):
 
 
 def customer_order(request):
-
-     return render(request,'Agent/view-cust-orders.html',{})
+    cust_order={}
+    customer_order=[]
+    agent_custome=[]
+    users = User.objects.get(id=request.user.id)
+    request_agent = Agent.objects.get(user=users)
+    agent_customer = Customer.objects.filter(Agent=request_agent)
+    for agent_cust in agent_customer:
+        cust_order[agent_cust]=Customer_order.objects.filter(Customer=agent_cust)
+    for customer, order in cust_order.items():
+        customer_order.append(order)
+        agent_custome.append(customer)
+    data=zip(customer_order,agent_custome)
+    context = {
+         
+         'cust_order':cust_order,
+         'data':data,
+         'customer_order':customer_order
+     }
+    print(cust_order)
+    return render(request,'Agent/view-cust-orders.html',context)
      
 def make_order(request):
      all_product = Product.objects.all()
@@ -138,6 +157,7 @@ def make_order(request):
      context = {
          'all_product' : all_product,
          'all_store':all_store,
+        
      }
      return render(request,'Agent/agent_order.html',context)
 

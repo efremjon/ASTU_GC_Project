@@ -12,9 +12,9 @@
               <div class="card">
                 <div class="card-body">
                   <!-- Order form with Validation -->
-                  <form class="row g-3 needs-validation" action="{% url 'order_summer' %}" method="POST">
+                  <form class="row g-3 needs-validation" action="{% url 'customer_order_summer' %}" method="POST">
                     {% csrf_token %}
-                    <h5 class="card-title text-center">Checkout form</h5>
+                    <h5 class="card-title text-center">Order form</h5>
                     <!-- here all the input filed comes from db table called Product -->
                    
                   {% for product in all_product %}
