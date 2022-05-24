@@ -149,9 +149,7 @@ def customer_order(request):
     for key ,value in cust_order.items():
         for val in value:
             print(val)
-            # cust_tran.append(Customer_Transaction.objects.get(Customer_order_id=val))
-            
-        
+                
     all=Customer_Transaction.objects.all()
     for key in all:
         print(key.Customer_order_id)

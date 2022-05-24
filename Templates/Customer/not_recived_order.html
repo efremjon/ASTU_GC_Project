@@ -1,8 +1,9 @@
 {% extends 'Customer/Customer-base.html'%}
 {% load static %}
 {% block content %}
-
-<section class="section dashboard m-5 pt-5">
+<main class="mt-5 pt-4">
+  <div class="container">
+<section class="section dashboard mt-3 pt-3">
   <div class="card">
     {% if messages %}
     {% for message in messages %}
@@ -46,6 +47,6 @@
   </div>
 </section>
 
-
-
+</div>
+</main>
 {% endblock %}

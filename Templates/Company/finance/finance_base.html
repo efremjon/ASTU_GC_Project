@@ -10,14 +10,16 @@
   <meta content="" name="description">
   <meta content="" name="keywords">
 
-    <link rel="stylesheet" href="node_modules/sweetalert/dist/sweetalert.min.js">
+  <link rel="stylesheet" href="node_modules/sweetalert/dist/sweetalert.min.js">
   <!-- Favicons -->
   <link href="{% static 'assets/img/logo2.png' %}" rel="icon">
   <link href="{% static 'assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
   <link href="https://fonts.gstatic.com" rel="preconnect">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
@@ -32,37 +34,36 @@
 
 <body>
 
- <!-- ======= Header ======= -->
- <header id="header" class="header fixed-top d-flex align-items-center">
+  <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top d-flex align-items-center">
 
     <div class="d-flex align-items-center justify-content-between">
-    <a href="finance-view.html" class="logo d-flex align-items-center">
+      <a href="finance-view.html" class="logo d-flex align-items-center">
         <img src="{% static 'assets/img/logo3.png' %}" alt=""></a>
-       
+
     </div><!-- End Logo -->
     <nav class="navbar navbar-expand-lg ">
-        <div class="container-fluid">
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav text-center mr-auto">  
-              <li class="nav-item bg-light">
-                <a class="nav-link waves-effect" href="{% url 'finance_admin_home' %}">Agent-orders</a>
-              </li>
-              <li class="nav-item bg-light">
-                  <a class="nav-link waves-effect" href="{% url 'finance-check-store' %}">view-store</a>
-                </li>
-                <li class="nav-item bg-light">
-                  <a class="nav-link waves-effect" href="{% url 'aprove-order-history' %}">Approved-orders</a>
-                </li>
-              </ul>
-          </div>
+      <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav text-center mr-auto">
+            <li class="nav-item bg-light">
+              <a class="nav-link waves-effect" href="{% url 'finance_admin_home' %}">Agent-orders</a>
+            </li>
+
+            <li class="nav-item bg-light">
+              <a class="nav-link waves-effect" href="{% url 'aprove-order-history' %}">Approved-orders</a>
+            </li>
+          </ul>
         </div>
-      </nav>
+      </div>
+    </nav>
     <nav class="header-nav ms-auto">
       <ul class="d-flex align-items-center">
-      
+
         <li class="nav-item dropdown pe-3">
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
             <img src="{% static 'assets/img/profile-img.jpg' %}" alt="Profile" class="rounded-circle">
@@ -74,7 +75,7 @@
               <h6>Beyene Petros</h6>
               <span>store manager</span>
             </li>
-           
+
             <li>
               <hr class="dropdown-divider">
             </li>
@@ -104,16 +105,16 @@
   </header><!-- End Header -->
 
   <!-- ====== Main -->
- {% block content %}
+  {% block content %}
 
 
- {% endblock %}
+  {% endblock %}
   <!-- ======= Footer ======= -->
   <footer id="footer" class="footer">
     <div class="copyright">
       &copy; Copyright <strong><span>BGI Ethiopia</span></strong>. All Rights Reserved
     </div>
-   
+
   </footer><!-- End Footer -->
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
@@ -132,32 +133,32 @@
 
   <!-- Template Main JS File -->
   <script src="{% static 'assets/js/main.js' %}"></script>
-<script src="node_modules/sweetalert/dist/sweetalert.min.js' %}"></script>
-<script>
-    function approved(){
-        swal({
-            title: "Are you sure?",
-            text: "Once approved, you will not be able to undo the action!",
-            icon: "warning",
-            buttons: true,
-            dangerMode: true,
-            })
-            .then((willDelete) => {
-            if (willDelete) {
-                swal("Agent order successfully approved", {
-                icon: "success",
-                });
-            } else {
-                swal("You can re-schedule");
-            }
+  <script src="node_modules/sweetalert/dist/sweetalert.min.js' %}"></script>
+  <script>
+    function approved() {
+      swal({
+        title: "Are you sure?",
+        text: "Once approved, you will not be able to undo the action!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+        .then((willDelete) => {
+          if (willDelete) {
+            swal("Agent order successfully approved", {
+              icon: "success",
             });
+          } else {
+            swal("You can re-schedule");
+          }
+        });
     }
-</script>
-<script>
-    function rejected(){
-        swal("Continue to reject", "...you can either re-schedule!");
+  </script>
+  <script>
+    function rejected() {
+      swal("Continue to reject", "...you can either re-schedule!");
     }
-</script>
+  </script>
 </body>
 
 </html>

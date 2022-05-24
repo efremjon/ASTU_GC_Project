@@ -639,7 +639,7 @@ def aprove_order_view(request):
     store_id = spesific_store_from_manager.id
     spesific_store = Company_Store.objects.get(id=store_id)
     product_amount=Product_Amount_in_Store.objects.get(store=spesific_store)
-    all_tranaction = Agent_Transaction.objects.filter()
+    all_tranaction = Agent_Transaction.objects.filter().order_by('-date_created')
     
     context = {
         'all_tranaction':all_tranaction,

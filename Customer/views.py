@@ -10,6 +10,7 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User,Group
 from django.contrib.auth.forms import PasswordChangeForm
 from Agent.models import Customer
+from Agent.views import transactions
 from Company.models import Product
 from .models import Customer_order,Customer_Transaction
 from .form import passwordform
@@ -23,8 +24,13 @@ from django.shortcuts import render
 
 
 def Customer_dashboard(request):
-    customer_orders=Customer_order.objects.filter(Customer=request.user.customer)
-    transactions=Customer_Transaction.objects.all()
+    customer_orders=Customer_order.objects.filter(Customer=request.user.customer).order_by('-date_created')
+  
+    trans={}
+    for order in customer_orders:
+        trans[order.id]=Customer_Transaction.objects.filter(Customer_order_id=order).order_by('-date_created')
+    
+    
    
     products=Product.objects.all()
     orders=customer_orders
@@ -36,28 +42,32 @@ def Customer_dashboard(request):
     # for order in orders:
     #     for product in products:
     #         total_quantity+=getattr(order,product.Product_Name)
-        
-    
+    transactions=[]
+    for key ,value in trans.items():
+        for val in value:
+         total_paid+=val.Total_Amount
+         transactions.append(val)
+
   
     for order in orders:
        
         if order.status == 'Pending':
             total_pending+=1
-        elif order.status == 'Out for delivery':
+        elif order.status == 'Not Recived':
             total_rejected+=1
         elif order.status == 'Delivered':
             total_received+=1
         
 
-    for transaction in transactions:
-        total_paid+=transaction.Total_Amount
+    # for transaction in transactions:
+    #     total_paid+=transaction.Total_Amount
     context={
         'customer_orders':customer_orders,
         'total_payment':total_paid,
         'total_pending':total_pending,
-        'total_rejected':total_rejected,
         'total_received':total_received,
-        'total_quantity':total_quantity
+        'total_rejected':total_rejected,
+        'transactions':transactions,
             }
     return render(request,'Customer/home.html',context)
     
@@ -242,7 +252,6 @@ def not_recived_transactions_by_customer(request):
     users=User.objects.get(id=request.user.id)
     requrd_customer = Customer.objects.get(user=users)
     cust_orders=Customer_order.objects.filter(Customer=requrd_customer,status='Not Recived').order_by('-date_created')
-    totalnotrecived=cust_order.count()
     transactions={}
     order_arry=[]
     trans_arr=[]
@@ -307,7 +316,7 @@ def customer_not_recived(request,pk):
 
 def order_summer(request):
     
-    ag=Customer_order.objects.create(Customer=request.user.customer,status='Pending')
+    ag=Customer_order.objects.create(Customer=request.user.customer,status='Pending',driver='Not Assigned')
     all_product = Product.objects.all()
 
     ary1=[]
