@@ -26,13 +26,14 @@
         <table class="table table-border datatable">
           <thead>
             <tr>
-              
+
               <th scope="col">Date</th>
               <th scope="col">Customer</th>
               <th scope="col">Address</th>
               <th scope="col">House No.</th>
               <th scope="col">Order Code</th>
               <th scope="col">Status</th>
+
               <th scope="col">Check silp</th>
               <th scope="col">Driver</th>
 
@@ -45,13 +46,13 @@
             {% for val in value %}
             {{val.customer_Transaction_set.all}}
             <tr>
-             
+
               <td>{{val.date_created}}</td>
               <td class="text-primary">{{val.Customer}}</td>
               <td>{{val.Customer.Adderes}}</a></td>
               <td>{{val.Customer.House_No}}</td>
               <td>{{val.Customer.Adderes}}</td>
-              <td>{{val.customer_Transaction_set.all}}</td>
+
               {% if val.status == 'Pending' %}
               <td><span class="badge bg-warning">Pending</span></td>
               {% elif val.status == 'Not Recived' %}
@@ -60,14 +61,17 @@
               <td><span class="badge bg-success">delivered</span></td>
               {% endif %}
 
-              <td><button class="btn btn-sm btn-primary">View</button></td>
+              <td><a href="{% url 'cusomer_order_ditel' val.id %}" class="btn btn-sm btn-primary">View</a></td>
 
               {% if val.driver == 'Assigned' %}
               <td><span class="badge bg-success">Assigned</span></td>
               {% elif val.driver == 'Not Assigned' %}
               <td><span class="badge bg-danger">Not Assigned</span></td>
               {% endif %}
+
+
             </tr>
+
             {% endfor %}
             {% endfor %}
 

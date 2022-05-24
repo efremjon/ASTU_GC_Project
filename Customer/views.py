@@ -177,17 +177,13 @@ def customer_transactions(request):
       
         trans_arr.append(transa)
 
-
-      
-
-
-    # my_transaction = Customer_Transaction.objects.filter(Customer_order_id.Customer=requrd_customer)
     context = {
-    # 'all_transaction' :all_transaction,
+
     'transactions' : transactions,
 
     }
     return render(request,'Customer/pinding.html',context)
+
 
 def customer_recived(request,pk):
 
@@ -196,7 +192,7 @@ def customer_recived(request,pk):
     recived_order=Customer_order.objects.get(Customer=requrd_customer,pk=pk)
     recived_order.status = 'Delivered'
     recived_order.save()
-    cust_orders=Customer_order.objects.filter(Customer=requrd_customer,status='Delivered').order_by('-date_created')
+    cust_orders=Customer_order.objects.filter(Customer=requrd_customer,status='Pending').order_by('-date_created')
    
     transactions={}
     order_arry=[]
@@ -213,9 +209,63 @@ def customer_recived(request,pk):
     'transactions' : transactions,
     }
 
+    return render(request,'Customer/pinding.html',context)
+
+def recived_transactions_by_customer(request):
+    users=User.objects.get(id=request.user.id)
+    requrd_customer = Customer.objects.get(user=users)
+    cust_orders=Customer_order.objects.filter(Customer=requrd_customer,status='Delivered').order_by('-date_created')
+    transactions={}
+    order_arry=[]
+    trans_arr=[]
+    
+    for cust_order in cust_orders:
+        transactions[cust_order.id]=Customer_Transaction.objects.get(Customer_order_id=cust_order.id)
+        order_arry.append(cust_order)
+
+    for order ,transa in transactions.items():
+        trans_arr.append(transa)
+
+
+    data=zip(trans_arr,order_arry)
+
+
+    # my_transaction = Customer_Transaction.objects.filter(Customer_order_id.Customer=requrd_customer)
+    context = {
+    # 'all_transaction' :all_transaction,
+    'data' : data,
+
+    }
     return render(request,'Customer/recived_order.html',context)
 
+def not_recived_transactions_by_customer(request):
+    users=User.objects.get(id=request.user.id)
+    requrd_customer = Customer.objects.get(user=users)
+    cust_orders=Customer_order.objects.filter(Customer=requrd_customer,status='Not Recived').order_by('-date_created')
+    totalnotrecived=cust_order.count()
+    transactions={}
+    order_arry=[]
+    trans_arr=[]
+    
+    for cust_order in cust_orders:
+        transactions[cust_order.id]=Customer_Transaction.objects.get(Customer_order_id=cust_order.id)
+        order_arry.append(cust_order)
 
+    for order ,transa in transactions.items():
+        trans_arr.append(transa)
+
+
+    data=zip(trans_arr,order_arry)
+
+
+    # my_transaction = Customer_Transaction.objects.filter(Customer_order_id.Customer=requrd_customer)
+    context = {
+    # 'all_transaction' :all_transaction,
+    'data' : data,
+    
+
+    }
+    return render(request,'Customer/not_recived_order.html',context)
 
 
 
@@ -228,7 +278,7 @@ def customer_not_recived(request,pk):
     recived_order.status = 'Not Recived'
     recived_order.save()
     messages.info(request, 'Not Recived Notification Sent')
-    cust_orders=Customer_order.objects.filter(Customer=requrd_customer,status='Not Recived').order_by('-date_created')
+    cust_orders=Customer_order.objects.filter(Customer=requrd_customer,status='Pending').order_by('-date_created')
    
     transactions={}
     order_arry=[]
@@ -243,9 +293,10 @@ def customer_not_recived(request,pk):
 
     context = {
     'transactions' : transactions,
+   
     }
 
-    return render(request,'Customer/transactions.html',context)
+    return render(request,'Customer/pinding.html',context)
 
 
 

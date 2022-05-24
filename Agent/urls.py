@@ -20,6 +20,10 @@ urlpatterns = [
 
 
     path('cusomer_order/',views.customer_order,name="customer_order"),
+    path('cusomer_order_ditel/<int:pk>',views.cusomer_order_ditel,name="cusomer_order_ditel"),
+
+
+
     path('success/', views.success, name='success'),
     path('agent_make_order/',views.make_order,name="agent_make_order"),
     path('order_summer/',views.order_summer,name="order_summer"),

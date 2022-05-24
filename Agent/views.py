@@ -168,7 +168,30 @@ def customer_order(request):
     print(cust_order)
     return render(request,'Agent/view-cust-orders.html',context)
      
-
+def cusomer_order_ditel(request,pk):
+    transaction=Customer_Transaction.objects.get(id=pk) 
+    products=Product.objects.all()
+    order=Customer_order.objects.get(id=transaction.Customer_order_id.id)
+    price=[]
+    prods=[]
+    quantity=[]
+    sub_total=[] 
+    grand_total=0
+    total_quantity=0
+    for product in products:
+        price.append(product.Price_in_creates)
+        prods.append(product.Product_Name)
+        quantity.append(getattr(order,product.Product_Name))
+        sub_total.append(product.Price_in_creates*getattr(order,product.Product_Name))
+       
+        total_quantity+=(getattr(order,product.Product_Name))
+    data=zip(prods,price,quantity,sub_total)
+    context={
+        'transaction':transaction,
+        'data':data,
+        'total_quantity':total_quantity,
+        }
+    return render(request,'Agent/customer_order_ditel.html',context)
 
 def make_order(request):
      all_product = Product.objects.all()

@@ -4,8 +4,16 @@
 
 <section class="section dashboard m-5 pt-5">
   <div class="card">
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+      <strong>{{message}}</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+    {% endif %}
     <div class="card-body">
-      <h5 class="card-title">My-Transaction</h5>
+      <h5 class="card-title">Not Recived Transaction</h5>
 
       <!-- Default Table -->
       <table class="table table-border datatable">
@@ -26,7 +34,7 @@
             <td>{{trans.date_created}}</td>
             <td>{{trans.TransactionCode}}</td>
             <td>{{trans.Total_Amount}}</td>
-            {% if order.status == 'Delivered' %}
+            {% if order.status == 'Not Recived' %}
             <td><span class="badge bg-danger">Not Recived</span></td>
             {% endif%}
           </tr>
