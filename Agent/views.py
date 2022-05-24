@@ -11,7 +11,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from .form import *
 from .models import *
 from Company.models import * 
-from Customer.models import Customer_order
+from Customer.models import Customer_order,Customer_Transaction
 import requests
 import json
 
@@ -133,15 +133,32 @@ def customer_order(request):
     cust_order={}
     customer_order=[]
     agent_custome=[]
+    cust_tran=[]
+
     users = User.objects.get(id=request.user.id)
     request_agent = Agent.objects.get(user=users)
     agent_customer = Customer.objects.filter(Agent=request_agent)
+
     for agent_cust in agent_customer:
         cust_order[agent_cust]=Customer_order.objects.filter(Customer=agent_cust)
+
     for customer, order in cust_order.items():
         customer_order.append(order)
         agent_custome.append(customer)
+
+    for key ,value in cust_order.items():
+        for val in value:
+            print(val)
+            # cust_tran.append(Customer_Transaction.objects.get(Customer_order_id=val))
+            
+        
+    all=Customer_Transaction.objects.all()
+    for key in all:
+        print(key.Customer_order_id)
+         
+
     data=zip(customer_order,agent_custome)
+  
     context = {
          
          'cust_order':cust_order,
@@ -151,6 +168,8 @@ def customer_order(request):
     print(cust_order)
     return render(request,'Agent/view-cust-orders.html',context)
      
+
+
 def make_order(request):
      all_product = Product.objects.all()
      all_store = Company_Store.objects.all()

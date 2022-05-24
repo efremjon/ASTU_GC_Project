@@ -10,10 +10,14 @@ class Customer_order(models.Model):
       ('Not Recived', 'Not Recived'),
       ('Delivered', 'Delivered'),
       ) 
-  
+  Driver = (
+      ('Assigned', 'Assigned'),
+      ('Not Assigned', 'Not Assigned'),
+      ) 
   Customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True)
   date_created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
-  status = models.CharField(max_length=200, null=True, choices=STATUS)
+  driver = models.CharField(max_length=200, null=True, choices=Driver)
+  status = models.CharField(max_length=200, null=True, choices=STATUS, default='Not Assigned')
   def __str__(self) -> str:
       return str(self.Customer) + " |" + " Order " + str(self.id)
 products=Product.objects.all()
