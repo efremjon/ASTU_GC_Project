@@ -324,6 +324,7 @@ def order_summer(request):
     a=0
     tl=0
     arr={}
+    q=0
     if request.method == 'POST':
         for product in all_product:
             a=request.POST[product.Product_Name]
@@ -331,6 +332,7 @@ def order_summer(request):
             tp=product.Price_in_creates * int(request.POST[product.Product_Name])
             ary1.append(a)
             ary2.append(tp)
+            q+=int(a)
             tl=tl+tp
         
         print(arr)
@@ -362,7 +364,8 @@ def order_summer(request):
             'mylist':mylist,
             'tl':tl,
             'obj': obj, 
-            'cart': cart
+            'cart': cart,
+            'q':q,
 
         }
         return render(request,'Customer/order_summer.html',context)
