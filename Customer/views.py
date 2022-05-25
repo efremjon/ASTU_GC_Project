@@ -307,13 +307,6 @@ def customer_not_recived(request,pk):
 
     return render(request,'Customer/pinding.html',context)
 
-
-
-
-
-
-
-
 def order_summer(request):
     
     ag=Customer_order.objects.create(Customer=request.user.customer,status='Pending',driver='Not Assigned')

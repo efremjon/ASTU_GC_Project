@@ -13,6 +13,7 @@ from .models import *
 from Company.models import * 
 from Customer.models import Customer_order,Customer_Transaction
 import requests
+from passlib.hash import pbkdf2_sha256
 import json
 
 
@@ -149,7 +150,7 @@ def customer_order(request):
     for key ,value in cust_order.items():
         for val in value:
             print(val)
-                
+
     all=Customer_Transaction.objects.all()
     for key in all:
         print(key.Customer_order_id)
@@ -331,11 +332,19 @@ def add_customers(request):
 
 
 def customers_ditel(request,pk):
-    return render(request,'Agent/customer-ditel.html')
+    customer=Customer.objects.get(id=pk)
+    context={
+        'customer':customer,
+    }
+    return render(request,'Agent/customer-ditel.html',context)
 
 def customers_delete(request,pk):
-    
-    return render(request,'Agent/manage-customers.html',)
+    pass
+#     customer=Customer.objects.get(id=pk)
+#     customer.delete()
+#     customer.save()
+#     print(customer)
+#     return render(request,'Agent/manage-customers.html',)
 
 
 
@@ -397,3 +406,24 @@ def send_message(request):
      return render(request,'Agent/send-message.html',{})
 
 
+def cust_change_password(request,pk):
+    if request.method=='POST':
+        old_password=request.POST.get('password')
+        customer=Customer.objects.get(id=pk)
+        if customer.user.check_password(old_password):
+            new_password=request.POST.get('newpassword')
+            renew_password=request.POST.get('renewpassword')
+            if new_password == renew_password:
+                customer.user.set_password(new_password)
+                customer.user.save()
+                return HttpResponse('password changed ,successfully')
+            return HttpResponse('old password and new password are not the same')
+        return HttpResponse('old password doestn\'t exixt in the system')
+    return render(request,'Agent/manage-customers.html')
+            
+
+
+
+        
+      
+    

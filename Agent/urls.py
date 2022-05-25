@@ -35,6 +35,7 @@ urlpatterns = [
 
 
     path('add_customers/',views.add_customers,name="add-customers"),
+    path('cust_change_password/<int:pk>',views.cust_change_password,name="cust_change_password"),
     path('manage_customers/',views.manage_customers,name="manage_customers"),
     path('customers_ditel/<int:pk>/',views.customers_ditel,name="customers-ditel"),
     path('customers_delete/<int:pk>/',views.customers_delete,name="customers-delete"),
