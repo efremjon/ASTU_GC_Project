@@ -31,8 +31,6 @@
 
   <!-- Template Main CSS File -->
   <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
-
-
 </head>
 
 <body>
@@ -44,6 +42,7 @@
       <a href="{% url 'admin-dashbord' %}" class="logo d-flex align-items-center">
         <img src="{% static 'assets/img/logo3.png' %}" alt="">
       </a>
+      <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
     <nav class="header-nav ms-auto">
       <ul class="d-flex align-items-center">
@@ -177,13 +176,10 @@
             <li>
               <hr class="dropdown-divider">
             </li>
-
             <li class="dropdown-footer">
               <a href="#">Show all messages</a>
             </li>
-
-          </ul><!-- End Messages Dropdown Items -->
-
+          </ul>
         </li><!-- End Messages Nav -->
 
         <li class="nav-item dropdown pe-3">
@@ -226,7 +222,7 @@
         </li><!-- End Profile Nav -->
 
       </ul>
-    </nav><!-- End Icons Navigation -->
+    </nav>
 
   </header><!-- End Header -->
 
@@ -240,9 +236,8 @@
           <i class="bi bi-grid"></i>
           <span>Dashboard</span>
         </a>
-      </li><!-- End Dashboard Nav -->
+      </li>
 
-      <!-- agent -->
       <!-- agent -->
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#agents-nav" href="{%  url 'agent-view'  %}">
@@ -256,31 +251,11 @@
         </a>
       </li>
 
-      <!-- finance
-      <li class="nav-item"> 
-        <a class="nav-link collapsed" data-bs-target="#finance-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-currency-dollar"></i><span>Finance</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="finance-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="{% url 'view-agent-orders' %}">
-              <i class="bi bi-cart"></i><span>View orders</span>
-            </a>
-          </li>
-          <li>
-            <a href="{% url 'approve-agent-orders' %}">
-              <i class="bi bi-cart-check"></i><span>Approve orders</span>
-            </a>
-          </li>
-        </ul>
-      </li> -->
-
       <!-- store manager-->
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#store-nav" href="{% url 'view-store' %}">
           <i class="ri-home-2-line"></i><span>Manage Store</span></i>
         </a>
-
       </li>
 
       <!-- Region manager-->
@@ -288,21 +263,20 @@
         <a class="nav-link collapsed" data-bs-target="#store-nav" href="{% url 'view-region' %}">
           <i class="bi bi-bounding-box"></i> <span>Manage Region</span></i>
         </a>
-
       </li>
+
       <!-- manage product -->
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#store-nav" href="{% url 'view-product' %}">
           <i class="bi bi-cart"></i> <span>Manage Product</span></i>
         </a>
-
       </li>
+
       <!-- Generate report -->
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#reports-nav" href="{% url 'view-report' %}">
           <i class="bi bi-journal-text"></i><span>Generate Report</span>
         </a>
-
       </li>
 
       <!-- Post advertisement -->
@@ -311,8 +285,6 @@
           <i class="ri-advertisement-line"></i><span>Post adverisements</span>
         </a>
       </li>
-
-
     </ul>
   </aside><!-- End Sidebar-->
 
@@ -340,8 +312,6 @@
   <script src="{% static 'assets/vendor/simple-datatables/simple-datatables.js' %}"></script>
   <script src="{% static 'assets/vendor/tinymce/tinymce.min.js' %}"></script>
   <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
-
-
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
   <script type="text/javascript"
@@ -349,11 +319,9 @@
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.22/pdfmake.min.js"></script>
   <script type="text/javascript"
     src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
-  <script src="table2excel.js"></script>
-  <!-- Template Main JS File -->
 
-
-  <script src="table2excel.js"></script>
+  <!-- table to excel -->
+  <script src="{% static 'assets/js/table2excel.js' %}"></script>
   <!-- Template Main JS File -->
   <script src="{% static 'assets/js/main.js' %}"></script>
 

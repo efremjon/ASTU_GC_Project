@@ -710,7 +710,7 @@ def loaded_order(request):
 
 # Report
 def view_report(request):
-    return render(request,'Company/report/a.html',{})
+    return render(request,'Company/report/generate-report.html',{})
 
 # END Report
 

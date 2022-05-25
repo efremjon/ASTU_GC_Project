@@ -1,6 +1,13 @@
 {% extends 'Company/agents/agent-detail.html' %}
-{% block  agent_detile %}
+{% block agent_detile %}
 
-<h1>update agent</h1>
+<div class="row">
+    <div class="col-lg-4">
+        <label for="Agreement paper" class="form-label">Agreement Paper</label>
+        <input type="file" class="form-control" name="agreement" required>
+        <br>
+        <button class="btn btn-warning" type="submit">save</button>
+    </div>
+</div>
 
 {% endblock %}

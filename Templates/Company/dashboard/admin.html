@@ -7,8 +7,7 @@
     <h1>Dashboard</h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-
+        <li class="breadcrumb-item"><a href="{% url 'admin-dashbord' %}">Home</a></li>
       </ol>
     </nav>
   </div><!-- End Page Title -->
@@ -18,7 +17,7 @@
       <!-- Left side columns -->
       <div class="col-lg-8">
         <div class="row">
-          <!-- Sales Card -->
+          <!-- Agent Card -->
           <div class="col-xxl-4 col-md-6">
             <div class="card info-card sales-card">
               <a href="{% url 'admin-dashbord' %}">
@@ -35,8 +34,9 @@
                 </div>
               </a>
             </div>
-          </div><!-- End Sales Card -->
-          <!-- Sales Card -->
+          </div><!-- End Agent Card -->
+
+          <!-- Staff Card -->
           <div class="col-xxl-4 col-md-6">
             <div class="card info-card sales-card">
               <div class="card-body">
@@ -54,9 +54,9 @@
               </div>
               </a>
             </div>
-          </div><!-- End Sales Card -->
+          </div><!-- End Staff Card -->
 
-          <!-- Sales Card -->
+          <!-- store Card -->
           <div class="col-xxl-4 col-md-6">
             <div class="card info-card sales-card">
               <div class="card-body">
@@ -73,9 +73,9 @@
                 </a>
               </div>
             </div>
-          </div><!-- End Sales Card -->
+          </div><!-- End Store Card -->
 
-          <!-- Sales Card -->
+          <!-- Region Card -->
           <div class="col-xxl-4 col-md-6">
             <div class="card info-card sales-card">
               <div class="card-body">
@@ -92,9 +92,9 @@
                 </a>
               </div>
             </div>
-          </div><!-- End Sales Card -->
+          </div><!-- End Region Card -->
 
-          <!-- Sales Card -->
+          <!-- Products Card -->
           <div class="col-xxl-4 col-md-6">
             <div class="card info-card sales-card">
               <div class="card-body">
@@ -111,7 +111,7 @@
                 </a>
               </div>
             </div>
-          </div><!-- End Sales Card -->
+          </div><!-- End Products Card -->
 
           <!-- Sales Card -->
           <div class="col-xxl-4 col-md-6">
@@ -130,8 +130,6 @@
             </div>
           </div><!-- End Sales Card -->
 
-
-
           <div class="col-12">
             <div class="card">
               {% block admin %}
@@ -146,7 +144,7 @@
                       <th scope="col">Region</th>
                       <th scope="col">City</th>
                       <th scope="col">Phone</th>
-                      <th scope="col">date_created</th>
+                      <th scope="col">Date created</th>
                       <th scope="col">View</th>
                     </tr>
                   </thead>
@@ -154,13 +152,14 @@
                     {% for agent in all_agent %}
                     <tr>
                       <th scope="row">1</th>
-                      <td><a href="{%  url 'agent-detail' agent.id  %}" class="btn">{{agent.Full_Name}}</a></td>
+                      <td><a href="{%  url 'agent-detail' agent.id  %}">{{agent.Full_Name}}</a></td>
                       <td>{{agent.Region}}</td>
                       <td>{{agent.city}}</td>
                       <td>{{agent.phone1}}</td>
                       <td>{{agent.date_created}}</td>
-                      <td> <a href="{% url 'agent-detail' agent.id %}" class="btn btn-secondary">View</a></td>
-
+                      <td> <a href="{% url 'agent-detail' agent.id %}">
+                          <h3><i class="bi bi-eye"></i></h3>
+                        </a></td>
                     </tr>
                     {% endfor %}
                   </tbody>

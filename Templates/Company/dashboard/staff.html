@@ -23,21 +23,25 @@
                    {% for staff in staff_finance_manager %}
                       <tr>
                         <th scope="row">1</th>
-                        <td><a href="{% url 'staff-detail' staff.id  staff.staff %}" class="btn">{{staff.user.username}}</a></td>
+                        <td><a href="{% url 'staff-detail' staff.id  staff.staff %}">{{staff.user.username}}</a></td>
                         <td>{{staff.staff}}</td>
                         <td>{{staff.date_created }}</td>
                         <td>{{staff.phone}}</td>
-                        <td>  <a href="{% url 'staff-detail' staff.id staff.staff %}" class="btn btn-info">View</a></td>
+                        <td><a href="{% url 'staff-detail' staff.id staff.staff %}">
+                          <h3><i class="bi bi-eye"></i></h3>
+                        </a></td>
                       </tr>
                   {% endfor %}     
                   {% for staff in staff_company_store_manager %}
                       <tr>
                         <th scope="row">1</th>
-                        <td><a href="{% url 'staff-detail' staff.id staff.staff %}" class="btn">{{staff.user.username}}</a></td>
+                        <td><a href="{% url 'staff-detail' staff.id staff.staff %}">{{staff.user.username}}</a></td>
                         <td>{{staff.staff}}</td>
                         <td>{{staff.date_created }}</td>
                         <td>{{staff.phone}}</td>
-                        <td>  <a href="{% url 'staff-detail' staff.id staff.staff %}" class="btn btn-info">View</a></td>
+                        <td>  <a href="{% url 'staff-detail' staff.id staff.staff %}">
+                          <h3><i class="bi bi-eye"></i></h3>
+                        </a></td>
                       </tr>
                   {% endfor %}             
                     </tbody>
