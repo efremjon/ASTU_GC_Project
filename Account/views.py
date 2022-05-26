@@ -6,9 +6,9 @@ from django.contrib import messages
 from django.contrib.auth import authenticate,login,logout
 from Company.models import *
 from .form import CreateSuperUser
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 def login_view(request):
-    
     if request.method == 'POST':
         username=request.POST['username']
         password=request.POST['password']

@@ -16,37 +16,40 @@ from Agent.models import *
 from .form import passwordform,NameForm
 from django.core.mail import send_mail
 import requests
-
-
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate,login,logout
 # Create your views here.
-
+@login_required(login_url='')
 def Admin_dashboard(request):
-    all_agent = Agent.objects.all()
-    S_staff = Company_Store_Manager.objects.all()
-    F_staff = Finance_Manager.objects.all()
-    total_agent = all_agent.count()
-    tottal_staff = S_staff.count() + F_staff.count()
-    all_store = Company_Store.objects.all()
-    tottal_store = all_store.count()
-    all_region = Region.objects.all()
-    tottal_region = all_region.count()
-    all_product = Product.objects.all()
-    tottal_product = all_product.count()
+    if request.user.is_authenticated:
+        all_agent = Agent.objects.all()
+        S_staff = Company_Store_Manager.objects.all()
+        F_staff = Finance_Manager.objects.all()
+        total_agent = all_agent.count()
+        tottal_staff = S_staff.count() + F_staff.count()
+        all_store = Company_Store.objects.all()
+        tottal_store = all_store.count()
+        all_region = Region.objects.all()
+        tottal_region = all_region.count()
+        all_product = Product.objects.all()
+        tottal_product = all_product.count()
 
-    context = {
-        'all_agent' : all_agent,
-        'total_agent' :total_agent,
-        'tottal_staff' : tottal_staff,
-        'tottal_store' : tottal_store,
-        'tottal_region': tottal_region,
-        'tottal_product' : tottal_product,
-        'all_product':all_product,
-     
-    }
+        context = {
+            'all_agent' : all_agent,
+            'total_agent' :total_agent,
+            'tottal_staff' : tottal_staff,
+            'tottal_store' : tottal_store,
+            'tottal_region': tottal_region,
+            'tottal_product' : tottal_product,
+            'all_product':all_product,
+        
+        }
 
-    
-    return render(request,'Company/dashboard/admin.html',context)
-
+        
+        return render(request,'Company/dashboard/admin.html',context)
+    else:
+        redirect('login')
+@login_required(login_url='login')
 def staff_dashboard(request):
     all_agent = Agent.objects.all()
     S_staff = Company_Store_Manager.objects.all()
@@ -75,7 +78,7 @@ def staff_dashboard(request):
      
     }
     return render(request,'Company/dashboard/staff.html',context)
-
+@login_required(login_url='login')
 def store_dashboard(request):
     all_agent = Agent.objects.all()
     S_staff = Company_Store_Manager.objects.all()
@@ -108,7 +111,7 @@ def store_dashboard(request):
 
 
 
-
+@login_required(login_url='login')
 def region_dashboard(request):
     all_agent = Agent.objects.all()
     S_staff = Company_Store_Manager.objects.all()
@@ -139,7 +142,7 @@ def region_dashboard(request):
      
     }
     return render(request,'Company/dashboard/region.html',context)
-
+@login_required(login_url='login')
 def product_dashboard(request):
     all_agent = Agent.objects.all()
     S_staff = Company_Store_Manager.objects.all()
@@ -170,8 +173,7 @@ def product_dashboard(request):
      
     }
     return render(request,'Company/dashboard/product.html',context)
-
-  
+@login_required(login_url='login') 
 def add_agent(request):
     form =NameForm()
     if request.method == 'POST':
@@ -218,7 +220,7 @@ def add_agent(request):
     return render(request,'Company/agents/add-agent.html',{'form':form})
 
 # ////////////////
-
+@login_required(login_url='login')
 # Profile
 def show_profile(request):
     users=User.objects.get(id=request.user.id)
@@ -227,7 +229,7 @@ def show_profile(request):
         'admin':admin , 
     }
     return render(request,'Company/profile/show_profile.html',context)
-
+@login_required(login_url='login')
 def edit_profile(request):
     users=User.objects.get(id=request.user.id)
     admin=users.admin
@@ -252,7 +254,7 @@ def edit_profile(request):
         users.save()
         return redirect ('show_profile')
     return render(request,'Company/profile/edit_profile.html',context)
-
+@login_required(login_url='login')
 def change_password(request):
     users=User.objects.get(id=request.user.id)
     admin=users.admin
@@ -274,7 +276,7 @@ def change_password(request):
         'form':form
     }
     return render(request, 'Company/profile/chage_password.html', context)
-
+@login_required(login_url='login')
 def change_profile_pic(request):
     users=User.objects.get(id=request.user.id)
     admin=users.admin
@@ -291,7 +293,7 @@ def change_profile_pic(request):
         else:
             return render(request,'Company/profile/change_profile_pic.html',context)
     return render(request,'Company/profile/change_profile_pic.html',context)
-
+@login_required(login_url='login')
 def delete_profile_pic(request):
     users=User.objects.get(id=request.user.id)
     admin=users.admin
