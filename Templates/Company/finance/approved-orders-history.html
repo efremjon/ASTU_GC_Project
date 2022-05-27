@@ -16,7 +16,7 @@
             </div>
             <br>
             <br>
-  
+
             <div class="card info-card customers-card">
               <h5 class="card-title">Approved orders History</h5>
               <table class="table table-border" id="approval_history_tbl">
@@ -61,13 +61,13 @@
 <script>
   document.getElementById('download_excel').addEventListener('click', function () {
     var table2excel = new Table2Excel();
-    table2excel.export(document.querySelectorAll("#report_table"));
+    table2excel.export(document.querySelectorAll("#approval_history_tbl"));
   });  
 </script>
 
 <script type="text/javascript">
   function pdfDownload() {
-    html2canvas(document.getElementById('report_table'), {
+    html2canvas(document.getElementById('approval_history_tbl'), {
       onrendered: function (canvas) {
         var data = canvas.toDataURL();
         var docDefinition = {
