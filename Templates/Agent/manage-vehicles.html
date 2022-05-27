@@ -1,0 +1,79 @@
+{% extends 'Agent/agent-base.html' %}
+{% load static %}
+{% block content %}
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Manage Vehicles</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'agent_dashbord' %}">Home</a></li>
+                <li class="breadcrumb-item active">My Vehicles</li>
+            </ol>
+            <div class="text-end">
+                <a href="{% url 'add_vehicle' %}" class="item-end">
+                    <button type="button" class="btn btn-sm rounded-pill btn-warning"><i class="bi bi-plus me-1"></i>Add
+                        vehicle</button>
+                </a>
+            </div>
+        </nav>
+    </div><!-- End Page Title -->
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="row">
+                    <!-- Vehicles view -->
+                    <div class="col">
+                        <div class="card recent-sales overflow-auto">
+
+                            <div class="card-body">
+
+                                <table class="table table-border datatable">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Preview</th>
+                                            <th scope="col">Vehicle</th>
+                                            <th scope="col">Plate number</th>
+                                            <th scope="col">Vehicle role</th>
+                                            <th scope="col">Remove</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row"><img src="{% static 'assets/img/scania.jpg' %}" alt=""
+                                                    width="120"></th>
+                                            <td>Scania</a></td>
+                                            <td>A.A 94529</td>
+                                            <td>Fetch</td>
+                                            <td>
+                                                <a href="#">
+                                                    <h3 class="text-danger"><i class="bi bi-trash"></i></h3>
+                                                </a>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <th scope="row"><img src="{% static 'assets/img/isuzu.jpg' %}" alt=""
+                                                    width="120"></th>
+                                            <td>Isuzu</a></td>
+                                            <td>O.R 78001</td>
+                                            <td>Distibution</td>
+                                            <td>
+                                                <a href="#">
+                                                    <h3 class="text-danger"><i class="bi bi-trash"></i></h3>
+                                                </a>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

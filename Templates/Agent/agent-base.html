@@ -43,8 +43,8 @@
     <div class="d-flex align-items-center justify-content-between">
       <a href="{% url 'agent_dashbord' %}" class="logo d-flex align-items-center">
         <img src="{% static 'assets/img/logo3.png' %}" alt="">
-
       </a>
+      <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
     <nav class="header-nav ms-auto">
       <ul class="d-flex align-items-center">
@@ -227,7 +227,7 @@
         </li><!-- End Profile Nav -->
 
       </ul>
-    </nav><!-- End Icons Navigation -->
+    </nav>
 
   </header><!-- End Header -->
 
@@ -265,20 +265,20 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#drivers-nav" href="{% url 'manage_drivers' %}">
-          <i class="bi bi-truck"></i><span>Manage vehicle</span>
+        <a class="nav-link collapsed" data-bs-target="#drivers-nav" href="{% url 'manage_vehicles' %}">
+          <i class="bi bi-truck"></i><span>Manage vehicles</span>
         </a>
       </li>
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#drivers-nav" href="{% url 'product-in-store' %}">
-          <i class="bi bi-truck"></i><span>Product in store</span>
+          <i class="bi bi-house"></i><span>Product in store</span>
         </a>
       </li>
 
       <!--add drivers -->
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#drivers-nav" href="{% url 'manage_drivers' %}">
-          <i class="bi bi-truck"></i><span>Manage drivers</span>
+          <i class="ri-steering-2-line"></i><span>Manage drivers</span>
         </a>
       </li>
 

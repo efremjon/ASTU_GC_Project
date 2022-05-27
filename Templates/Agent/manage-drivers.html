@@ -1,200 +1,158 @@
 {% extends 'Agent/agent-base.html' %}
-
 {% load static %}
 {% block content %}
 <main id="main" class="main">
   <div class="pagetitle">
-    <h1>Agent Dashboard</h1>
+    <h1>Manage drivers</h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="agent-dashboard.html">Home</a></li>
-        <!-- <li class="breadcrumb-item active">Dashboard</li> -->
+        <li class="breadcrumb-item"><a href="{% url 'agent_dashbord' %}">Home</a></li>
+        <li class="breadcrumb-item active">My drivers</li>
       </ol>
+      <div class="text-end">
+        <a href="{% url 'add_driver' %}" class="item-end">
+          <button type="button" class="btn btn-sm rounded-pill btn-warning"><i class="bi bi-plus me-1"></i>Add
+            driver</button>
+        </a>
+      </div>
     </nav>
   </div><!-- End Page Title -->
-<section class="section">
-  <div class="row">
-    <div class="col-lg-12">
-      <div class="row">
-        <!-- customers view -->
-        <div class="col">
-          <div class="card recent-sales overflow-auto">
+  <section class="section">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="row">
+          <!-- customers view -->
+          <div class="col">
+            <div class="card recent-sales overflow-auto">
 
-            <div class="card-body">
+              <div class="card-body">
 
-              <table class="table table-border datatable">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Driver</th>
-                    <th scope="col">Vehicle</th>
-                    <th scope="col">Plate number</th>
-                    <th scope="col">Vehicle role</th>
-                    <th scope="col">Route</th>
-                    <th scope="col">Phone number</th>
-                    <th scope="col">Status</th>
-                    
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th>1</th> 
-                    <td >Belete Asake</td>
-                    <td>Lorry</a></td>
-                    <td>A 10-654</td>
-                    <td>Fetch</td>
-                    <td>Awasa</td>
-                    <td>0937990877</td>
-                    <td>In garage</td>
-                  </tr>
+                <table class="table table-border datatable">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Driver</th>
+                      <th scope="col">Vehicle</th>
+                      <th scope="col">Phone number</th>
+                      <th scope="col">Status</th>
+                      <th scope="col">View</th>
+                      <th scope="col">Remove</th>
 
-                  <tr>
-                    <th>2</th> 
-                    <td >Getsh Amare</td>
-                    <td>Isuzu</a></td>
-                    <td>B 78-001</td>
-                    <td>Distibution</td>
-                    <td>Route 4A</td>
-                    <td>0910100245</td>
-                    <td>on duty</td>
-                  </tr>
-                  <tr>
-                      <th>3</th> 
-                      <td >Belete Asake</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th>1</th>
+                      <td><a href="#">Belete Asake</a></td>
                       <td>Lorry</a></td>
-                      <td>A 10-654</td>
-                      <td>Fetch</td>
-                      <td>Awasa</td>
                       <td>0937990877</td>
-                      <td>In garage</td>
+                      <td>On duty</td>
+                      <td>
+                        <a href="#">
+                          <h3><i class="bi bi-eye"></i></h3>
+                        </a>
+                      </td>
+                      <td>
+                        <a href="#">
+                          <h3 class="text-danger"><i class="bi bi-trash"></i></h3>
+                        </a>
+                      </td>
                     </tr>
 
                     <tr>
-                      <th>4</th> 
-                      <td >Getsh Amare</td>
+                      <th>2</th>
+                      <td><a href="#">Getsh Amare</a></td>
                       <td>Isuzu</a></td>
-                      <td>B 78-001</td>
-                      <td>Distibution</td>
-                      <td>Route 4A</td>
                       <td>0910100245</td>
-                      <td>on duty</td>
+                      <td>In garage</td>
+                      <td>
+                        <a href="#">
+                          <h3><i class="bi bi-eye"></i></h3>
+                        </a>
+                      </td>
+                      <td>
+                        <a href="#">
+                          <h3 class="text-danger"><i class="bi bi-trash"></i></h3>
+                        </a>
+                      </td>
                     </tr>
                     <tr>
-                      <th>5</th> 
-                      <td >Belete Asake</td>
+                      <th>3</th>
+                      <td>Belete Asake</td>
+                      <td>Isuzu</a></td>
+                      <td>0937990877</td>
+                      <td>On duty</td>
+                      <td><a href="#">
+                          <h3><i class="bi bi-eye"></i></h3>
+                        </a>
+                      </td>
+                      <td>
+                        <a href="#">
+                          <h3 class="text-danger"><i class="bi bi-trash"></i></h3>
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>1</th>
+                      <td>Belete Asake</td>
                       <td>Lorry</a></td>
-                      <td>A 10-654</td>
-                      <td>Fetch</td>
-                      <td>Awasa</td>
                       <td>0937990877</td>
-                      <td>In garage</td>
+                      <td>On duty</td>
+                      <td>
+                        <a href="#">
+                          <h3><i class="bi bi-eye"></i></h3>
+                        </a>
+                      </td>
+                      <td>
+                        <a href="#">
+                          <h3 class="text-danger"><i class="bi bi-trash"></i></h3>
+                        </a>
+                      </td>
                     </tr>
 
                     <tr>
-                      <th>6</th> 
-                      <td >Getsh Amare</td>
+                      <th>2</th>
+                      <td>Getsh Amare</td>
                       <td>Isuzu</a></td>
-                      <td>B 78-001</td>
-                      <td>Distibution</td>
-                      <td>Route 4A</td>
                       <td>0910100245</td>
-                      <td>on duty</td>
+                      <td>On duty</td>
+                      <td>
+                        <a href="#">
+                          <h3><i class="bi bi-eye"></i></h3>
+                        </a>
+                      </td>
+                      <td>
+                        <a href="#">
+                          <h3 class="text-danger"><i class="bi bi-trash"></i></h3>
+                        </a>
+                      </td>
                     </tr>
                     <tr>
-                      <th>7</th> 
-                      <td >Belete Asake</td>
+                      <th>3</th>
+                      <td>Belete Asake</td>
                       <td>Lorry</a></td>
-                      <td>A 10-654</td>
-                      <td>Fetch</td>
-                      <td>Awasa</td>
                       <td>0937990877</td>
-                      <td>In garage</td>
+                      <td>On duty</td>
+                      <td>
+                        <a href="#">
+                          <h3><i class="bi bi-eye"></i></h3>
+                        </a>
+                      </td>
+                      <td>
+                        <a href="#">
+                          <h3 class="text-danger"><i class="bi bi-trash"></i></h3>
+                        </a>
+                      </td>
                     </tr>
-
-                    <tr>
-                      <th>8</th> 
-                      <td >Getsh Amare</td>
-                      <td>Isuzu</a></td>
-                      <td>B 78-001</td>
-                      <td>Distibution</td>
-                      <td>Route 4A</td>
-                      <td>0910100245</td>
-                      <td>on duty</td>
-                    </tr>
-
-                    <tr>
-                      <th>9</th> 
-                      <td >Belete Asake</td>
-                      <td>Lorry</a></td>
-                      <td>A 10-654</td>
-                      <td>Fetch</td>
-                      <td>Awasa</td>
-                      <td>0937990877</td>
-                      <td>In garage</td>
-                    </tr>
-
-                    <tr>
-                      <th>10</th> 
-                      <td >Getsh Amare</td>
-                      <td>Isuzu</a></td>
-                      <td>B 78-001</td>
-                      <td>Distibution</td>
-                      <td>Route 4A</td>
-                      <td>0910100245</td>
-                      <td>on duty</td>
-                    </tr>
-                    <tr>
-                      <th>11</th> 
-                      <td >Belete Asake</td>
-                      <td>Lorry</a></td>
-                      <td>A 10-654</td>
-                      <td>Fetch</td>
-                      <td>Awasa</td>
-                      <td>0937990877</td>
-                      <td>In garage</td>
-                    </tr>
-
-                    <tr>
-                      <th>12</th> 
-                      <td >Getsh Amare</td>
-                      <td>Isuzu</a></td>
-                      <td>B 78-001</td>
-                      <td>Distibution</td>
-                      <td>Route 4A</td>
-                      <td>0910100245</td>
-                      <td>on duty</td>
-                    </tr>
-                    <tr>
-                      <th>13</th> 
-                      <td >Belete Asake</td>
-                      <td>Lorry</a></td>
-                      <td>A 10-654</td>
-                      <td>Fetch</td>
-                      <td>Awasa</td>
-                      <td>0937990877</td>
-                      <td>In garage</td>
-                    </tr>
-
-                    <tr>
-                      <th>14</th> 
-                      <td >Getsh Amare</td>
-                      <td>Isuzu</a></td>
-                      <td>B 78-001</td>
-                      <td>Distibution</td>
-                      <td>Route 4A</td>
-                      <td>0910100245</td>
-                      <td>on duty</td>
-                    </tr>
-               
-                </tbody>
-              </table>
+                  </tbody>
+                </table>
+              </div>
             </div>
-          </div>
-        </div><!-- End Recent Sales -->
-    
+          </div><!-- End Recent Sales -->
+
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 </main>
 {% endblock %}

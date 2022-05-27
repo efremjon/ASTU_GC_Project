@@ -45,12 +45,16 @@
                   
                     <tr>
                       <th>1</th>
-                      <td>{{customer.Compan_name}}</td>
+                      <td><a href="{% url 'customers-ditel' customer.id %}">{{customer.Compan_name}}</a></td>
                       <td>{{customer.Adderes}}</a></td>
                       <td>{{customer.House_No}}</td>
                       <td>{{customer.phone1}}</td>
-                      <td><a href="{% url 'customers-ditel' customer.id %}" class="btn btn-sm btn-primary">View </a></td>
-                      <td><a href="{% url 'customers-delete' customer.id %}" class="btn btn-sm btn-danger">Remove </a></td>
+                      <td><a href="{% url 'customers-ditel' customer.id %}">
+                        <h3><i class="bi bi-eye"></i></h3> 
+                      </a></td>
+                      <td><a href="{% url 'customers-delete' customer.id %}" >
+                       <h3 class="text-danger"><i class="bi bi-trash"></i></h3>
+                      </a></td>
                     </tr>
                     {% endfor %}
                   </tbody>

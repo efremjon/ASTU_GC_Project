@@ -386,11 +386,17 @@ def transaction_detail(request,pk):
     }
     return render(request,'Agent/transaction-details.html',context)
 
+def add_vehicle(request):
+    return render(request, 'Agent/add-vehicle.html', {})
+
+def manage_vehicles(request):
+    return render(request, 'Agent/manage-vehicles.html', {})
+
+def add_driver(request):
+    return render(request, 'Agent/add-driver.html', {})
 
 def manage_drivers(request):
      return render(request,'Agent/manage-drivers.html',{})
-
-
 
 def transactions(request):
 
