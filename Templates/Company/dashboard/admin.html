@@ -146,10 +146,12 @@
                       <th scope="col">Phone</th>
                       <th scope="col">Date created</th>
                       <th scope="col">View</th>
+                      <th scope="col">Active</th>
                     </tr>
                   </thead>
                   <tbody>
                     {% for agent in all_agent %}
+                    {% if agent.user.is_active %}
                     <tr>
                       <th scope="row">1</th>
                       <td><a href="{%  url 'agent-detail' agent.id  %}">{{agent.Full_Name}}</a></td>
@@ -160,7 +162,12 @@
                       <td> <a href="{% url 'agent-detail' agent.id %}">
                           <h3><i class="bi bi-eye"></i></h3>
                         </a></td>
+
+                      <td class="badge bg-success">{{agent.user.is_active}}</td>
                     </tr>
+                                                  
+                    {% endif %}
+
                     {% endfor %}
                   </tbody>
                 </table>

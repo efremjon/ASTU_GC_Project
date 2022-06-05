@@ -271,7 +271,11 @@
           <i class="bi bi-cart"></i> <span>Manage Product</span></i>
         </a>
       </li>
-
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#store-nav" href="{% url 'deleted_account' %}">
+          <i class="bi bi-cart"></i> <span>Deleted Account</span></i>
+        </a>
+      </li>
       <!-- Generate report -->
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#reports-nav" href="{% url 'view-report' %}">
@@ -325,6 +329,77 @@
   <!-- Template Main JS File -->
   <script src="{% static 'assets/js/main.js' %}"></script>
 
+  <script>
+
+    function number_init(id) {
+      var string = document.getElementById(id).value;
+      let matchPattern = string.match(/\d+/g);
+      if (matchPattern != null) {
+        document.getElementById(id).style.borderColor = 'red';
+        document.getElementById('p' + id).innerHTML = 'only letters allowed';
+        document.getElementById('p' + id).removeAttribute('hidden')
+        document.getElementById('p' + id).style.color = 'red'
+        
+      }
+      else {
+        document.getElementById(id).style.borderColor = '#d9d9d9';
+        document.getElementById('p' + id).hidden = true;
+        
+      }
+    }
+    function phone(id) {
+      var string = document.getElementById(id).value;
+      if ((string[0] != '9' || string.length > 9 || (/[^0-9]/.test(string))) && string.length != 0) {
+        document.getElementById(id).style.borderColor = 'red';
+        document.getElementById('pp').innerHTML = 'phone number should start with 9,be 9 in length and only be letters';
+        document.getElementById('pp').removeAttribute('hidden')
+        document.getElementById('pp').style.color = 'red'
+        
+      }
+      else {
+        document.getElementById(id).style.borderColor = '#d9d9d9';
+        document.getElementById('pp').hidden = true;
+       
+      }
+
+
+
+    }
+    
+    function letter_init(id) {
+      var tinno = document.getElementById(id).value;
+      if (!(/^[0-9]+$/.test(tinno))) {
+        document.getElementById(id).style.borderColor = 'red';
+        document.getElementById('p' + id).innerHTML = 'only digits allowed';
+        document.getElementById('p' + id).removeAttribute('hidden')
+        document.getElementById('p' + id).style.color = 'red'
+      
+      }
+      else {
+        document.getElementById(id).style.borderColor = '#d9d9d9';
+        document.getElementById('p' + id).hidden = true;
+     
+      }
+    }
+
+    function add(){
+      var tinno = document.getElementById('tinno').style.borderColor;
+      var fn = document.getElementById('fn').style.borderColor;
+      var ln = document.getElementById('ln').style.borderColor;
+      var p1 = document.getElementById('p1').style.borderColor;
+      var p2 = document.getElementById('p2').style.borderColor;
+      var ct = document.getElementById('ct').style.borderColor;
+      
+
+      if (p2=='red'||fn=='red'||ln=='red'||p1=='red'||ct=='red'||tinno=='red'){
+       
+        alert('error')
+        
+      }}
+    
+
+  </script>
 </body>
+
 
 </html>

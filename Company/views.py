@@ -1,8 +1,10 @@
 
 
+from email import message
 from http.client import CONTINUE
 from multiprocessing import context
 from multiprocessing.dummy import JoinableQueue
+from ntpath import join
 from operator import attrgetter
 from django.contrib import messages
 from django.contrib import messages
@@ -18,6 +20,8 @@ from django.core.mail import send_mail
 import requests
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate,login,logout
+import datetime
+from django.contrib.auth.models import Group
 # Create your views here.
 @login_required(login_url='')
 def Admin_dashboard(request):
@@ -25,7 +29,10 @@ def Admin_dashboard(request):
         all_agent = Agent.objects.all()
         S_staff = Company_Store_Manager.objects.all()
         F_staff = Finance_Manager.objects.all()
-        total_agent = all_agent.count()
+        total_agent =0
+        for agent in all_agent:
+            if agent.user.is_active:
+                total_agent+=1
         tottal_staff = S_staff.count() + F_staff.count()
         all_store = Company_Store.objects.all()
         tottal_store = all_store.count()
@@ -175,49 +182,57 @@ def product_dashboard(request):
     return render(request,'Company/dashboard/product.html',context)
 @login_required(login_url='login') 
 def add_agent(request):
-    form =NameForm()
+    
+    all_region = Region.objects.all()
     if request.method == 'POST':
-        first_name=request.POST['first_name']
-        last_name=request.POST['last_name']
-        Full_Name=first_name+" " +last_name
-        user_name=request.POST['username']
-        email=request.POST['email']
-        password1=request.POST['password1']
-        password2=request.POST['password2']
-        phone1=request.POST['phone1']
-        phone2=request.POST['phone2']
-        facebook=request.POST['facebook']
-        telegram=request.POST['telegram']
-        instagram=request.POST['instagram']
-        about=request.POST['about']
-        profile_pic=request.FILES['img']
-        city=request.POST['city']
-        address=request.POST['address']
-        location=request.POST['location']
-        TIN_Num=request.POST['TIN_NO']
-        agreement=request.FILES['agreement']
-        licenc=request.FILES['licenc']
-        form =NameForm(request.POST)
-       
+        print('------------------------------------------------------')
+        errorr=request.POST.get('error')
+        print('ppp'+errorr)
+        print('++++++++++++++++++++++++++++++++++++++++++++++++++')
+        if  errorr=='':
+            
+            #required
+            region=request.FILES.get('region')
+            city=request.POST.get('city')
+            address=request.POST.get('address')
+            location=request.POST.get('location')
+            TIN_NO=request.POST.get('TIN_NO')
+            marchent_id=request.POST.get('marchent_id')
+            agreement=request.POST.get('agreement')
+            license=request.POST.get('license')
+            first_name=request.POST.get('first_name')
+            last_name=request.POST.get('last_name')
+            email=request.POST.get('email')
+            username=request.POST.get('username')
+            password1=request.POST.get('password1')
+            password2=request.POST.get('password2')
+            phone1=request.POST.get('phone1')
+            #check if it the followings are empty
+            phone2=request.POST.get('phone2')
+            facebook=request.POST.get('facebook')
+            telegram=request.POST.get('telegram')
+            instagram=request.POST.get('instagram')
+            about=request.POST.get('about')
+            profile=request.FILES.get('profile')
+        else :
+            return HttpResponse('error')
+    
+
         if password1==password2:
-            if User.objects.filter(username=user_name).exists():
-                messages.info(request, 'username taken')
-                return render(request,'Company/agents/add-agent.html',{})
-            elif User.objects.filter(email=email).exists():
-                messages.info(request, 'email taken ')
-                return render(request,'Company/agents/add-agent.html',{})
-            else:
-                user=User.objects.create_user(first_name=first_name,last_name=last_name,username=user_name,email=email,password=password1)
-                user.save()
-                group = Group.objects.get(name='Agent')
-                user.groups.add(group)
-                Agent.objects.create(user=user,phone1=phone1,phone2=phone2,facebook=facebook,telegram=telegram,instagram=instagram, about=about,profile_pic=profile_pic,city=city,address=address,location=location,TIN_NO=TIN_Num,agreement=agreement,License=licenc,Full_Name=Full_Name)
-                messages.success(request, 'Sucssesfull Create User.')
-                return redirect ('agent-view')
+                 user=User.objects.create_user(username=username,email=email,password=password1,first_name=first_name,last_name=last_name)
+                 my_group = Group.objects.get(name='Agent')
+                 my_group.user_set.add(user)
+                 if user:
+                     agent=Agent.objects.create(user=user,Full_Name=first_name+' '+last_name,phone1=phone1,phone2=phone2,facebook=facebook,telegram=telegram,
+                     instagram=instagram,about=about,profile_pic=profile,Region=region,TIN_NO=TIN_NO,location=location,address=address,city=city,
+                     marchentId=marchent_id,agreement=agreement,License=license)
+                     if agent:
+                         return HttpResponse('user created')
         else:
-            messages.info(request, 'PASSWORD NOT MUCH')
-            return render(request,'Company/agents/add-agent.html',{})
-    return render(request,'Company/agents/add-agent.html',{'form':form})
+            return HttpResponse(errorr)
+                 
+       
+    return render(request,'Company/agents/add-agent.html',{'all_region':all_region})
 
 # ////////////////
 @login_required(login_url='login')
@@ -370,7 +385,20 @@ def remove_staff(request,pk,staff):
 
 # end Staff
 
+#deleted account
+def  deleted_account(request):
+    deleted_accounts=[]
+    all_user=User.objects.all()
+    for user in all_user:
+        if not user.is_active:
+            deleted_accounts.append(user)
+    context = {
+        'deleted_accounts':deleted_accounts,      
+    }
+    return render(request,'Company/deleted_account.html',context)
 
+
+#end deleted account
 
 def view_agent_orders(request):
     return HttpResponse('agent orders')
@@ -414,17 +442,57 @@ def agent_detail(request,pk):
 
 def agent_update_contrat(request,pk):
     agent = Agent.objects.get(pk=pk)
+    if request.method=='POST':
+        file=request.FILES.get('file')
+        agent.agreement=file
+        agent.last_updated=datetime.datetime.now()  
+        agent.save()
+    
     context = {
         'agent':agent,      
     }
     return render(request,'Company/agents/update_agent.html',context)
 
-def remove_agent(request,pk):
+def remove_agent_page(request,pk):
     agent = Agent.objects.get(pk=pk)
+ 
     context = {
         'agent':agent,      
     }
     return render(request,'Company/agents/remove_agent.html',context)
+
+
+def remove_agent(request,pk):
+    agent = Agent.objects.get(pk=pk)
+    agent.user.is_active=False
+    agent.user.save()
+    deleted_accounts=[]
+    all_user=User.objects.all()
+    for user in all_user:
+        if not user.is_active:
+            deleted_accounts.append(user)
+            
+    messages.info(request,agent.user.first_name + ' '+ agent.user.last_name +' is now Removed')
+    context = {
+        'deleted_accounts':deleted_accounts,      
+    }
+    return render(request,'Company/deleted_account.html',context)
+def re_active_account(request,pk):
+   user=User.objects.get(id=pk)
+   user.is_active=True
+   user.save()
+   messages.success(request,user.first_name + ' '+ user.last_name +' is now activated')
+   deleted_accounts=[]
+   all_user=User.objects.all()
+   for user in all_user:
+       if not user.is_active:
+           deleted_accounts.append(user)
+            
+  
+   context = {
+        'deleted_accounts':deleted_accounts,      
+    }
+   return render(request,'Company/deleted_account.html',context)
 # Manage Store 
 
 def view_store(request):

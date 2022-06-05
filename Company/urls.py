@@ -21,9 +21,13 @@ urlpatterns = [
     path('agent-detail/<int:pk>',views.agent_detail,name='agent-detail'),
     path('update_contrat/<int:pk>',views.agent_update_contrat,name='update_contrat'),
     path('remove-agent/<int:pk>',views.remove_agent,name='remove-agent'),
+    path('remove-agent_page/<int:pk>',views.remove_agent_page,name='remove_agent_page'),
+    path('re-active_account/<int:pk>',views.re_active_account,name='re-active_account'),
     path('agent-report/',views.agent_report,name='agent-report'),
     path('view-agent-orders/',views.view_agent_orders,name='view-agent-orders'),
     path('approve-agent-orders/',views.approve_agent_orders,name='approve-agent-orders'),
+    
+    
 # end Agent Management Part 
 
 # ////////////////////////
@@ -42,6 +46,15 @@ urlpatterns = [
     path('contact-store-manager/',views.contact_store_manager,name='contact-store-manager'),
     path('finance-report/',views.finance_report,name='finance-report'),
     path('advertisements/',views.advertisements,name='advertisements'),
+
+#end manage-staff
+
+#deleted account
+   
+    path('deleted_account/',views. deleted_account,name='deleted_account'),
+
+#end deleted account
+
     
      
 # Manage store part

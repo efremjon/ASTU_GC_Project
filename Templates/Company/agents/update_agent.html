@@ -3,10 +3,13 @@
 
 <div class="row">
     <div class="col-lg-4">
+        <form action="" method="POST" enctype="multipart/form-data">
+            {%  csrf_token %}
         <label for="Agreement paper" class="form-label">Agreement Paper</label>
-        <input type="file" class="form-control" name="agreement" required>
+        <input type="file" class="form-control" name="file" required>
         <br>
         <button class="btn btn-warning" type="submit">save</button>
+    </form>
     </div>
 </div>
 

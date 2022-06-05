@@ -35,11 +35,13 @@
                   <th scope="col">City</th>
                   <th scope="col">Phone</th>
                   <th scope="col">date_created</th>
+                  <th scope="col">last_updated</th>
                   <th scope="col">View</th>
                 </tr>
               </thead>
               <tbody>
                 {% for agent in all_agent %}
+                {% if agent.user.is_active%}
                 <tr>
                   <th scope="row">1</th>
                   <td><a href="{%  url 'agent-detail' agent.id  %}">{{agent.Full_Name}}</a></td>
@@ -47,11 +49,13 @@
                   <td>{{agent.city}}</td>
                   <td>{{agent.phone1}}</td>
                   <td>{{agent.date_created}}</td>
+                  <td>{{agent.last_updated}}</td>
                   <td><a href="{% url 'agent-detail' agent.id %}">
-                    <h3><i class="bi bi-eye"></i></h3>
-                  </a></td>
+                      <h3><i class="bi bi-eye"></i></h3>
+                    </a></td>
 
                 </tr>
+                {% endif %}
                 {% endfor %}
               </tbody>
             </table>

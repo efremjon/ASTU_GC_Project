@@ -26,12 +26,18 @@
                   <div class="row border p-3 m-2">
                     <div class="col-md-6">
                       <label for="validationDefault01" class="form-label">First name:</label>
-                      <input type="text" class="form-control " name="first_name" required>
+                      <input type="text" class="form-control " name="first_name" onkeyup="number_init(this.id)" id="fn"
+                        required>
+                      <p id="pfn" hidden></p>
                     </div>
                     <div class="col-md-6">
                       <label for="validationDefault02" class="form-label">Last name:</label>
-                      <input type="text" class="form-control" name="last_name" required>
+                      <input type="text" class="form-control" name="last_name" onkeyup="number_init(this.id)" id="ln"
+                        required>
+                      <span id="pln" hidden></span>
                     </div>
+
+
                     <div class="col-md-6">
                       <label for="validationDefault02" class="form-label">Email:</label>
                       <input type="email" class="form-control" name="email" required>
@@ -41,110 +47,145 @@
                       <div class="input-group">
                         <span class="input-group-text" id="inputGroupPrepend2">@</span>
                         <input type="text" class="form-control" name="username" aria-describedby="inputGroupPrepend2"
-                          required>
+                          required id="un">
+
                       </div>
                     </div>
                     <div class="col-md-6">
                       <label for="validationDefault03" class="form-label">Password</label>
-                      <input type="password" class="form-control" name="password1" required>
+                      <input type="password" class="form-control" name="password1" required id="password1">
                     </div>
                     <div class="col-md-6">
                       <label for="validationDefault03" class="form-label">Confirm Password</label>
-                      <input type="password" class="form-control" name="password2" required>
+                      <input type="password" class="form-control" name="password2" required id="password2">
                     </div>
                     <div class="col-md-6">
-                      <label for="validationDefault03" class="form-label">Phone No. 1</label>
-                      <input type="text" class="form-control" name="phone1" required>
+                      <label for="validationDefaultUsername" class="form-label">Phone</label>
+                      <div class="input-group">
+                        <span class="input-group-text" id="inputGroupPrepend2">+251</span>
+                        <input type="text" class="form-control" name="phone1" aria-describedby="inputGroupPrepend2"
+                          required onkeyup="phone(this.id)" id="p1">
+
+                      </div>
+                      <p id="pp" hidden></p>
                     </div>
+
                     <div class="col-md-6">
-                      <label for="validationDefault03" class="form-label">Phone No. 2</label>
-                      <input type="text" class="form-control" name="phone2" required>
+                      <label for="validationDefaultUsername" class="form-label">Phone</label>
+                      <div class="input-group">
+                        <span class="input-group-text" id="inputGroupPrepend2">+251</span>
+                        <input type="text" class="form-control" name="phone2" aria-describedby="inputGroupPrepend2"
+                          onkeyup="phone(this.id)" id="p2">
+
+                      </div>
                     </div>
+
                     <div class="col-md-4">
                       <label for="validationDefault03" class="form-label">Facebook</label>
-                      <input type="text" class="form-control" name="facebook" required>
+                      <input type="text" class="form-control" name="facebook">
                     </div>
                     <div class="col-md-4">
-                      <label for="validationDefault03" class="form-label">Telgram</label>
-                      <input type="text" class="form-control" name="telegram" required>
+                      <label for="validationDefault03" class="form-label">Telegram</label>
+                      <input type="text" class="form-control" name="telegram">
                     </div>
                     <div class="col-md-4">
                       <label for="validationDefault03" class="form-label">Instagram</label>
-                      <input type="text" class="form-control" name="instagram" required>
+                      <input type="text" class="form-control" name="instagram">
                     </div>
                     <div class="col-md-12">
                       <label for="validationTextarea" class="form-label">About</label>
-                      <textarea class="form-control " placeholder="Required example textarea" name="about"
-                        required></textarea>
+                      <textarea class="form-control " placeholder="Required example textarea" name="about"></textarea>
                     </div>
                     <div class="col-md-3">
                       <label for="validationDefault03" class="form-label">Profile_Pic</label>
-                      <input type="file" class="form-control" name="img" required>
+                      <input type="file" class="form-control" name="profile">
                     </div>
                   </div>
-                  <div class="row border p-3 m-2">
-                    <div class="col-md-6">
-                      <label for="validationDefault04" class="form-label">Region</label>
-                      {{form.Region}}
-                    </div>
 
-                    <div class="col-md-6">
-                      <label for="validationDefault03" class="form-label">City</label>
-                      <input type="text" class="form-control" name="city" required>
-                    </div>
-                    <div class="col-md-4">
-                      <label for="validationDefault03" class="form-label">Address</label>
-                      <input type="text" class="form-control" name="address" required>
-                    </div>
-                    <div class="col-md-8">
-                      <label for="validationDefault03" class="form-label">Location</label>
-                      <input type="text" class="form-control" name="location" required>
-                    </div>
+                  <div class="col-md-6">
+                    <label for="payment option" class="form-label">Region</label>
+                    <select class="form-select" id="paymentchoosen" name="region">
+                      <option selected disabled value="">Choose Region</option>
+                      {% for region in all_region %}
+                      <option>{{region}}</option>
+                      {% endfor %}
+                    </select>
 
                   </div>
 
 
-                  <div class="row border p-2 m-2">
-                    <div class="col-md-6">
-                      <label for="validationDefault03" class="form-label">TIN No.</label>
-                      <input type="text" class="form-control" name="TIN_NO" required>
-                    </div>
-                    <div class="col-md-3">
-                      <label for="validationDefault03" class="form-label">Agreement Paper</label>
-                      <input type="file" class="form-control" name="agreement" required>
-                    </div>
-                    <div class="col-md-3">
-                      <label for="validationDefault03" class="form-label">Licenc</label>
-                      <input type="file" class="form-control" name="licenc" required>
-                    </div>
+                  <div class="col-md-6">
+                    <label for="validationDefault03" class="form-label">City</label>
+                    <input type="text" class="form-control" name="city" onkeyup="number_init(this.id)" required id="ct">
+                    <p id="pct" hidden></p>
                   </div>
-                 
+                  <div class="col-md-4">
+                    <label for="validationDefault03" class="form-label">Address</label>
+                    <input type="text" class="form-control" name="address" required id="address">
 
-                  <div class="col-12">
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" required>
-                      <label class="form-check-label" for="invalidCheck2">
-                        Agree to terms and conditions
-                      </label>
-                    </div>
                   </div>
-                  <div class="col-12">
-                    <button class="btn btn-warning" type="submit">Add</button>
+                  <p id="paddrress" hidden></p>
+                  <div class="col-md-8">
+                    <label for="validationDefault03" class="form-label">Location</label>
+                    <input type="text" class="form-control" name="location" required>
+
                   </div>
+                  <p id="ct" hidden></p>
+
               </div>
-              </form>
-              {% for meg in messages %}
-              {{meg}}
-              {% endfor %}
+
+
+              <div class="row border p-2 m-2">
+                <div class="col-md-3">
+                  <label for="validationDefault03" class="form-label">TIN No.</label>
+                  <input type="text" class="form-control" name="TIN_NO" required onkeyup="letter_init(this.id)"
+                    id="tinno">
+                  <p id="ptinno" hidden></p>
+                </div>
+                <div class="col-md-3">
+                  <label for="validationDefault03" class="form-label">Marchent ID</label>
+                  <input type="text" class="form-control" name="marchent_id" required>
+                </div>
+                <div class="col-md-3">
+                  <label for="validationDefault03" class="form-label">Agreement Paper</label>
+                  <input type="file" class="form-control" name="agreement" required>
+                </div>
+                <div class="col-md-3">
+                  <label for="validationDefault03" class="form-label">License</label>
+                  <input type="file" class="form-control" name="license" required>
+                </div>
+              </div>
+
+
+              <div class="col-12">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" required>
+                  <label class="form-check-label" for="invalidCheck2">
+                    Agree to terms and conditions
+                  </label>
+                </div>
+              </div>
+              <hr>
+              <input type="text" name="error" id="error" value="" hidden>
+              <hr>
+              <div class="col-12">
+                <button class="btn btn-warning" type="submit" onclick="add()">Add</button>
+              </div>
             </div>
+            </form>
+            {% for meg in messages %}
+            {{meg}}
+            {% endfor %}
           </div>
         </div>
       </div>
     </div>
     </div>
+    </div>
   </section>
 
 </main>
+
 
 
 {% endblock %}

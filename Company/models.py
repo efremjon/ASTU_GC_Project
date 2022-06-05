@@ -81,14 +81,16 @@ class Agent(models.Model):
     instagram = models.CharField(max_length=200, null=True)
     about = models.TextField(max_length=500, null=True)
     profile_pic=models.ImageField(null=True,blank=True, upload_to='Profile/')
-    Region=models.OneToOneField(Region,null=True, on_delete=models.CASCADE)
+    Region=models.ForeignKey(Region,null=True, on_delete=models.CASCADE)
     city = models.CharField(max_length=200, null=True)
     address = models.CharField(max_length=200, null=True)
     location = models.CharField(max_length=500, null=True)
     TIN_NO = models.CharField(max_length=500, null=True)
     License = models.FileField(null=True, blank=True, upload_to='License')
     agreement = models.FileField(null=True, blank=True, upload_to='Agreement')
+    marchentId=models.CharField(max_length=500, null=True)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
+    last_updated = models.DateTimeField(auto_now_add=True, null=True)
     def __str__(self):
         return str(self.user)
         
