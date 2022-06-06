@@ -4,3 +4,4 @@ from .models import *
 
 # admin.site.register(Customer_order)
 admin.site.register(Customer_Transaction)
+admin.site.register(Customer_order)

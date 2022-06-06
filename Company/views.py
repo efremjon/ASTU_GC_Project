@@ -2,6 +2,7 @@
 
 from email import message
 from http.client import CONTINUE
+from django.core.exceptions import ValidationError  
 from multiprocessing import context
 from multiprocessing.dummy import JoinableQueue
 from ntpath import join
@@ -205,9 +206,9 @@ def add_agent(request):
         username=request.POST.get('username')
         password1=request.POST.get('password1')
         password2=request.POST.get('password2')
-        phone1=request.POST.get('phone1')
+        phone1=request.POST.get('+251' + 'phone1')
         #check if it the followings are empty
-        phone2=request.POST.get('phone2')
+        phone2=request.POST.get('+251' + 'phone2')
         facebook=request.POST.get('facebook')
         telegram=request.POST.get('telegram')
         instagram=request.POST.get('instagram')
@@ -215,16 +216,24 @@ def add_agent(request):
         profile=request.FILES.get('profile')
         if  errorr=='':
             if password1==password2:
-                    rregion=Region.objects.get(Region_Name=region)
-                    user=User.objects.create_user(username=username,email=email,password=password1,first_name=first_name,last_name=last_name)
-                    my_group = Group.objects.get(name='Agent')
-                    my_group.user_set.add(user)
-                    if user:
-                        agent=Agent.objects.create(user=user,Full_Name=first_name+' '+last_name,phone1=phone1,phone2=phone2,facebook=facebook,telegram=telegram,
-                        instagram=instagram,about=about,profile_pic=profile,Region=rregion,TIN_NO=TIN_NO,location=location,address=address,city=city,
-                        marchentId=marchent_id,agreement=agreement,License=license)
-                        if agent:
-                            return redirect('agent-view')
+                new = User.objects.filter(username = username)  
+                if new.count():  
+                    messages.error(request, "User Already Exist")  
+                else:
+                    new = User.objects.filter(email = email)
+                    if new.count():  
+                        messages.error(request, "email Already Exist")
+                    else:
+                        rregion=Region.objects.get(Region_Name=region)
+                        user=User.objects.create_user(username=username,email=email,password=password1,first_name=first_name,last_name=last_name)
+                        my_group = Group.objects.get(name='Agent')
+                        my_group.user_set.add(user)
+                        if user:
+                            agent=Agent.objects.create(user=user,Full_Name=first_name+' '+last_name,phone1=phone1,phone2=phone2,facebook=facebook,telegram=telegram,
+                            instagram=instagram,about=about,profile_pic=profile,Region=rregion,TIN_NO=TIN_NO,location=location,address=address,city=city,
+                            marchentId=marchent_id,agreement=agreement,License=license)
+                            if agent:
+                                return redirect('agent-view')
             else:
                 messages.error(request, 'password didn\'t match.')
 

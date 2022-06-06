@@ -1,6 +1,7 @@
 from django.db import models
 from Agent.models import Customer,Product_in_Agent_Stor
 from Company.models import Product
+
 # Create your models here.
 
 
