@@ -185,54 +185,86 @@ def add_agent(request):
     
     all_region = Region.objects.all()
     if request.method == 'POST':
-        print('------------------------------------------------------')
+   
         errorr=request.POST.get('error')
-        print('ppp'+errorr)
-        print('++++++++++++++++++++++++++++++++++++++++++++++++++')
-        if  errorr=='':
+       
+        
             
-            #required
-            region=request.FILES.get('region')
-            city=request.POST.get('city')
-            address=request.POST.get('address')
-            location=request.POST.get('location')
-            TIN_NO=request.POST.get('TIN_NO')
-            marchent_id=request.POST.get('marchent_id')
-            agreement=request.POST.get('agreement')
-            license=request.POST.get('license')
-            first_name=request.POST.get('first_name')
-            last_name=request.POST.get('last_name')
-            email=request.POST.get('email')
-            username=request.POST.get('username')
-            password1=request.POST.get('password1')
-            password2=request.POST.get('password2')
-            phone1=request.POST.get('phone1')
-            #check if it the followings are empty
-            phone2=request.POST.get('phone2')
-            facebook=request.POST.get('facebook')
-            telegram=request.POST.get('telegram')
-            instagram=request.POST.get('instagram')
-            about=request.POST.get('about')
-            profile=request.FILES.get('profile')
+        #required
+        region=request.POST.get('region')
+        city=request.POST.get('city')
+        address=request.POST.get('address')
+        location=request.POST.get('location')
+        TIN_NO=request.POST.get('TIN_NO')
+        marchent_id=request.POST.get('marchent_id')
+        agreement=request.FILES.get('agreement')
+        license=request.FILES.get('license')
+        first_name=request.POST.get('first_name')
+        last_name=request.POST.get('last_name')
+        email=request.POST.get('email')
+        username=request.POST.get('username')
+        password1=request.POST.get('password1')
+        password2=request.POST.get('password2')
+        phone1=request.POST.get('phone1')
+        #check if it the followings are empty
+        phone2=request.POST.get('phone2')
+        facebook=request.POST.get('facebook')
+        telegram=request.POST.get('telegram')
+        instagram=request.POST.get('instagram')
+        about=request.POST.get('about')
+        profile=request.FILES.get('profile')
+        if  errorr=='':
+            if password1==password2:
+                    rregion=Region.objects.get(Region_Name=region)
+                    user=User.objects.create_user(username=username,email=email,password=password1,first_name=first_name,last_name=last_name)
+                    my_group = Group.objects.get(name='Agent')
+                    my_group.user_set.add(user)
+                    if user:
+                        agent=Agent.objects.create(user=user,Full_Name=first_name+' '+last_name,phone1=phone1,phone2=phone2,facebook=facebook,telegram=telegram,
+                        instagram=instagram,about=about,profile_pic=profile,Region=rregion,TIN_NO=TIN_NO,location=location,address=address,city=city,
+                        marchentId=marchent_id,agreement=agreement,License=license)
+                        if agent:
+                            return redirect('agent-view')
+            else:
+                messages.error(request, 'password didn\'t match.')
+
         else :
-            return HttpResponse('error')
+            messages.error(request, 'Please, fill the form correctly.')
+        
+        context={
+            'region':region,
+            'city':city,
+            'address':address,
+            'location':location,
+            'TIN_NO':TIN_NO,
+            'marchent_id':marchent_id,
+            'agreement':agreement,
+            'license':license,
+            'first_name':first_name,
+            'last_name':last_name,
+            'email':email,
+            'username':username,
+            'password1':password1,
+            'phone1':phone1,
+            'phone2':phone2,
+            'facebook':facebook,
+            'telegram':telegram,
+            'instagram':instagram,
+            'about':about,
+            'profile':profile,
+            'all_region':all_region,
+
+
+
+        }
+        return render(request,'Company/agents/add-agent.html',context)
+    
+    return render(request,'Company/agents/add-agent.html',{'all_region':all_region})
     
 
-        if password1==password2:
-                 user=User.objects.create_user(username=username,email=email,password=password1,first_name=first_name,last_name=last_name)
-                 my_group = Group.objects.get(name='Agent')
-                 my_group.user_set.add(user)
-                 if user:
-                     agent=Agent.objects.create(user=user,Full_Name=first_name+' '+last_name,phone1=phone1,phone2=phone2,facebook=facebook,telegram=telegram,
-                     instagram=instagram,about=about,profile_pic=profile,Region=region,TIN_NO=TIN_NO,location=location,address=address,city=city,
-                     marchentId=marchent_id,agreement=agreement,License=license)
-                     if agent:
-                         return HttpResponse('user created')
-        else:
-            return HttpResponse(errorr)
-                 
+                    
        
-    return render(request,'Company/agents/add-agent.html',{'all_region':all_region})
+    
 
 # ////////////////
 @login_required(login_url='login')
@@ -556,6 +588,21 @@ def view_region(request):
     }
     return render(request,'Company/region/region-view.html',context)
 def add_region(request):
+    if request.method=='POST':
+        region_name=request.POST.get('name')
+        location=request.POST.get('location')
+        region=Region.objects.create(Region_Name=region_name,Location=location)
+        if region:
+            messages.success(request,'Region successfully Added')
+            return redirect('view-region')
+        else:
+            message.error(request,'Something went wrong')
+            context={
+                'region_name':region_name,
+                'location':location,
+            }
+            return render(request,'Company/region/add-region.html',context)
+
     return render(request,'Company/region/add-region.html')
 
 # end Region

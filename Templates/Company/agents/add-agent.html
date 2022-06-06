@@ -12,7 +12,15 @@
     </nav>
 
   </div><!-- End Page Title -->
+  {% for meg in messages %}
 
+
+
+  <div class="alert alert-danger" role="alert">
+    {{meg}}
+  </div>
+
+  {% endfor %}
   <section class="section add-agent">
     <div class="row">
       <div class="row justify-content-center">
@@ -26,34 +34,35 @@
                   <div class="row border p-3 m-2">
                     <div class="col-md-6">
                       <label for="validationDefault01" class="form-label">First name:</label>
-                      <input type="text" class="form-control " name="first_name" onkeyup="number_init(this.id)" id="fn"
-                        required>
+                      <input type="text" class="form-control " name="first_name" oninput="number_init(this.id)" id="fn"
+                        required value="{{first_name}}">
                       <p id="pfn" hidden></p>
                     </div>
                     <div class="col-md-6">
                       <label for="validationDefault02" class="form-label">Last name:</label>
-                      <input type="text" class="form-control" name="last_name" onkeyup="number_init(this.id)" id="ln"
-                        required>
+                      <input type="text" class="form-control" name="last_name" oninput="number_init(this.id)" id="ln"
+                        required value="{{last_name}}">
                       <span id="pln" hidden></span>
                     </div>
 
 
                     <div class="col-md-6">
                       <label for="validationDefault02" class="form-label">Email:</label>
-                      <input type="email" class="form-control" name="email" required>
+                      <input type="email" class="form-control" name="email" required value="{{email}}">
                     </div>
                     <div class="col-md-6">
                       <label for="validationDefaultUsername" class="form-label">Username</label>
                       <div class="input-group">
                         <span class="input-group-text" id="inputGroupPrepend2">@</span>
                         <input type="text" class="form-control" name="username" aria-describedby="inputGroupPrepend2"
-                          required id="un">
+                          required id="un" value="{{username}}">
 
                       </div>
                     </div>
                     <div class="col-md-6">
                       <label for="validationDefault03" class="form-label">Password</label>
-                      <input type="password" class="form-control" name="password1" required id="password1">
+                      <input type="password" class="form-control" name="password1" required id="password1"
+                        value="{{password1}}">
                     </div>
                     <div class="col-md-6">
                       <label for="validationDefault03" class="form-label">Confirm Password</label>
@@ -64,7 +73,7 @@
                       <div class="input-group">
                         <span class="input-group-text" id="inputGroupPrepend2">+251</span>
                         <input type="text" class="form-control" name="phone1" aria-describedby="inputGroupPrepend2"
-                          required onkeyup="phone(this.id)" id="p1">
+                          required oninput="phone(this.id)" id="p1" value="{{phone1}}">
 
                       </div>
                       <p id="pp" hidden></p>
@@ -75,30 +84,30 @@
                       <div class="input-group">
                         <span class="input-group-text" id="inputGroupPrepend2">+251</span>
                         <input type="text" class="form-control" name="phone2" aria-describedby="inputGroupPrepend2"
-                          onkeyup="phone(this.id)" id="p2">
+                          oninput="phone(this.id)" id="p2" value="{{phone2}}">
 
                       </div>
                     </div>
 
                     <div class="col-md-4">
                       <label for="validationDefault03" class="form-label">Facebook</label>
-                      <input type="text" class="form-control" name="facebook">
+                      <input type="text" class="form-control" name="facebook" value="{{facebook}}">
                     </div>
                     <div class="col-md-4">
                       <label for="validationDefault03" class="form-label">Telegram</label>
-                      <input type="text" class="form-control" name="telegram">
+                      <input type="text" class="form-control" name="telegram" value="{{telegram}}">
                     </div>
                     <div class="col-md-4">
                       <label for="validationDefault03" class="form-label">Instagram</label>
-                      <input type="text" class="form-control" name="instagram">
+                      <input type="text" class="form-control" name="instagram" value="{{instagram}}">
                     </div>
                     <div class="col-md-12">
                       <label for="validationTextarea" class="form-label">About</label>
-                      <textarea class="form-control " placeholder="Required example textarea" name="about"></textarea>
+                      <textarea class="form-control " name="about" value="{{about}}"></textarea>
                     </div>
                     <div class="col-md-3">
                       <label for="validationDefault03" class="form-label">Profile_Pic</label>
-                      <input type="file" class="form-control" name="profile">
+                      <input type="file" class="form-control" name="profile" value="{{profile}}">
                     </div>
                   </div>
 
@@ -116,18 +125,19 @@
 
                   <div class="col-md-6">
                     <label for="validationDefault03" class="form-label">City</label>
-                    <input type="text" class="form-control" name="city" onkeyup="number_init(this.id)" required id="ct">
+                    <input type="text" class="form-control" name="city" oninput="number_init(this.id)" required id="ct"
+                      value="{{city}}">
                     <p id="pct" hidden></p>
                   </div>
                   <div class="col-md-4">
                     <label for="validationDefault03" class="form-label">Address</label>
-                    <input type="text" class="form-control" name="address" required id="address">
+                    <input type="text" class="form-control" name="address" required id="address" value="{{address}}">
 
                   </div>
                   <p id="paddrress" hidden></p>
                   <div class="col-md-8">
                     <label for="validationDefault03" class="form-label">Location</label>
-                    <input type="text" class="form-control" name="location" required>
+                    <input type="text" class="form-control" name="location" required value="{{location}}">
 
                   </div>
                   <p id="ct" hidden></p>
@@ -138,21 +148,21 @@
               <div class="row border p-2 m-2">
                 <div class="col-md-3">
                   <label for="validationDefault03" class="form-label">TIN No.</label>
-                  <input type="text" class="form-control" name="TIN_NO" required onkeyup="letter_init(this.id)"
-                    id="tinno">
+                  <input type="text" class="form-control" name="TIN_NO" required oninput="letter_init(this.id)"
+                    id="tinno" value="{{TIN_NO}}">
                   <p id="ptinno" hidden></p>
                 </div>
                 <div class="col-md-3">
                   <label for="validationDefault03" class="form-label">Marchent ID</label>
-                  <input type="text" class="form-control" name="marchent_id" required>
+                  <input type="text" class="form-control" name="marchent_id" required value="{{marchent_id}}">
                 </div>
                 <div class="col-md-3">
                   <label for="validationDefault03" class="form-label">Agreement Paper</label>
-                  <input type="file" class="form-control" name="agreement" required>
+                  <input type="file" class="form-control" name="agreement" required value="{{agreement}}">
                 </div>
                 <div class="col-md-3">
                   <label for="validationDefault03" class="form-label">License</label>
-                  <input type="file" class="form-control" name="license" required>
+                  <input type="file" class="form-control" name="license" required value="{{license}}">
                 </div>
               </div>
 
@@ -173,9 +183,7 @@
               </div>
             </div>
             </form>
-            {% for meg in messages %}
-            {{meg}}
-            {% endfor %}
+
           </div>
         </div>
       </div>
