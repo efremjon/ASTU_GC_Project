@@ -38,17 +38,18 @@ class Company_Store(models.Model):
 
 class Company_Store_Manager(models.Model):
     user=models.ForeignKey(User,null=True, on_delete=models.CASCADE)
-    Store=models.OneToOneField(Company_Store,null=True, on_delete=models.CASCADE)
+    Full_Name=models.CharField(max_length=300, null=True)
+    Store=models.OneToOneField(Company_Store,null=True, blank=True,on_delete=models.CASCADE)
     staff=models.CharField(default='Store_Manager',max_length=50)
     profile_pic=models.ImageField(null=True,blank=True, upload_to='Profile/')
     phone = models.CharField(max_length=200, null=True)
     salary = models.FloatField(null=True,blank=True)
-    Adderes = models.CharField(max_length=200, null=True)
+    address = models.CharField(max_length=200, null=True)
     about=models.TextField(null=True,blank=True,max_length=500)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
     Telegram = models.CharField(max_length=200, null=True)
     facebook = models.CharField(max_length=200, null=True)
-    instagrm = models.CharField(max_length=200, null=True)
+    instagram = models.CharField(max_length=200, null=True)
     def __str__(self):
         return str(self.user)
     
@@ -97,16 +98,17 @@ class Agent(models.Model):
 
 class Finance_Manager(models.Model):
     user=models.OneToOneField(User,null=True, on_delete=models.CASCADE)
+    Full_Name=models.CharField(max_length=300, null=True)
     phone = models.CharField(max_length=200, null=True)
     staff=models.CharField(default='Finance_manager',max_length=50)
     profile_pic=models.ImageField(null=True,blank=True, upload_to='Profile/')
     salary = models.FloatField(null=True,blank=True)
-    Adderes = models.CharField(max_length=200, null=True)
+    address = models.CharField(max_length=200, null=True)
     about=models.TextField(null=True,blank=True,max_length=500)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
-    Telegram = models.CharField(max_length=200, null=True)
+    telegram = models.CharField(max_length=200, null=True)
     facebook = models.CharField(max_length=200, null=True)
-    instagrm = models.CharField(max_length=200, null=True)
+    instagram = models.CharField(max_length=200, null=True)
     def __str__(self):
         return self.user.first_name
 class Advertisment(models.Model):

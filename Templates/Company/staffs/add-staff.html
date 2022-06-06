@@ -12,6 +12,14 @@
     </nav>
   </div><!-- End Page Title -->
 
+  {% for mssg in messages%}
+  <div class="alert alert-danger" role="alert">
+    {{mssg}}
+  </div>
+
+  {% endfor %}
+
+
   <section class="section add-agent">
     <div class="row">
       <div class="row justify-content-center">
@@ -19,91 +27,125 @@
           <div class="card mb-5">
             <div class="card-body">
               <h5 class="card-title text-center pb-0 fs-4">Staff Registration Form</h5>
-              <form class="row g-3 needs-validation" novalidate>
+              <form class="row g-3 " method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
 
                 <div class="col-lg-6 col-md-6 col-sm-12">
-                  <label for="stfullname" class="form-label">Full Name</label>
-                  <input type="text" name="stFullname" class="form-control" id="stFullname" required>
-                  <div class="invalid-feedback">Please, enter full name!</div>
+                  <label for="fn" class="form-label">First Name</label>
+                  <input type="text" name="fn" class="form-control" id="fn" required
+                    oninput="number_init(this.id)" value="{{first_name}}">
+                  <div class="invalid-feedback">Please, enter First name!</div>
+                  <p id="pfn" hidden></p>
                 </div>
 
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                  <label for="ln" class="form-label">Last Name</label>
+                  <input type="text" name="ln" class="form-control" id="ln" required
+                    oninput="number_init(this.id)" value="{{last_name}}">
+                  <div class="invalid-feedback">Please, enter Last name!</div>
+                  <p id="pln" hidden></p>
+                </div>
 
                 <div class="col-lg-6 col-md-6 col-sm-12">
-                  <label for="stusername" class="form-label">Username</label>
+                  <label for="un" class="form-label">Username</label>
                   <div class="input-group has-validation">
                     <span class="input-group-text" id="inputGroupPrepend">@</span>
-                    <input type="text" name="stUsername" class="form-control" id="stUsername" required>
+                    <input type="text" name="un" class="form-control" id="un" required value="{{username}}">
                     <div class="invalid-feedback">Please choose a username.</div>
                   </div>
                 </div>
 
                 <div class="col-lg-6 col-md-6 col-sm-12">
-                  <label for="staffrole" class="form-label">Position</label>
-                  <select class="form-select" id="agentRegion">
-                    <option value="1">Financial admin</option>
-                    <option value="2">Store Manager</option>
-                  </select>
-                </div>
-
-                <div class="col-lg-6 col-md-6 col-sm-12">
-                  <label for="Email" class="form-label">Email</label>
-                  <input type="email" name="stEmail" class="form-control" id="stEmail" required>
+                  <label for="email" class="form-label">Email</label>
+                  <input type="email" name="email" class="form-control" id="email" required value="{{email}}">
                   <div class="invalid-feedback">Please enter a valid Email adddress!</div>
                 </div>
-
                 <div class="col-lg-6 col-md-6 col-sm-12">
-                  <label for="stPassword" class="form-label">Password</label>
-                  <input type="password" name="stPassword" class="form-control" id="stPassword" required>
+                  <label for="salary" class="form-label">Salary</label>
+                  <input type="number" name="salary" class="form-control" id="salary" required
+                    oninput="letter_init(this.id)" value="{{salary}}">
+                  <div class="invalid-feedback">Please, Enter salary!</div>
+                  <p id="psalary" hidden></p>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                  <label for="password1" class="form-label">Password</label>
+                  <input type="password" name="password1" class="form-control" id="password1" required value="{{password1}}">
                   <div class="invalid-feedback">Please enter password!</div>
                 </div>
 
                 <div class="col-lg-6 col-md-6 col-sm-12">
-                  <label for="stphone" class="form-label">Phone</label>
-                  <input type="tel" name="stPhone" class="form-control" id="stPhone" required>
-                  <div class="invalid-feedback">Please enter Phone!</div>
-                </div>
-
-                <div class="col-lg-6 col-md-6 col-sm-12">
-                  <label for="confirmpassword" class="form-label">Confirm Password</label>
-                  <input type="password" name="stPassword" class="form-control" id="stPassword" required>
+                  <label for="password2" class="form-label">Confirm Password</label>
+                  <input type="password" name="password2" class="form-control" id="password2" required>
                   <div class="invalid-feedback">Please confirm password!</div>
                 </div>
 
                 <div class="col-lg-6 col-md-6 col-sm-12">
-                  <label for="stregion" class="form-label">Region</label>
-                  <select class="form-select" id="stRegion">
-                    <option value="1">Central</option>
-                    <option value="2">Eastern</option>
-                    <option value="3">Northern</option>
-                    <option value="4">Addis Ababa</option>
-                    <option value="5">Western</option>
-                    <option value="6">North Eastern</option>
-                    <option value="7">Southern</option>
-                    <option value="8">South Western</option>
+                  <label for="position" class="form-label">Position</label>
+                  <select class="form-select" name="position" id="position">
+                    {% for group in groups %}
+                    {% if group.name in 'Customer' or  group.name in 'Admin' or group.name in 'Agent'%}
+                    {% else %}
+                    <option value="{{group.name}}">{{group.name}}</option>
+                    {% endif %}
+                    {% endfor %}
                   </select>
-                  <div class="invalid-feedback">Please select region!</div>
                 </div>
+
+
 
 
                 <div class="col-lg-6 col-md-6 col-sm-12">
-                  <label for="starea" class="form-label">Area</label>
-                  <input type="text" name="stArea" class="form-control" id="stArea" required>
-                  <div class="invalid-feedback">Please enter area!</div>
+                  <label for="phone1" class="form-label">Phone</label>
+                  <div class="input-group has-validation">
+                    <span class="input-group-text" id="inputGroupPrepend">+251</span>
+                    <input type="text" name="phone1" class="form-control" id="p1" required oninput=phone(this.id) value="{{phone}}">
+                    <div class="invalid-feedback">Please enter Phone.</div>
+                  </div>
+                  <p id="pp" hidden></p>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                  <label for="address" class="form-label">Address</label>
+                  <div class="input-group has-validation">
+                    
+                    <input type="text" name="address" class="form-control" id="address" required  value="{{address}}">
+                    <div class="invalid-feedback">Please enter Phone.</div>
+                  </div>
+                
                 </div>
 
-                <div class="col-lg-6 col-md-6 col-sm-12">
-                  <label for="agreementpaper" class="form-label">Photo</label>
-                  <input type="file" name="staffPhoto" class="form-control" id="staffPhoto" required>
-                  <div class="invalid-feedback">Please upload photo!</div>
+                <div class="col-md-4">
+                  <label for="validationDefault03" class="form-label">Facebook</label>
+                  <input type="text" class="form-control" name="facebook" value="{{facebook}}">
+
                 </div>
-                <div class="col-4">
-                  <button class="btn btn-warning w-100" type="submit">Add</button>
+                <div class="col-md-4">
+                  <label for="validationDefault03" class="form-label">Telegram</label>
+                  <input type="text" class="form-control" name="telegram" value="{{telegram}}">
                 </div>
-              </form>
+                <div class="col-md-4">
+                  <label for="validationDefault03" class="form-label">Instagram</label>
+                  <input type="text" class="form-control" name="instagram" value="{{instagram}}">
+                </div>
+                <div class="col-md-12">
+                  <label for="validationTextarea" class="form-label">About</label>
+                  <textarea class="form-control " name="about"></textarea>
+                </div>
+                <div class="col-md-3">
+                  <label for="validationDefault03" class="form-label">profile</label>
+                  <input type="file" class="form-control" name="profile">
+                </div>
             </div>
+
+            <input type="text" name="error" id="error" value="" hidden>
+            <div class="col-4 m-2 p-2">
+              <button class="btn btn-warning w-100" type="submit" onclick="add()">Add</button>
+            </div>
+
+            </form>
           </div>
         </div>
       </div>
+    </div>
     </div>
   </section>
 

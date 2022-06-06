@@ -242,7 +242,8 @@ def add_agent(request):
                                                          instagram=instagram, about=about, profile_pic=profile, Region=rregion, TIN_NO=TIN_NO, location=location, address=address, city=city,
                                                          marchentId=marchent_id, agreement=agreement, License=license)
                             if agent:
-                                return redirect('agent-view',{'mymessage':})
+
+                                return redirect('agent-view')
             else:
                 messages.error(request, 'password didn\'t match.')
 
@@ -406,9 +407,90 @@ def staff_profile(request, pk, staff):
 
 
 def add_staff(request):
-    return render(request, 'Company/staffs/add-staff.html', {})
+   
+   groups = Group.objects.all()
+   context ={'groups':groups}
+   if request.method == 'POST':
+       first_name = request.POST.get('fn')
+       last_name = request.POST.get('ln')
+       username = request.POST.get('un')
+       email = request.POST.get('email')
+       password1 = request.POST.get('password1')
+       password2 = request.POST.get('password2')
+       facebook = request.POST.get('facebook')
+       telegram = request.POST.get('telegram')
+       instagram = request.POST.get('instagram')
+       phone = request.POST.get('phone1')
+       position = request.POST.get('position')
+       profile = request.FILES.get('profile')
+       error = request.POST.get('error')
+       address=request.POST.get('address')
+       salary=request.POST.get('salary')
+       about=request.POST.get('about')
+       context = {
+    
+            'address': address,
+            
+            'first_name': first_name,
+            'last_name': last_name,
+            'email': email,
+            'username': username,
+            'password1': password1,
+            'phone':phone,
+            'facebook': facebook,
+            'telegram': telegram,
+            'instagram': instagram,
+            'about': about,
+            'profile': profile,
+            'groups':groups,
+           
 
 
+
+        }
+       if error=='':
+           if password1==password2:
+                new = User.objects.filter(username=username)
+                new1 = User.objects.filter(email=email)
+                if new.count()!=0:
+                    messages.error(request, "User Already Exist")
+                if new1.count()!=0:
+                    messages.error(request, "Email Already Exist")
+                elif new.count()==0 and new1.count()==0 :
+                    user = User.objects.create_user(
+                            username=username, email=email, password=password1, first_name=first_name, last_name=last_name)
+                    my_group = Group.objects.get(name=position)
+                    my_group.user_set.add(user)
+                    if user and position=='Store_Manager':
+                        company_Store_Manager = Company_Store_Manager.objects.create(user=user, Full_Name=first_name+' '+last_name, phone=phone, facebook=facebook, Telegram=telegram,
+                                                        instagram=instagram, about=about, profile_pic=profile, address=address,salary=salary)
+                        if company_Store_Manager:
+                                #successfully registered
+                            messages.success(request, "Company Store Manager ,successfully registered")
+                            return redirect('view-staff')
+                        else:
+                            user.delete()
+                            messages.error(request, "Something went wrong,try again later")
+
+                    elif user and position=='Financ_admin':
+                        Financ_admin = Finance_Manager.objects.create(user=user, Full_Name=first_name+' '+last_name, phone=phone, facebook=facebook, telegram=telegram,
+                                                        instagram=instagram, about=about, profile_pic=profile, address=address,salary=salary)
+                        if Financ_admin:
+                                #successfully registered
+                            messages.success(request, "Finance Admin ,successfully registered")
+                            return redirect('view-staff')
+                        else:
+                            user.delete()
+                            messages.error(request, "Something went wrong,try again later")
+           else:
+              messages.error(request, "password didn\'t match")
+       else:
+           messages.error(request, "please ,fill the form correctly")
+
+
+
+   return render(request, 'Company/staffs/add-staff.html', context)
+    
 def update_staff(request, pk, staff):
     if staff == 'Finance_manager':
         staff_detail = Finance_Manager.objects.get(id=pk)
