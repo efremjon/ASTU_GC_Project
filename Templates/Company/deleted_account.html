@@ -37,7 +37,7 @@
                   <th scope="col">Group</th>
 
                   <th scope="col">Re-active</th>
-                  <th scope="col">permalently Remove</th>
+                  <th scope="col">Remove Permalently</th>
 
 
                 </tr>
@@ -51,6 +51,13 @@
                   <td>{{account.groups.all.0}}</td>
                   <td> <a href="{% url 're-active_account' account.id  %}">
                       <h3><i class="bx bx-sync"></i></h3>
+                    </a></td>
+
+
+
+
+                  <td> <a href="{% url 'permalent_delete' account.id  %}">
+                      <h3 class="text-danger"><i class="bi bi-trash"></i></h3>
                     </a></td>
 
 

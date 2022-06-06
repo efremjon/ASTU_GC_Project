@@ -17,7 +17,7 @@
       </div>
 
     </nav>
-    
+
   </div><!-- End Page Title -->
   {% for mssg in messages%}
   {% if mssg.tags == 'success' %}
@@ -30,6 +30,17 @@
   </div>
   {% endif %}
   {% endfor %}
+
+  {% if messages %}
+  {% for message in messages %}
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <script>
+    var m = "{{ message }}";
+    swal(m, "Perfect !", "success")
+  </script>
+  {% endfor %}
+  {% endif %}
+
   <section class="section">
     <div class="row">
       <div class="col-lg-12">

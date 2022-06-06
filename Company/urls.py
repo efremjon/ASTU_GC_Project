@@ -52,6 +52,7 @@ urlpatterns = [
 #deleted account
    
     path('deleted_account/',views. deleted_account,name='deleted_account'),
+    path('permalent_delete/<int:pk>/',views. permalent_delete,name='permalent_delete'),
 
 #end deleted account
 
