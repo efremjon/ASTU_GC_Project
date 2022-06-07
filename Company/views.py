@@ -522,11 +522,23 @@ def update_staff(request, pk, staff):
             #  staff_detail.staff=request.POST['job']
             staff_detail.salary = request.POST['salary']
             staff_detail.save()
+            messages.success(request,'Store Manager updated')
             return redirect('view-staff')
 
     elif staff == 'Store_Manager':
         staff_detail = Company_Store_Manager.objects.get(id=pk)
-        context = {'staff_detail': staff_detail}
+        stores=Company_Store.objects.all()
+        context = {'staff_detail': staff_detail,
+        'stores':stores,
+        }
+        if request.method == 'POST':
+            #  staff_detail.staff=request.POST['job']
+            staff_detail.salary = request.POST['salary']
+            staff_detail.Store=Company_Store.objects.get(Store_Name=request.POST['store'])
+            staff_detail.save()
+            messages.success(request,'Store Manager updated')
+            return redirect('view-staff')
+        
     else:
         context = {}
 
@@ -710,7 +722,6 @@ def add_store_company(request):
         store = Company_Store.objects.create(
             Store_Name=Store_Name, Address=Address)
         Product_Amount_in_Store.objects.create(store=store)
-        Company_Store_Manager.objects.create(Store=store)
         Product_Amount_in_Store.objects.create(store=store)
 
         messages.info(request, 'Store Successfully added')
@@ -721,10 +732,16 @@ def add_store_company(request):
 
 
 def sore_ditel_view(request, pk):
+    manager='TBA'
     all_product = Product.objects.all()
     store = Company_Store.objects.get(pk=pk)
     amount_store = Product_Amount_in_Store.objects.get(store=store)
-    manager = Company_Store_Manager.objects.get(Store=store)
+  
+    try:
+            manager=Company_Store_Manager.objects.get(Store=store)
+    except Company_Store_Manager.DoesNotExist:
+            pass
+
 
     Total = 0
     Dopple = 'Dopple'

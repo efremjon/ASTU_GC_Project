@@ -21,16 +21,31 @@ import json
 # Create your views here.
 # Dashbord part
 def Agent_dashboard(request):
-    users=User.objects.get(id=request.user.id)
-    request_agent =Agent.objects.get(user=users)
-    all_customer=Customer.objects.filter(Agent=request_agent)
-    total_customer = all_customer.count()
-   
-    context = {
+    context={}
+    try:
+        users=User.objects.get(id=request.user.id)
+       
+    except users.DoesNotExist:
+            return HttpResponse('404,User: Data Not Found')
+
+
+    try:
+        request_agent =Agent.objects.get(user=users)
+        all_customer=Customer.objects.filter(Agent=request_agent)
+        total_customer = all_customer.count()
+        context = {
         'all_customer':all_customer,
         'total_customer':total_customer,
-    }
-    return render(request,'Agent/agent-dashboard.html',context)
+          }
+        return render(request,'Agent/agent-dashboard.html',context)
+    except request_agent.DoesNotExist:
+            return HttpResponse('404,User: Data Not Found')
+    
+   
+    
+    
+
+
 def my_draiver(request):
 
     return render(request,'Agent/my_draiver.html',{})

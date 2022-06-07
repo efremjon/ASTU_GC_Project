@@ -1,4 +1,5 @@
 import email
+from operator import truediv
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -37,7 +38,7 @@ class Company_Store(models.Model):
 
 
 class Company_Store_Manager(models.Model):
-    user=models.ForeignKey(User,null=True, on_delete=models.CASCADE)
+    user=models.ForeignKey(User,null=True, blank=True,on_delete=models.CASCADE)
     Full_Name=models.CharField(max_length=300, null=True)
     Store=models.OneToOneField(Company_Store,null=True, blank=True,on_delete=models.CASCADE)
     staff=models.CharField(default='Store_Manager',max_length=50)
