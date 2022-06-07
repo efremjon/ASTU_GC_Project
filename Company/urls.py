@@ -39,13 +39,20 @@ urlpatterns = [
     path('staff-detail/<int:pk>/<str:staff>',views.staff_profile,name='staff-detail'),
     path('update-staff/<int:pk>/<str:staff>',views.update_staff,name='update-staff'),
     path('remove-staff/<int:pk>/<str:staff>',views.remove_staff,name='remove-staff'),
+    path('staff_remove_page/<int:pk>/<str:staff>',views.staff_remove_page,name='staff_remove_page'),
+
+
+    
 
 # end manage staff 
     path('approve-agent-orders/',views.approve_agent_orders,name='approve-agent-orders'),
     path('store/',views.store,name='store'),
     path('contact-store-manager/',views.contact_store_manager,name='contact-store-manager'),
     path('finance-report/',views.finance_report,name='finance-report'),
+    path('add_advertisments/',views.advertisments_view,name='add-advertisments'),
+    path('post_advertisment/',views.post_advertisment,name='post_advertisment'),
     path('advertisements/',views.advertisements,name='advertisements'),
+    
 
 #end manage-staff
 

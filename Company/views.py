@@ -6,7 +6,7 @@ from django.core.exceptions import ValidationError
 from multiprocessing import context
 from multiprocessing.dummy import JoinableQueue
 from ntpath import join
-from operator import attrgetter
+from operator import attrgetter, truediv
 from django.contrib import messages
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
@@ -43,6 +43,7 @@ def Admin_dashboard(request):
         tottal_region = all_region.count()
         all_product = Product.objects.all()
         tottal_product = all_product.count()
+        adds=Advertisment.objects.all()
 
         context = {
             'all_agent': all_agent,
@@ -52,6 +53,7 @@ def Admin_dashboard(request):
             'tottal_region': tottal_region,
             'tottal_product': tottal_product,
             'all_product': all_product,
+            'adds':adds,
 
         }
 
@@ -395,15 +397,35 @@ def view_staff(request):
 
 
 def staff_profile(request, pk, staff):
-    if staff == 'Finance_manager':
+    if staff == 'Finance_manager' or 'F' in staff :
         staff_detail = Finance_Manager.objects.get(id=pk)
         context = {'staff_detail': staff_detail}
-    elif staff == 'Store_Manager':
+    elif staff == 'Store_Manager' or 'S' in staff:
         staff_detail = Company_Store_Manager.objects.get(id=pk)
         context = {'staff_detail': staff_detail}
     else:
         context = {}
     return render(request, 'Company/staffs/staff-detail.html', context)
+
+
+def staff_remove_page(request, pk, staff):
+    if staff == 'Finance_manager' or 'F' in staff :
+        staff_detail = Finance_Manager.objects.get(id=pk)
+        if staff_detail.user.is_active:
+            staff_detail.user.is_active = False
+        else:
+            messages.error(request,staff_detail.user.username +' is already deactivated!')
+        staff_detail.user.save()
+    elif staff == 'Store_Manager' or 'S' in staff:
+        staff_detail = Company_Store_Manager.objects.get(id=pk)
+        if staff_detail.user.is_active:
+            staff_detail.user.is_active = False
+            staff_detail.user.save()
+        else:
+            messages.error(request,staff_detail.user.username +' is already deactivated!')
+    return redirect('deleted_account')
+
+
 
 
 def add_staff(request):
@@ -595,6 +617,9 @@ def agent_view(request):
     return render(request, 'Company/agents/agent-view.html', context)
 
 
+
+
+
 def agent_detail(request, pk):
     agent = Agent.objects.get(pk=pk)
 
@@ -647,9 +672,13 @@ def remove_agent(request, pk):
 
 def re_active_account(request, pk):
     user = User.objects.get(id=pk)
-    user.is_active = True
-    user.save()
-    messages.success(request, user.first_name + ' ' +
+    if user.is_active==True:
+        messages.info(request, user.first_name + ' ' +
+                     user.last_name + ' is already now activated')
+    else:
+        user.is_active = True
+        user.save()
+        messages.success(request, user.first_name + ' ' +
                      user.last_name + ' is now activated')
     deleted_accounts = []
     all_user = User.objects.all()
@@ -794,6 +823,22 @@ def update_product(request, pk):
 # End Product
 def advertisments_view(request):
     return render(request, 'Company/advertisments/advertisments.html')
+
+
+def post_advertisment(request):
+    if request.method=='POST':
+        product_namee=request.POST.get('product_name')
+        product_photoe=request.FILES.get('product_photo')
+        descriptione=request.POST.get('description')
+        add=Advertisment.objects.create(product_photo=product_photoe,product_price=65.2,product_name=product_namee,description=descriptione)
+        print(request.FILES)
+
+        if add:
+            return redirect('admin-dashbord')
+        else:
+            return redirect('advertisements')
+    else:
+        return redirect('advertisements')
 
 
 def product_in_store(request):
