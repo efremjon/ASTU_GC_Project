@@ -13,96 +13,96 @@
               <form class="row g-3 needs-validation" novalidate>
                 <div class="row border p-3 m-2">
                   <div class="col-lg-6 col-md-6 col-sm-12">
-                    <label for="customer" class="form-label">First Name</label>
-                    <input type="text" name="customer" class="form-control" id="customer" required>
+                    <label for="fn" class="form-label">First Name</label>
+                    <input type="text" name="first_name" class="form-control" id="fn" required oninput="number_init(this.id)">
                     <div class="invalid-feedback">Please enter firm name!</div>
+                    <p id="pfn" hidden></p>
                   </div>
 
 
                   <div class="col-lg-6 col-md-6 col-sm-12">
-                    <label for="owner" class="form-label">Last Name</label>
-                    <input type="text" name="owner" class="form-control" id="owner" required>
+                    <label for="ln" class="form-label">Last Name</label>
+                    <input type="text" name="last_name" class="form-control" id="ln" required required oninput="number_init(this.id)">
                     <div class="invalid-feedback">Please provide owner's name!</div>
                   </div>
 
                   <div class="col-lg-6 col-md-6 col-sm-12">
-                    <label for="username" class="form-label">Email</label>
-                    <input type="email" name="username" class="form-control" id="custusername" required>
-                    <div class="invalid-feedback">Please enter username!</div>
-                  </div>
-
-
-                  <div class="col-lg-6 col-md-6 col-sm-12">
-                    <label for="Email" class="form-label">Username</label>
-                    <input type="text" name="username" class="form-control" id="custemail" required>
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" name="email" class="form-control" id="email" required>
                     <div class="invalid-feedback">Please enter a valid Email adddress!</div>
                   </div>
 
+
                   <div class="col-lg-6 col-md-6 col-sm-12">
-                    <label for="Password" class="form-label">Password</label>
-                    <input type="password" name="custPassword" class="form-control" id="custPassword" required>
+                    <label for="un" class="form-label">Username</label>
+                    <input type="text" name="un" class="form-control" id="un" required>
+                    <div class="invalid-feedback">please ,enter username!</div>
+                  </div>
+
+                  <div class="col-lg-6 col-md-6 col-sm-12">
+                    <label for="password1" class="form-label">Password</label>
+                    <input type="password" name="password1" class="form-control" id="password1" required>
                     <div class="invalid-feedback">Please enter password!</div>
                   </div>
 
                   <div class="col-lg-6 col-md-6 col-sm-12">
-                    <label for="confirmpassword" class="form-label">Confirm Password</label>
-                    <input type="password" name="custPassword" class="form-control" id="custPassword" required>
+                    <label for="password2" class="form-label">Confirm Password</label>
+                    <input type="password" name="password2" class="form-control" id="password2" required>
                     <div class="invalid-feedback">Please confirm password!</div>
                   </div>
 
                   <div class="col-lg-2 col-md-3 col-sm-3">
-                    <label for="photo" class="form-label">Photo</label>
-                    <input type="file" name="custPhoto" class="form-control" id="custPhoto" required>
+                    <label for="profile" class="form-label">Photo</label>
+                    <input type="file" name="profile" class="form-control" id="profile" required>
                     <div class="invalid-feedback">Please upload photo!</div>
                   </div>
                 </div>
                 <div class="row border p-3 m-2">
                   <div class="col-lg-6 col-md-6 col-sm-12">
-                    <label for="validationDefaultUsername" class="form-label">Phone 1</label>
+                    <label for="phone1" class="form-label">Phone 1</label>
                     <div class="input-group">
                       <span class="input-group-text" id="inputGroupPrepend2">+251</span>
-                      <input type="text" class="form-control" id="validationDefaultUsername"
-                        aria-describedby="inputGroupPrepend2" required>
+                      <input type="text" class="form-control" id="phone1"
+                        aria-describedby="inputGroupPrepend2" required name="phone1" required oninput="phone(this.id)">
                     </div>
+                    <p id="pp" hidden></p>
                   </div>
 
                   <div class="col-lg-6 col-md-6 col-sm-12">
-                    <label for="validationDefaultUsername" class="form-label">Phone 2</label>
+                    <label for="phone2" class="form-label">Phone 2</label>
                     <div class="input-group">
                       <span class="input-group-text" id="inputGroupPrepend2">+251</span>
-                      <input type="text" class="form-control" id="validationDefaultUsername"
-                        aria-describedby="inputGroupPrepend2" required>
+                      <input type="text" class="form-control" id="phone2"
+                        aria-describedby="inputGroupPrepend2" required name="phone2" oninput="phone(this.id)">
                     </div>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12">
-                    <label for="location" class="form-label">Address</label>
-                    <input type="text" name="location" class="form-control" id="location" required>
-                    <div class="invalid-feedback">Please enter customer's location!</div>
+                    <label for="address" class="form-label">Address</label>
+                    <input type="text" name="address" class="form-control" id="address" required>
+                    <div class="invalid-feedback">Please enter customer's address</div>
                   </div>
 
 
                   <div class="col-lg-6 col-md-6 col-sm-12">
                     <label for="location" class="form-label">House No.</label>
                     <input type="text" name="location" class="form-control" id="location" required>
-                    <div class="invalid-feedback">Please enter customer's location!</div>
+                    <div class="invalid-feedback">Please, enter customer's House no!</div>
                   </div>
                 </div>
-  <div class="row border p-3 m-2">
+                <div class="row border p-3 m-2">
                 <div class="col-lg-4 col-md-4 col-sm-4">
-                  <label for="licence" class="form-label">Licence Plate</label>
-                  <input type="file" name="licence" class="form-control" id="licence" required>
-                  <div class="invalid-feedback">Please upload licence!</div>
+                  <label for="license" class="form-label">Licence Paper</label>
+                  <input type="file" name="license" class="form-control" id="license" required>
+                  <div class="invalid-feedback">Please, upload licence!</div>
                 </div>
+                
                 <div class="col-lg-4 col-md-4 col-sm-4">
-                  <label for="licence" class="form-label">Licence Plate</label>
-                  <input type="file" name="licence" class="form-control" id="licence" required>
-                  <div class="invalid-feedback">Please upload licence!</div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-4">
-                  <label for="housenum" class="form-label">Tin no.</label>
-                  <input type="number" min="0" name="housenumber" class="form-control" id="housenumber" required>
+                  <label for="tinno" class="form-label">Tin no.</label>
+                  <input type="text"  name="tinno" class="form-control" id="tinno" required oninput="letter_init(this.id)">
                   <div class="invalid-feedback">Please enter house number!</div>
+                  <p id="ptinno" hidden></p>
                 </div>
+                
                 </div>
                 <hr class="mb-4">
                 <div class="col-2">

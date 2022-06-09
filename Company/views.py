@@ -43,7 +43,7 @@ def Admin_dashboard(request):
         tottal_region = all_region.count()
         all_product = Product.objects.all()
         tottal_product = all_product.count()
-        adds=Advertisment.objects.all()
+        adds = Advertisment.objects.all()
 
         context = {
             'all_agent': all_agent,
@@ -53,7 +53,7 @@ def Admin_dashboard(request):
             'tottal_region': tottal_region,
             'tottal_product': tottal_product,
             'all_product': all_product,
-            'adds':adds,
+            'adds': adds,
 
         }
 
@@ -397,7 +397,7 @@ def view_staff(request):
 
 
 def staff_profile(request, pk, staff):
-    if staff == 'Finance_manager' or 'F' in staff :
+    if staff == 'Finance_manager' or 'F' in staff:
         staff_detail = Finance_Manager.objects.get(id=pk)
         context = {'staff_detail': staff_detail}
     elif staff == 'Store_Manager' or 'S' in staff:
@@ -409,12 +409,13 @@ def staff_profile(request, pk, staff):
 
 
 def staff_remove_page(request, pk, staff):
-    if staff == 'Finance_manager' or 'F' in staff :
+    if staff == 'Finance_manager' or 'F' in staff:
         staff_detail = Finance_Manager.objects.get(id=pk)
         if staff_detail.user.is_active:
             staff_detail.user.is_active = False
         else:
-            messages.error(request,staff_detail.user.username +' is already deactivated!')
+            messages.error(request, staff_detail.user.username +
+                           ' is already deactivated!')
         staff_detail.user.save()
     elif staff == 'Store_Manager' or 'S' in staff:
         staff_detail = Company_Store_Manager.objects.get(id=pk)
@@ -422,97 +423,99 @@ def staff_remove_page(request, pk, staff):
             staff_detail.user.is_active = False
             staff_detail.user.save()
         else:
-            messages.error(request,staff_detail.user.username +' is already deactivated!')
+            messages.error(request, staff_detail.user.username +
+                           ' is already deactivated!')
     return redirect('deleted_account')
 
 
-
-
 def add_staff(request):
-   
-   groups = Group.objects.all()
-   context ={'groups':groups}
-   if request.method == 'POST':
-       first_name = request.POST.get('fn')
-       last_name = request.POST.get('ln')
-       username = request.POST.get('un')
-       email = request.POST.get('email')
-       password1 = request.POST.get('password1')
-       password2 = request.POST.get('password2')
-       facebook = request.POST.get('facebook')
-       telegram = request.POST.get('telegram')
-       instagram = request.POST.get('instagram')
-       phone = request.POST.get('phone1')
-       position = request.POST.get('position')
-       profile = request.FILES.get('profile')
-       error = request.POST.get('error')
-       address=request.POST.get('address')
-       salary=request.POST.get('salary')
-       about=request.POST.get('about')
-       context = {
-    
+
+    groups = Group.objects.all()
+    context = {'groups': groups}
+    if request.method == 'POST':
+        first_name = request.POST.get('fn')
+        last_name = request.POST.get('ln')
+        username = request.POST.get('un')
+        email = request.POST.get('email')
+        password1 = request.POST.get('password1')
+        password2 = request.POST.get('password2')
+        facebook = request.POST.get('facebook')
+        telegram = request.POST.get('telegram')
+        instagram = request.POST.get('instagram')
+        phone = request.POST.get('phone1')
+        position = request.POST.get('position')
+        profile = request.FILES.get('profile')
+        error = request.POST.get('error')
+        address = request.POST.get('address')
+        salary = request.POST.get('salary')
+        about = request.POST.get('about')
+        context = {
+
             'address': address,
-            
+
             'first_name': first_name,
             'last_name': last_name,
             'email': email,
             'username': username,
             'password1': password1,
-            'phone':phone,
+            'phone': phone,
             'facebook': facebook,
             'telegram': telegram,
             'instagram': instagram,
             'about': about,
             'profile': profile,
-            'groups':groups,
-           
+            'groups': groups,
+
 
 
 
         }
-       if error=='':
-           if password1==password2:
+        if error == '':
+            if password1 == password2:
                 new = User.objects.filter(username=username)
                 new1 = User.objects.filter(email=email)
-                if new.count()!=0:
+                if new.count() != 0:
                     messages.error(request, "User Already Exist")
-                if new1.count()!=0:
+                if new1.count() != 0:
                     messages.error(request, "Email Already Exist")
-                elif new.count()==0 and new1.count()==0 :
+                elif new.count() == 0 and new1.count() == 0:
                     user = User.objects.create_user(
-                            username=username, email=email, password=password1, first_name=first_name, last_name=last_name)
+                        username=username, email=email, password=password1, first_name=first_name, last_name=last_name)
                     my_group = Group.objects.get(name=position)
                     my_group.user_set.add(user)
-                    if user and position=='Store_Manager':
+                    if user and position == 'Store_Manager':
                         company_Store_Manager = Company_Store_Manager.objects.create(user=user, Full_Name=first_name+' '+last_name, phone=phone, facebook=facebook, Telegram=telegram,
-                                                        instagram=instagram, about=about, profile_pic=profile, address=address,salary=salary)
+                                                                                     instagram=instagram, about=about, profile_pic=profile, address=address, salary=salary)
                         if company_Store_Manager:
-                                #successfully registered
-                            messages.success(request, "Company Store Manager ,successfully registered")
+                            # successfully registered
+                            messages.success(
+                                request, "Company Store Manager ,successfully registered")
                             return redirect('view-staff')
                         else:
                             user.delete()
-                            messages.error(request, "Something went wrong,try again later")
+                            messages.error(
+                                request, "Something went wrong,try again later")
 
-                    elif user and position=='Financ_admin':
+                    elif user and position == 'Financ_admin':
                         Financ_admin = Finance_Manager.objects.create(user=user, Full_Name=first_name+' '+last_name, phone=phone, facebook=facebook, telegram=telegram,
-                                                        instagram=instagram, about=about, profile_pic=profile, address=address,salary=salary)
+                                                                      instagram=instagram, about=about, profile_pic=profile, address=address, salary=salary)
                         if Financ_admin:
-                                #successfully registered
-                            messages.success(request, "Finance Admin ,successfully registered")
+                            # successfully registered
+                            messages.success(
+                                request, "Finance Admin ,successfully registered")
                             return redirect('view-staff')
                         else:
                             user.delete()
-                            messages.error(request, "Something went wrong,try again later")
-           else:
-              messages.error(request, "password didn\'t match")
-       else:
-           messages.error(request, "please ,fill the form correctly")
+                            messages.error(
+                                request, "Something went wrong,try again later")
+            else:
+                messages.error(request, "password didn\'t match")
+        else:
+            messages.error(request, "please ,fill the form correctly")
+
+    return render(request, 'Company/staffs/add-staff.html', context)
 
 
-
-   return render(request, 'Company/staffs/add-staff.html', context)
-    
 def update_staff(request, pk, staff):
     if staff == 'Finance_manager':
         staff_detail = Finance_Manager.objects.get(id=pk)
@@ -522,23 +525,24 @@ def update_staff(request, pk, staff):
             #  staff_detail.staff=request.POST['job']
             staff_detail.salary = request.POST['salary']
             staff_detail.save()
-            messages.success(request,'Store Manager updated')
+            messages.success(request, 'Store Manager updated')
             return redirect('view-staff')
 
     elif staff == 'Store_Manager':
         staff_detail = Company_Store_Manager.objects.get(id=pk)
-        stores=Company_Store.objects.all()
+        stores = Company_Store.objects.all()
         context = {'staff_detail': staff_detail,
-        'stores':stores,
-        }
+                   'stores': stores,
+                   }
         if request.method == 'POST':
             #  staff_detail.staff=request.POST['job']
             staff_detail.salary = request.POST['salary']
-            staff_detail.Store=Company_Store.objects.get(Store_Name=request.POST['store'])
+            staff_detail.Store = Company_Store.objects.get(
+                Store_Name=request.POST['store'])
             staff_detail.save()
-            messages.success(request,'Store Manager updated')
+            messages.success(request, 'Store Manager updated')
             return redirect('view-staff')
-        
+
     else:
         context = {}
 
@@ -629,9 +633,6 @@ def agent_view(request):
     return render(request, 'Company/agents/agent-view.html', context)
 
 
-
-
-
 def agent_detail(request, pk):
     agent = Agent.objects.get(pk=pk)
 
@@ -684,14 +685,14 @@ def remove_agent(request, pk):
 
 def re_active_account(request, pk):
     user = User.objects.get(id=pk)
-    if user.is_active==True:
+    if user.is_active == True:
         messages.info(request, user.first_name + ' ' +
-                     user.last_name + ' is already now activated')
+                      user.last_name + ' is already now activated')
     else:
         user.is_active = True
         user.save()
         messages.success(request, user.first_name + ' ' +
-                     user.last_name + ' is now activated')
+                         user.last_name + ' is now activated')
     deleted_accounts = []
     all_user = User.objects.all()
     for user in all_user:
@@ -732,16 +733,15 @@ def add_store_company(request):
 
 
 def sore_ditel_view(request, pk):
-    manager='TBA'
+    manager = 'TBA'
     all_product = Product.objects.all()
     store = Company_Store.objects.get(pk=pk)
     amount_store = Product_Amount_in_Store.objects.get(store=store)
-  
-    try:
-            manager=Company_Store_Manager.objects.get(Store=store)
-    except Company_Store_Manager.DoesNotExist:
-            pass
 
+    try:
+        manager = Company_Store_Manager.objects.get(Store=store)
+    except Company_Store_Manager.DoesNotExist:
+        pass
 
     Total = 0
     Dopple = 'Dopple'
@@ -837,17 +837,54 @@ def update_product(request, pk):
     return render(request, 'Company/product/update-product.html', context)
 
 
+def delete_product_page(request, pk):
+    b = pk
+    product = Product.objects.get(id=pk)
+    Product_Name = product.Product_Name
+    all_product = Product.objects.all()
+    context = {
+        'all_product': all_product,
+        'Product_Name': Product_Name,
+        'b': b,
+
+
+    }
+
+    return render(request, 'Company/product/view-products.html', context)
+
+
+def delete_product(request):
+    all_product = Product.objects.all()
+    if request.method == 'POST':
+        a = request.POST.get('name')
+        delete_product = Product.objects.get(pk=a)
+        name = delete_product.Product_Name
+        delete_product.delete()
+        messages.success(request, 'successfull delete' + ' ' + name)
+        context = {
+            'all_product': all_product,
+            'a': a,
+            'product': product,
+            'name': a,
+
+        }
+        return render(request, 'Company/product/view-products.html', context)
+
+
 # End Product
+
+
 def advertisments_view(request):
     return render(request, 'Company/advertisments/advertisments.html')
 
 
 def post_advertisment(request):
-    if request.method=='POST':
-        product_namee=request.POST.get('product_name')
-        product_photoe=request.FILES.get('product_photo')
-        descriptione=request.POST.get('description')
-        add=Advertisment.objects.create(product_photo=product_photoe,product_price=65.2,product_name=product_namee,description=descriptione)
+    if request.method == 'POST':
+        product_namee = request.POST.get('product_name')
+        product_photoe = request.FILES.get('product_photo')
+        descriptione = request.POST.get('description')
+        add = Advertisment.objects.create(
+            product_photo=product_photoe, product_price=65.2, product_name=product_namee, description=descriptione)
         print(request.FILES)
 
         if add:

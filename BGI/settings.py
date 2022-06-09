@@ -25,7 +25,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-   'crispy_forms',
+    'django_extensions',
+    'crispy_forms',
     'Account',
     'Agent',
     'Company',
@@ -47,7 +48,7 @@ ROOT_URLCONF = 'BGI.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR,'Templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'Templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -111,9 +112,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
-MEDIA_URL= '/media/'
-MEDIA_ROOT= os.path.join(BASE_DIR,'File')
-STATIC_ROOT=os.path.join(BASE_DIR,'assets')
-STATICFILES_DIRS=[
-    os.path.join(BASE_DIR,'static')
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'File')
+STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
 ]
+
+
+GRAPH_MODELS = {
+    'all_applications': True,
+    'group_models': True,
+}
