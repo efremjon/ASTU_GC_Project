@@ -27,7 +27,6 @@ from django.contrib.auth.models import Group
 # Create your views here.
 
 
-
 def Admin_dashboard(request):
     if request.user.is_authenticated:
         all_agent = Agent.objects.all()
@@ -240,7 +239,8 @@ def add_agent(request):
                                                          instagram=instagram, about=about, profile_pic=profile, Region=rregion, TIN_NO=TIN_NO, location=location, address=address, city=city,
                                                          marchentId=marchent_id, agreement=agreement, License=license)
                             if agent:
-                                messages.success(request,'Agent registered successfully!')
+                                messages.success(
+                                    request, 'Agent registered successfully!')
                                 return redirect('agent-view')
             else:
                 messages.error(request, 'password didn\'t match.')
@@ -987,14 +987,17 @@ def add_produc_to_store_view(request):
 
 def aprove_order_view(request):
     user = User.objects.get(id=request.user.id)
-
     company_manager = Company_Store_Manager.objects.get(user=user)
     spesific_store_from_manager = company_manager.Store
     store_id = spesific_store_from_manager.id
     spesific_store = Company_Store.objects.get(id=store_id)
     product_amount = Product_Amount_in_Store.objects.get(store=spesific_store)
-    all_tranaction = Agent_Transaction.objects.filter().order_by('-date_created')
-
+    all_tranaction = []
+    all_order_in_stor = Agent_order.objects.filter(Store=spesific_store)
+    for order in all_order_in_stor:
+        all_tranaction.append(
+            Agent_Transaction.objects.get(Agent_order_id=order.id))
+    print(all_tranaction)
     context = {
         'all_tranaction': all_tranaction,
 
@@ -1030,7 +1033,17 @@ def stor_check_slip_view(request, pk):
         VAT_Paid = float(grand_total * 0.15)
 
     data = zip(prods, price, quantity, sub_total)
-
+    if request.method == 'POST':
+        date1 = request.POST.get('date1')
+        date2 = request.POST.get('date2')
+        if date1 < date2:
+            transaction.scheduled_for = date1
+            transaction.scheduled_to = date2
+            transaction.save()
+            return redirect('view-aprove-order')
+        else:
+            messages.error(
+                request, "Invalid schedule, please provide valid schedule")
     context = {
         'transaction': transaction,
         'data': data,
@@ -1050,6 +1063,12 @@ def allow_load_view(request, pk):
     update_order = Agent_order.objects.get(id=Or_id)
     update_order.status = 'Recived'
     update_order.save()
+    user = User.objects.get(id=request.user.id)
+    company_manager = Company_Store_Manager.objects.get(user=user)
+    spesific_store_from_manager = company_manager.Store
+    store_id = spesific_store_from_manager.id
+    spesific_store = Company_Store.objects.get(id=store_id)
+    product_amount = Product_Amount_in_Store.objects.get(store=spesific_store)
     context = {
         'all_tranaction': all_tranaction,
     }

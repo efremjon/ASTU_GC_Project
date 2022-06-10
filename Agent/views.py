@@ -517,7 +517,6 @@ def manage_drivers(request):
 
 
 def transactions(request):
-
     all_transaction = Agent_Transaction.objects.all().order_by('-date_created')
     context = {
         'all_transaction': all_transaction,

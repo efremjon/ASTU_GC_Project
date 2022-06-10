@@ -40,6 +40,8 @@
                       <th scope="col">Total paid</th>
                       <th scope="col">Marchent Id</th>
                       <th scope="col">Payment</th>
+                      <th scope="col">Status</th>
+                      <th scope="col">Schedule</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -61,7 +63,13 @@
                       {% elif transaction.Agent_order_id.status == 'Reject' %}
                       <td><span class="badge bg-danger">Rejected</span></td>
                       {% endif %}
+                      {% if transaction.scheduled_for and transaction.scheduled_to %}
+                      <td> {{transaction.scheduled_for|date:"d-m-Y"}} - {{transaction.scheduled_to|date:"d-m-Y"}}</td>
+                      {% else %}
+                      <td><span class="badge bg-warning">Unscheduled</span></td>
+                      {% endif %}
                     </tr>
+
                     {% endfor %}
                   </tbody>
                 </table>
