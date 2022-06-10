@@ -13,36 +13,58 @@ from django.core import validators
 
 
 def login_view(request):
-
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(username=username, password=password)
-        if user.groups.exists():
-            a = user.groups.all()[0].name
+    if request.user.is_authenticated:
+        if request.user.groups.exists():
+            a = request.user.groups.all()[0].name
             if a == 'Admin':
-                login(request, user)
                 return redirect('admin-dashbord',)
             elif a == 'Agent':
-                login(request, user)
+
                 return redirect('agent_dashbord')
             elif a == 'Customer':
-                login(request, user)
+
                 return redirect('Customer_dashbord')
             elif a == 'Financ_admin':
-                login(request, user)
+
                 return redirect('finance_admin_home')
             elif a == 'Store_Manager':
-                login(request, user)
+
                 return redirect('store-manager-home')
         else:
-            return render(request, 'Account/login.html')
+            pass
+
+    else:
+        if request.method == 'POST':
+            username = request.POST['username']
+            password = request.POST['password']
+            user = authenticate(username=username, password=password)
+            if user.groups.exists():
+                a = user.groups.all()[0].name
+                if a == 'Admin':
+                    login(request, user)
+                    return redirect('admin-dashbord',)
+                elif a == 'Agent':
+                    login(request, user)
+                    return redirect('agent_dashbord')
+                elif a == 'Customer':
+                    login(request, user)
+                    return redirect('Customer_dashbord')
+                elif a == 'Financ_admin':
+                    login(request, user)
+                    return redirect('finance_admin_home')
+                elif a == 'Store_Manager':
+                    login(request, user)
+                    return redirect('store-manager-home')
+            else:
+                return render(request, 'Account/login.html')
     return render(request, 'Account/login.html')
 
 
 def logout_view(request):
-    logout(request)
-    return redirect('login')
+    if request.user.is_authenticated:
+        logout(request)
+        return redirect('login')
+
 
 # make crate super order
 
@@ -63,23 +85,29 @@ def SuperUser_CreateView(request):
             else:
                 new = User.objects.filter(email=email)
                 if new.count():
+                    a = new.count()
+                    print(a)
                     messages.error(request, "Eamil Already Exist")
                 else:
-                    user = User.objects.create_user(
-                        username=username, email=email, password=password1, first_name=first_name, last_name=last_name)
-                    user.is_superuser = True
-                    user.is_staff = True
-                    user.save()
-                    my_group = Group.objects.get(name='Admin')
-                    my_group.user_set.add(user)
-                    admin = Admin.objects.create(
-                        user=user, Full_Name=Full_Name)
-                    if admin:
-                        messages.success(
-                            request, "Successfully Create Super User")
-                        return redirect('login')
+                    cheekis = User.objects.filter(is_superuser=True)
+                    if cheekis.count():
+                        messages.error(request, 'not allowe to create')
                     else:
-                        messages.error(request, "supper user not created")
+                        user = User.objects.create_user(
+                            username=username, email=email, password=password1, first_name=first_name, last_name=last_name)
+                        user.is_superuser = True
+                        user.is_staff = True
+                        user.save()
+                        my_group = Group.objects.get(name='Admin')
+                        my_group.user_set.add(user)
+                        admin = Admin.objects.create(
+                            user=user, Full_Name=Full_Name)
+                        if admin:
+                            messages.success(
+                                request, "Successfully Create Super User")
+                            return redirect('login')
+                        else:
+                            messages.error(request, "supper user not created")
 
         else:
             messages.error(request, "password not match")

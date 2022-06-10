@@ -1,5 +1,3 @@
-
-
 from email import message
 from http.client import CONTINUE
 from django.core.exceptions import ValidationError
@@ -29,130 +27,166 @@ from django.contrib.auth.models import Group
 
 def Admin_dashboard(request):
     if request.user.is_authenticated:
-        all_agent = Agent.objects.all()
-        S_staff = Company_Store_Manager.objects.all()
-        F_staff = Finance_Manager.objects.all()
-        total_agent = 0
-        for agent in all_agent:
-            if agent.user.is_active:
-                total_agent += 1
-        tottal_staff = S_staff.count() + F_staff.count()
-        all_store = Company_Store.objects.all()
-        tottal_store = all_store.count()
-        all_region = Region.objects.all()
-        tottal_region = all_region.count()
-        all_product = Product.objects.all()
-        tottal_product = all_product.count()
-        adds = Advertisment.objects.all()
+        if request.user.groups.exists():
+            a = request.user.groups.all()[0].name
+            if a == 'Admin':
+                all_agent = Agent.objects.all()
+                S_staff = Company_Store_Manager.objects.all()
+                F_staff = Finance_Manager.objects.all()
+                total_agent = 0
+                for agent in all_agent:
+                    if agent.user.is_active:
+                        total_agent += 1
+                tottal_staff = S_staff.count() + F_staff.count()
+                all_store = Company_Store.objects.all()
+                tottal_store = all_store.count()
+                all_region = Region.objects.all()
+                tottal_region = all_region.count()
+                all_product = Product.objects.all()
+                tottal_product = all_product.count()
+                adds = Advertisment.objects.all()
 
-        context = {
-            'all_agent': all_agent,
-            'total_agent': total_agent,
-            'tottal_staff': tottal_staff,
-            'tottal_store': tottal_store,
-            'tottal_region': tottal_region,
-            'tottal_product': tottal_product,
-            'all_product': all_product,
-            'adds': adds,
+                context = {
+                    'all_agent': all_agent,
+                    'total_agent': total_agent,
+                    'tottal_staff': tottal_staff,
+                    'tottal_store': tottal_store,
+                    'tottal_region': tottal_region,
+                    'tottal_product': tottal_product,
+                    'all_product': all_product,
+                    'adds': adds,
 
-        }
+                }
 
-        return render(request, 'Company/dashboard/admin.html', context)
+                return render(request, 'Company/dashboard/admin.html', context)
+            else:
+                return redirect('login')
+        else:
+            return redirect('login')
     else:
         return redirect('login')
 
 
 def staff_dashboard(request):
-    all_agent = Agent.objects.all()
-    S_staff = Company_Store_Manager.objects.all()
-    F_staff = Finance_Manager.objects.all()
-    total_agent = all_agent.count()
-    tottal_staff = S_staff.count() + F_staff.count()
-    all_store = Company_Store.objects.all()
-    tottal_store = all_store.count()
-    all_region = Region.objects.all()
-    tottal_region = all_region.count()
-    all_product = Product.objects.all()
-    tottal_product = all_product.count()
-    staff_finance_manager = Finance_Manager.objects.all()
-    staff_company_store_manager = Company_Store_Manager.objects.all()
+    if request.user.is_authenticated:
+        if request.user.groups.exists():
+            a = request.user.groups.all()[0].name
+            if a == 'Admin':
+                all_agent = Agent.objects.all()
+                S_staff = Company_Store_Manager.objects.all()
+                F_staff = Finance_Manager.objects.all()
+                total_agent = all_agent.count()
+                tottal_staff = S_staff.count() + F_staff.count()
+                all_store = Company_Store.objects.all()
+                tottal_store = all_store.count()
+                all_region = Region.objects.all()
+                tottal_region = all_region.count()
+                all_product = Product.objects.all()
+                tottal_product = all_product.count()
+                staff_finance_manager = Finance_Manager.objects.all()
+                staff_company_store_manager = Company_Store_Manager.objects.all()
 
-    context = {
-        'all_agent': all_agent,
-        'total_agent': total_agent,
-        'tottal_staff': tottal_staff,
-        'tottal_store': tottal_store,
-        'tottal_region': tottal_region,
-        'tottal_product': tottal_product,
-        'all_product': all_product,
-        'staff_finance_manager': staff_finance_manager,
-        'staff_company_store_manager': staff_company_store_manager,
+                context = {
+                    'all_agent': all_agent,
+                    'total_agent': total_agent,
+                    'tottal_staff': tottal_staff,
+                    'tottal_store': tottal_store,
+                    'tottal_region': tottal_region,
+                    'tottal_product': tottal_product,
+                    'all_product': all_product,
+                    'staff_finance_manager': staff_finance_manager,
+                    'staff_company_store_manager': staff_company_store_manager,
 
-    }
-    return render(request, 'Company/dashboard/staff.html', context)
+                }
+                return render(request, 'Company/dashboard/staff.html', context)
+            else:
+                return redirect('login')
+        else:
+            return redirect('login')
+    else:
+        return redirect('login')
 
 
 def store_dashboard(request):
-    all_agent = Agent.objects.all()
-    S_staff = Company_Store_Manager.objects.all()
-    F_staff = Finance_Manager.objects.all()
-    total_agent = all_agent.count()
-    tottal_staff = S_staff.count() + F_staff.count()
-    all_store = Company_Store.objects.all()
-    tottal_store = all_store.count()
-    all_region = Region.objects.all()
-    tottal_region = all_region.count()
-    all_product = Product.objects.all()
-    tottal_product = all_product.count()
-    staff_finance_manager = Finance_Manager.objects.all()
-    staff_company_store_manager = Company_Store_Manager.objects.all()
+    if request.user.is_authenticated:
+        if request.user.groups.exists():
+            a = request.user.groups.all()[0].name
+            if a == 'Admin':
+                all_agent = Agent.objects.all()
+                S_staff = Company_Store_Manager.objects.all()
+                F_staff = Finance_Manager.objects.all()
+                total_agent = all_agent.count()
+                tottal_staff = S_staff.count() + F_staff.count()
+                all_store = Company_Store.objects.all()
+                tottal_store = all_store.count()
+                all_region = Region.objects.all()
+                tottal_region = all_region.count()
+                all_product = Product.objects.all()
+                tottal_product = all_product.count()
+                staff_finance_manager = Finance_Manager.objects.all()
+                staff_company_store_manager = Company_Store_Manager.objects.all()
 
-    context = {
-        'all_agent': all_agent,
-        'total_agent': total_agent,
-        'tottal_staff': tottal_staff,
-        'all_store': all_store,
-        'tottal_store': tottal_store,
-        'tottal_region': tottal_region,
-        'tottal_product': tottal_product,
-        'all_product': all_product,
-        'staff_finance_manager': staff_finance_manager,
-        'staff_company_store_manager': staff_company_store_manager,
-
-    }
-    return render(request, 'Company/dashboard/store.html', context)
+                context = {
+                    'all_agent': all_agent,
+                    'total_agent': total_agent,
+                    'tottal_staff': tottal_staff,
+                    'all_store': all_store,
+                    'tottal_store': tottal_store,
+                    'tottal_region': tottal_region,
+                    'tottal_product': tottal_product,
+                    'all_product': all_product,
+                    'staff_finance_manager': staff_finance_manager,
+                    'staff_company_store_manager': staff_company_store_manager,
+                }
+                return render(request, 'Company/dashboard/store.html', context)
+            else:
+                return redirect('login')
+        else:
+            return redirect('login')
+    else:
+        return redirect('login')
 
 
 def region_dashboard(request):
-    all_agent = Agent.objects.all()
-    S_staff = Company_Store_Manager.objects.all()
-    F_staff = Finance_Manager.objects.all()
-    total_agent = all_agent.count()
-    tottal_staff = S_staff.count() + F_staff.count()
-    all_store = Company_Store.objects.all()
-    tottal_store = all_store.count()
-    all_region = Region.objects.all()
-    tottal_region = all_region.count()
-    all_product = Product.objects.all()
-    tottal_product = all_product.count()
-    staff_finance_manager = Finance_Manager.objects.all()
-    staff_company_store_manager = Company_Store_Manager.objects.all()
+    if request.user.is_authenticated:
+        if request.user.groups.exists():
+            a = request.user.groups.all()[0].name
+            if a == 'Admin':
+                all_agent = Agent.objects.all()
+                S_staff = Company_Store_Manager.objects.all()
+                F_staff = Finance_Manager.objects.all()
+                total_agent = all_agent.count()
+                tottal_staff = S_staff.count() + F_staff.count()
+                all_store = Company_Store.objects.all()
+                tottal_store = all_store.count()
+                all_region = Region.objects.all()
+                tottal_region = all_region.count()
+                all_product = Product.objects.all()
+                tottal_product = all_product.count()
+                staff_finance_manager = Finance_Manager.objects.all()
+                staff_company_store_manager = Company_Store_Manager.objects.all()
 
-    context = {
-        'all_agent': all_agent,
-        'total_agent': total_agent,
-        'tottal_staff': tottal_staff,
-        'all_store': all_store,
-        'all_region': all_region,
-        'tottal_store': tottal_store,
-        'tottal_region': tottal_region,
-        'tottal_product': tottal_product,
-        'all_product': all_product,
-        'staff_finance_manager': staff_finance_manager,
-        'staff_company_store_manager': staff_company_store_manager,
+                context = {
+                    'all_agent': all_agent,
+                    'total_agent': total_agent,
+                    'tottal_staff': tottal_staff,
+                    'all_store': all_store,
+                    'all_region': all_region,
+                    'tottal_store': tottal_store,
+                    'tottal_region': tottal_region,
+                    'tottal_product': tottal_product,
+                    'all_product': all_product,
+                    'staff_finance_manager': staff_finance_manager,
+                    'staff_company_store_manager': staff_company_store_manager,
 
-    }
-    return render(request, 'Company/dashboard/region.html', context)
+                }
+                return render(request, 'Company/dashboard/region.html', context)
+            else:
+                return redirect('login')
+        else:
+            return redirect('login')
+    else:
+        return redirect('login')
 
 
 def product_dashboard(request):
