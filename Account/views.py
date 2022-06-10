@@ -1,4 +1,5 @@
 from multiprocessing import context
+from pickle import TRUE
 from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User, Group
@@ -44,6 +45,7 @@ def logout_view(request):
 
 # make crate super order
 
+
 def SuperUser_CreateView(request):
     if request.method == 'POST':
         first_name = request.POST.get('first_name')
@@ -52,9 +54,33 @@ def SuperUser_CreateView(request):
         username = request.POST.get('username')
         password1 = request.POST.get('password1')
         password2 = request.POST.get('password2')
+        Full_Name = first_name + " " + last_name
+        if password1 == password2:
+            new = User.objects.filter(username=username)
+            if new.count():
+                messages.error(request, "User Already Exist")
+            else:
+                new = User.objects.filter(email=email)
+                if new.count():
+                    messages.error(request, "Eamil Already Exist")
+                else:
+                    user = User.objects.create_user(
+                        username=username, email=email, password=password1, first_name=first_name, last_name=last_name)
+                    user.is_superuser = True
+                    user.is_staff = True
+                    user.save()
+                    my_group = Group.objects.get(name='Admin')
+                    my_group.user_set.add(user)
+                    admin = Admin.objects.create(
+                        user=user, Full_Name=Full_Name)
+                    if admin:
+                        messages.success(
+                            request, "Successfully Create Super User")
+                        return redirect('login')
+                    else:
+                        messages.error(request, "supper user not created")
 
-        context ={
-            'first_name':
-        }
+        else:
+            messages.error(request, "password not match")
 
-    return render(request, 'Account/Create_SuperUser_registration.html',)
+    return render(request, 'Account/Create_SuperUser_registration.html')
