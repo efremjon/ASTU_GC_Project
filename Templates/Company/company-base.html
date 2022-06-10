@@ -212,7 +212,7 @@
               <hr class="dropdown-divider">
             </li>
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="{% url 'login' %}">
+              <a class="dropdown-item d-flex align-items-center" href="{% url 'logout' %}">
                 <i class="bi bi-box-arrow-right"></i>
                 <span>Sign Out</span>
               </a>
@@ -339,12 +339,12 @@
         document.getElementById('p' + id).innerHTML = 'only letters allowed';
         document.getElementById('p' + id).removeAttribute('hidden')
         document.getElementById('p' + id).style.color = 'red'
-        
+
       }
       else {
         document.getElementById(id).style.borderColor = '#d9d9d9';
         document.getElementById('p' + id).hidden = true;
-        
+
       }
     }
     function phone(id) {
@@ -354,18 +354,18 @@
         document.getElementById('pp').innerHTML = 'phone number should start with 9,be 9 in length and only be letters';
         document.getElementById('pp').removeAttribute('hidden')
         document.getElementById('pp').style.color = 'red'
-        
+
       }
       else {
         document.getElementById(id).style.borderColor = '#d9d9d9';
         document.getElementById('pp').hidden = true;
-       
+
       }
 
 
 
     }
-    
+
     function letter_init(id) {
       var tinno = document.getElementById(id).value;
       if (!(/^[0-9]+$/.test(tinno))) {
@@ -373,31 +373,32 @@
         document.getElementById('p' + id).innerHTML = 'only digits allowed';
         document.getElementById('p' + id).removeAttribute('hidden')
         document.getElementById('p' + id).style.color = 'red'
-      
+
       }
       else {
         document.getElementById(id).style.borderColor = '#d9d9d9';
         document.getElementById('p' + id).hidden = true;
-     
+
       }
     }
 
-    function add(){
+    function add() {
       var tinno = document.getElementById('tinno').style.borderColor;
       var fn = document.getElementById('fn').style.borderColor;
       var ln = document.getElementById('ln').style.borderColor;
       var p1 = document.getElementById('p1').style.borderColor;
       var p2 = document.getElementById('p2').style.borderColor;
       var ct = document.getElementById('ct').style.borderColor;
-      
 
-      if (p2=='red'||fn=='red'||ln=='red'||p1=='red'||ct=='red'||tinno=='red'){
-       
-        document.getElementById('error').value='error';
-        
-        
-      }}
-    
+
+      if (p2 == 'red' || fn == 'red' || ln == 'red' || p1 == 'red' || ct == 'red' || tinno == 'red') {
+
+        document.getElementById('error').value = 'error';
+
+
+      }
+    }
+
 
   </script>
 </body>
