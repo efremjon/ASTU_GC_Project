@@ -8,6 +8,7 @@ from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponse
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.decorators import login_required
 from .form import *
 from .models import *
 from Company.models import *
@@ -19,6 +20,7 @@ import json
 
 # Create your views here.
 # Dashbord part
+@login_required()
 def Agent_dashboard(request):
     context = {}
     try:
@@ -31,9 +33,11 @@ def Agent_dashboard(request):
         request_agent = Agent.objects.get(user=users)
         all_customer = Customer.objects.filter(Agent=request_agent)
         total_customer = all_customer.count()
+        adds = Advertisment.objects.all()
         context = {
             'all_customer': all_customer,
             'total_customer': total_customer,
+            'adds':adds
         }
         return render(request, 'Agent/agent-dashboard.html', context)
     except request_agent.DoesNotExist:
@@ -342,6 +346,7 @@ def ipn(request):
 
 def manage_customers(request):
     users = User.objects.get(id=request.user.id)
+    print(users)
     request_agent = Agent.objects.get(user=users)
     all_customer = Customer.objects.filter(Agent=request_agent)
     total_customer = all_customer.count()
@@ -356,6 +361,83 @@ def manage_customers(request):
 def add_customers(request):
 
     ###############################
+    if request.method == 'POST':
+
+        errorr = request.POST.get('error')
+
+        # required
+        
+        address = request.POST.get('address')
+        
+        TIN_NO = request.POST.get('TIN_NO')
+        marchent_id = request.POST.get('marchent_id')
+        company_name=request.POST.get('company_name')
+        license = request.FILES.get('license')
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        house_no = request.POST.get('house_no')
+        email = request.POST.get('email')
+        username = request.POST.get('username')
+        password1 = request.POST.get('password1')
+        password2 = request.POST.get('password2')
+        phone1 = request.POST.get('phone1')
+        phone2 = request.POST.get('phone2')
+        # check if it the followings are empty
+        phone1 =  phone1
+        phone2 =  phone2
+      
+       
+        profile = request.FILES.get('profile')
+        print(errorr)
+        if errorr == '':
+            if password1 == password2:
+                new = User.objects.filter(username=username)
+                if new.count():
+                    messages.error(request, "User Already Exist")
+                
+                else:
+                    new = User.objects.filter(email=email)
+                    if new.count():
+                        messages.error(request, "email Already Exist")
+                    else:
+                    
+                        user = User.objects.create_user(
+                            username=username, email=email, password=password1, first_name=first_name, last_name=last_name)
+                        my_group = Group.objects.get(name='Customer')
+                        my_group.user_set.add(user)
+                        if user:
+                            customer=Customer.objects.create(user=user,Agent=request.user.agent,
+                            Compan_name=company_name,phone1=phone1,phone2=phone2,Address=address,
+                            House_No=house_no,profile_pic=profile,TIN_NO=TIN_NO,License=license,Marchent_id=marchent_id)
+                            if customer:
+                                messages.success(request,'Agent registered successfully!')
+                                return redirect('agent-view')
+                    
+                
+                        
+                                     
+            else:
+                messages.error(request, 'password didn\'t match.')
+        else:
+            messages.error(request, 'Please, fill the form correctly.')
+        
+        context = {
+            
+            'address': address,
+            'house_no': house_no,
+            'TIN_NO': TIN_NO,
+            'marchent_id': marchent_id,
+           
+            'license': license,
+            'first_name': first_name,
+            'last_name': last_name,
+            'email': email,
+            'username': username,
+            'password1': password1,
+            'phone1': phone1,
+            'phone2': phone2,
+        }
+        return render(request, 'Agent/add-customer.html', context)
 
     ###########################################
 

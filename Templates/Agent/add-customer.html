@@ -2,7 +2,15 @@
 {% block content %}
 <!-- ====== Main -->
 <main id="main" class="main">
+  {% for meg in messages %}
 
+
+
+  <div class="alert alert-danger" role="alert">
+    {{meg}}
+  </div>
+
+  {% endfor %}
   <section class="section add-agent">
     <div class="row">
       <div class="row justify-content-center">
@@ -10,11 +18,12 @@
           <div class="card mb-5">
             <div class="card-body">
               <h5 class="card-title text-center pb-0 fs-4">Customer Registration Form</h5>
-              <form class="row g-3 needs-validation" novalidate>
+              <form class="row g-3 needs-validation" novalidate action="" method="post">
+                {% csrf_token %}
                 <div class="row border p-3 m-2">
                   <div class="col-lg-6 col-md-6 col-sm-12">
                     <label for="fn" class="form-label">First Name</label>
-                    <input type="text" name="first_name" class="form-control" id="fn" required oninput="number_init(this.id)">
+                    <input type="text" name="first_name" class="form-control" id="fn"  required oninput="number_init(this.id)" value="{{first_name}}">
                     <div class="invalid-feedback">Please enter firm name!</div>
                     <p id="pfn" hidden></p>
                   </div>
@@ -22,26 +31,27 @@
 
                   <div class="col-lg-6 col-md-6 col-sm-12">
                     <label for="ln" class="form-label">Last Name</label>
-                    <input type="text" name="last_name" class="form-control" id="ln" required required oninput="number_init(this.id)">
+                    <input type="text" name="last_name" class="form-control" id="ln" value="{{last_name}}" required
+                      oninput="number_init(this.id)">
                     <div class="invalid-feedback">Please provide owner's name!</div>
                   </div>
 
                   <div class="col-lg-6 col-md-6 col-sm-12">
                     <label for="email" class="form-label">Email</label>
-                    <input type="email" name="email" class="form-control" id="email" required>
+                    <input type="email" name="email" class="form-control" id="email" required value="{{email}}">
                     <div class="invalid-feedback">Please enter a valid Email adddress!</div>
                   </div>
 
 
                   <div class="col-lg-6 col-md-6 col-sm-12">
                     <label for="un" class="form-label">Username</label>
-                    <input type="text" name="un" class="form-control" id="un" required>
+                    <input type="text" name="username" class="form-control" id="un" value="{{username}}" required>
                     <div class="invalid-feedback">please ,enter username!</div>
                   </div>
 
                   <div class="col-lg-6 col-md-6 col-sm-12">
                     <label for="password1" class="form-label">Password</label>
-                    <input type="password" name="password1" class="form-control" id="password1" required>
+                    <input type="password" name="password1" class="form-control" id="password1" value="{{password1}}" required>
                     <div class="invalid-feedback">Please enter password!</div>
                   </div>
 
@@ -53,7 +63,7 @@
 
                   <div class="col-lg-2 col-md-3 col-sm-3">
                     <label for="profile" class="form-label">Photo</label>
-                    <input type="file" name="profile" class="form-control" id="profile" required>
+                    <input type="file" name="profile" class="form-control" id="profile" >
                     <div class="invalid-feedback">Please upload photo!</div>
                   </div>
                 </div>
@@ -62,8 +72,8 @@
                     <label for="phone1" class="form-label">Phone 1</label>
                     <div class="input-group">
                       <span class="input-group-text" id="inputGroupPrepend2">+251</span>
-                      <input type="text" class="form-control" id="phone1"
-                        aria-describedby="inputGroupPrepend2" required name="phone1" required oninput="phone(this.id)">
+                      <input type="text" class="form-control" id="phone1" aria-describedby="inputGroupPrepend2" un
+                        name="phone1" un oninput="phone(this.id)" required value="{{phone1}}">
                     </div>
                     <p id="pp" hidden></p>
                   </div>
@@ -72,43 +82,52 @@
                     <label for="phone2" class="form-label">Phone 2</label>
                     <div class="input-group">
                       <span class="input-group-text" id="inputGroupPrepend2">+251</span>
-                      <input type="text" class="form-control" id="phone2"
-                        aria-describedby="inputGroupPrepend2" required name="phone2" oninput="phone(this.id)">
+                      <input type="text" class="form-control" id="phone2" aria-describedby="inputGroupPrepend2" value="{{phone2}}" 
+                        name="phone2" oninput="phone(this.id)">
                     </div>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12">
                     <label for="address" class="form-label">Address</label>
-                    <input type="text" name="address" class="form-control" id="address" required>
+                    <input type="text" name="address" class="form-control" id="address" value="{{address}}" required>
                     <div class="invalid-feedback">Please enter customer's address</div>
                   </div>
 
 
                   <div class="col-lg-6 col-md-6 col-sm-12">
-                    <label for="location" class="form-label">House No.</label>
-                    <input type="text" name="location" class="form-control" id="location" required>
+                    <label for="house_no" class="form-label">House No.</label>
+                    <input type="text" name="hosue_no" class="form-control" id="house_no" required value="{{house_no}}">
                     <div class="invalid-feedback">Please, enter customer's House no!</div>
+                    <p id="phouse_no" hidden></p>
                   </div>
                 </div>
                 <div class="row border p-3 m-2">
-                <div class="col-lg-4 col-md-4 col-sm-4">
-                  <label for="license" class="form-label">Licence Paper</label>
-                  <input type="file" name="license" class="form-control" id="license" required>
-                  <div class="invalid-feedback">Please, upload licence!</div>
+                  <div class="col-lg-4 col-md-4 col-sm-4">
+                    <label for="license" class="form-label">Licence Paper</label>
+                    <input type="file" name="license" class="form-control" id="license" required >
+                    <div class="invalid-feedback">Please, upload license!</div>
+                  </div>
+
+                  <div class="col-lg-4 col-md-4 col-sm-4">
+                    <label for="tinno" class="form-label">Tin no.</label>
+                    <input type="text" name="tinno" class="form-control" id="tinno" required oninput="letter_init(this.id)" value="{{TIN_NO}}">
+                    <div class="invalid-feedback">Please enter TIN number!</div>
+                    <p id="ptinno" hidden></p>
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-4">
+                    <label for="marchent_id" class="form-label"> marchent id</label>
+                    <input type="text" name="marchent_id" class="form-control" id="marchent_id" required oninput="letter_init(this.id)" value="{{marchent_id  }}">
+                    <div class="invalid-feedback">Please enter customer's marchent id !</div>
+                    <p id="pmarchent_id" hidden></p>
+                  </div>
                 </div>
-                
-                <div class="col-lg-4 col-md-4 col-sm-4">
-                  <label for="tinno" class="form-label">Tin no.</label>
-                  <input type="text"  name="tinno" class="form-control" id="tinno" required oninput="letter_init(this.id)">
-                  <div class="invalid-feedback">Please enter house number!</div>
-                  <p id="ptinno" hidden></p>
-                </div>
-                
-                </div>
+                <input type="hidden" name="error" id="error" value="" >
+                <hr>
                 <hr class="mb-4">
                 <div class="col-2">
-                  <button id="addcustomer" class="btn btn-warning w-100 text-white" type="submit">Add</button>
+                  <button id="addcustomer" class="btn btn-warning w-100 text-white" type="submit"
+                    onclick="add()">Add</button>
                 </div>
-               
+
               </form>
             </div>
           </div>

@@ -393,16 +393,18 @@
     }
 
     function add(){
+ 
       var tinno = document.getElementById('tinno').style.borderColor;
       var fn = document.getElementById('fn').style.borderColor;
       var ln = document.getElementById('ln').style.borderColor;
-      var p1 = document.getElementById('p1').style.borderColor;
-      var p2 = document.getElementById('p2').style.borderColor;
-      var ct = document.getElementById('ct').style.borderColor;
+      var p1 = document.getElementById('phone1').style.borderColor;
+      var p2 = document.getElementById('phone2').style.borderColor;
+      
       
 
-      if (p2=='red'||fn=='red'||ln=='red'||p1=='red'||ct=='red'||tinno=='red'){
-       
+      if (p2==='red'||fn==='red'||ln==='red'||p1==='red'||ct==='red'||tinno==='red'){
+        
+  
         document.getElementById('error').value='error';
         
         

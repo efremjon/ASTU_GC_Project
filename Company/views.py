@@ -15,6 +15,7 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.forms import PasswordChangeForm
 from .models import *
+from django.contrib.auth.decorators import login_required
 from Agent.models import *
 from .form import passwordform, NameForm
 from django.core.mail import send_mail
@@ -26,7 +27,7 @@ from django.contrib.auth.models import Group
 # Create your views here.
 
 
-@login_required(login_url='')
+
 def Admin_dashboard(request):
     if request.user.is_authenticated:
         all_agent = Agent.objects.all()
@@ -59,10 +60,9 @@ def Admin_dashboard(request):
 
         return render(request, 'Company/dashboard/admin.html', context)
     else:
-        redirect('login')
+        return redirect('login')
 
 
-@login_required(login_url='login')
 def staff_dashboard(request):
     all_agent = Agent.objects.all()
     S_staff = Company_Store_Manager.objects.all()
@@ -93,7 +93,6 @@ def staff_dashboard(request):
     return render(request, 'Company/dashboard/staff.html', context)
 
 
-@login_required(login_url='login')
 def store_dashboard(request):
     all_agent = Agent.objects.all()
     S_staff = Company_Store_Manager.objects.all()
@@ -125,7 +124,6 @@ def store_dashboard(request):
     return render(request, 'Company/dashboard/store.html', context)
 
 
-@login_required(login_url='login')
 def region_dashboard(request):
     all_agent = Agent.objects.all()
     S_staff = Company_Store_Manager.objects.all()
@@ -158,7 +156,6 @@ def region_dashboard(request):
     return render(request, 'Company/dashboard/region.html', context)
 
 
-@login_required(login_url='login')
 def product_dashboard(request):
     all_agent = Agent.objects.all()
     S_staff = Company_Store_Manager.objects.all()
@@ -191,7 +188,6 @@ def product_dashboard(request):
     return render(request, 'Company/dashboard/product.html', context)
 
 
-@login_required(login_url='login')
 def add_agent(request):
 
     all_region = Region.objects.all()
@@ -244,7 +240,7 @@ def add_agent(request):
                                                          instagram=instagram, about=about, profile_pic=profile, Region=rregion, TIN_NO=TIN_NO, location=location, address=address, city=city,
                                                          marchentId=marchent_id, agreement=agreement, License=license)
                             if agent:
-
+                                messages.success(request,'Agent registered successfully!')
                                 return redirect('agent-view')
             else:
                 messages.error(request, 'password didn\'t match.')
@@ -283,8 +279,6 @@ def add_agent(request):
     return render(request, 'Company/agents/add-agent.html', {'all_region': all_region})
 
 
-# ////////////////
-@login_required(login_url='login')
 # Profile
 def show_profile(request):
     users = User.objects.get(id=request.user.id)
@@ -295,7 +289,6 @@ def show_profile(request):
     return render(request, 'Company/profile/show_profile.html', context)
 
 
-@login_required(login_url='login')
 def edit_profile(request):
     users = User.objects.get(id=request.user.id)
     admin = users.admin
@@ -322,7 +315,6 @@ def edit_profile(request):
     return render(request, 'Company/profile/edit_profile.html', context)
 
 
-@login_required(login_url='login')
 def change_password(request):
     users = User.objects.get(id=request.user.id)
     admin = users.admin
@@ -347,7 +339,6 @@ def change_password(request):
     return render(request, 'Company/profile/chage_password.html', context)
 
 
-@login_required(login_url='login')
 def change_profile_pic(request):
     users = User.objects.get(id=request.user.id)
     admin = users.admin
@@ -366,7 +357,6 @@ def change_profile_pic(request):
     return render(request, 'Company/profile/change_profile_pic.html', context)
 
 
-@login_required(login_url='login')
 def delete_profile_pic(request):
     users = User.objects.get(id=request.user.id)
     admin = users.admin

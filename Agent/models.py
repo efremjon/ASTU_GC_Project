@@ -10,12 +10,13 @@ class Customer(models.Model):
 	Compan_name = models.CharField(max_length=200, null=True)
 	phone1 = models.CharField(max_length=200, null=True)
 	phone2 = models.CharField(max_length=200, null=True)
-	Adderes = models.CharField(max_length=200, null=True)
+	Address = models.CharField(max_length=200, null=True)
 	House_No = models.CharField(max_length=200, null=True)
 	profile_pic=models.ImageField(null=True,blank=True, upload_to='Profile/')		
 	TIN_NO = models.CharField(max_length=500, null=True)
 	License = models.FileField(null=True, blank=True, upload_to='License')
-	agreement = models.FileField(null=True, blank=True, upload_to='Agreement')
+	Marchent_id=models.CharField(max_length=200, null=True,blank=True)
+	
 	date_created = models.DateTimeField(auto_now_add=True, null=True)
 	def __str__(self):
 		return str(self.user)
@@ -31,12 +32,12 @@ class Vehicle(models.Model):
 	vichel_name = models.CharField(max_length=100,null=True)
 	vichel_type = models.CharField(max_length=200, null=True,choices=Product_Type)
 	vichel_No = models.CharField(max_length=200, null=True)
-	Agent=models.OneToOneField(Agent,null=True, on_delete=models.CASCADE)
+	Agent=models.ForeignKey(Agent,null=True, blank=True,on_delete=models.CASCADE)
 
 class Driver(models.Model):
 	user=models.OneToOneField(User,null=True, on_delete=models.CASCADE)
 	Agent=models.OneToOneField(Agent,null=True, on_delete=models.CASCADE)
-	Vichel=models.OneToOneField(Vehicle,null=True, on_delete=models.CASCADE)
+	vehicle=models.OneToOneField(Vehicle,null=True, blank=True,on_delete=models.CASCADE)
 	phone1 = models.CharField(max_length=200, null=True)
 	Adderes = models.CharField(max_length=200, null=True)
 	date_created = models.DateTimeField(auto_now_add=True, null=True)
