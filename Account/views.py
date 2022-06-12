@@ -14,48 +14,51 @@ from django.core import validators
 
 def login_view(request):
     if request.user.is_authenticated:
-        if request.user.groups.exists():
-            a = request.user.groups.all()[0].name
-            if a == 'Admin':
-                return redirect('admin-dashbord',)
-            elif a == 'Agent':
+        if hasattr(request.user,'groups'):
+           
+                a = request.user.groups.all()[0].name
+                if a == 'Admin':
+                    return redirect('admin-dashbord',)
+                elif a == 'Agent':
 
-                return redirect('agent_dashbord')
-            elif a == 'Customer':
+                    return redirect('agent_dashbord')
+                elif a == 'Customer':
 
-                return redirect('Customer_dashbord')
-            elif a == 'Financ_admin':
+                    return redirect('Customer_dashbord')
+                elif a == 'Financ_admin':
 
-                return redirect('finance_admin_home')
-            elif a == 'Store_Manager':
+                    return redirect('finance_admin_home')
+                elif a == 'Store_Manager':
 
-                return redirect('store-manager-home')
+                    return redirect('store-manager-home')
         else:
-            pass
+            messages.error(request,'You are not authenticated')
+            return render(request, 'Account/login.html')
 
     else:
         if request.method == 'POST':
             username = request.POST['username']
             password = request.POST['password']
             user = authenticate(username=username, password=password)
-            if user.groups.exists():
-                a = user.groups.all()[0].name
-                if a == 'Admin':
-                    login(request, user)
-                    return redirect('admin-dashbord',)
-                elif a == 'Agent':
-                    login(request, user)
-                    return redirect('agent_dashbord')
-                elif a == 'Customer':
-                    login(request, user)
-                    return redirect('Customer_dashbord')
-                elif a == 'Financ_admin':
-                    login(request, user)
-                    return redirect('finance_admin_home')
-                elif a == 'Store_Manager':
-                    login(request, user)
-                    return redirect('store-manager-home')
+            if hasattr(user,'groups'):
+                    a = user.groups.all()[0].name
+                    if a == 'Admin':
+                        login(request, user)
+                        return redirect('admin-dashbord',)
+                    elif a == 'Agent':
+                        login(request, user)
+                        return redirect('agent_dashbord')
+                    elif a == 'Customer':
+                        login(request, user)
+                        return redirect('Customer_dashbord')
+                    elif a == 'Financ_admin':
+                        login(request, user)
+                        return redirect('finance_admin_home')
+                    elif a == 'Store_Manager':
+                        login(request, user)
+                        return redirect('store-manager-home')
             else:
+                messages.error(request,'Username or password is not correct!')
                 return render(request, 'Account/login.html')
     return render(request, 'Account/login.html')
 
@@ -64,6 +67,7 @@ def logout_view(request):
     if request.user.is_authenticated:
         logout(request)
         return redirect('login')
+    return redirect('login')
 
 
 # make crate super order
