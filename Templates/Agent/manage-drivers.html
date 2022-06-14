@@ -24,7 +24,14 @@
           <!-- customers view -->
           <div class="col">
             <div class="card recent-sales overflow-auto">
+              {% if messages %}
+              {% for mess in messages %}
 
+              <div class="alert alert-danger" role="alert">
+                {{mess}}
+              </div>
+              {% endfor %}
+              {% endif %}
               <div class="card-body">
 
                 <table class="table table-border datatable">
@@ -37,7 +44,6 @@
                       <th scope="col">Status</th>
                       <th scope="col">View</th>
                       <th scope="col">Remove</th>
-
                     </tr>
                   </thead>
                   <tbody>
@@ -46,9 +52,13 @@
                     <tr>
                       <th>1</th>
                       <td><a href="#">{{driver.Full_name}}</a></td>
-                      <td></a></td>
-                      <td></td>
-                      <td></td>
+                      {% if driver.vehicle %}
+                      <td>{{driver.vehicle}}</a></td>
+                      {% else %}
+                      <td> TBA</a></td>
+                      {% endif %}
+                      <td>{{driver.phone1}}</td>
+                      <td>{{driver.Status}}</td>
                       <td>
                         <a href="#">
                           <h3><i class="bi bi-eye"></i></h3>
@@ -61,7 +71,7 @@
                       </td>
                     </tr>
                     {% endfor %}
-                    
+
                   </tbody>
                 </table>
               </div>

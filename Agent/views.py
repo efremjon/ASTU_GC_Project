@@ -710,25 +710,36 @@ def manage_vehicles(request):
 
 # ////////////////////////////////////////////////////// Driver Managemetn //////////////////////////
 def add_driver(request):
+
     agent = Agent.objects.get(user=request.user)
     all_vechil = Vehicle.objects.filter(Agent=agent)
-
+    context = {
+                'all_vechil':all_vechil,
+            }
     if request.method == 'POST':
         Full_name = request.POST.get('fullname')
         phone1 = request.POST.get('driverphone')
         vehicle = request.POST.get('vechile')
+        assign_=Vehicle.objects.get(vichel_No=vehicle)
         profile_pic = request.FILES.get('licence')
         Drive_license = request.FILES.get('driverPhoto')
-        driver = Driver.objects.create(Agent=agent,Full_name=Full_name,phone1=phone1,vehicle=vehicle,profile_pic=profile_pic,Drive_license=Drive_license)
-        if driver:
-            messages.success(request, 'Driver successfully added')
-            return redirect('manage_drivers')
-        else:
-            messages.error(request, 'something went wrong. please, try again')
-    context = {
-        'all_vechil':all_vechil,
-    }
+        try:
+                
+                driver = Driver.objects.create(Agent=agent,Full_name=Full_name,phone1=phone1,vehicle=assign_,profile_pic=profile_pic,Drive_license=Drive_license)
+                if driver:
+                    messages.success(request, 'Driver successfully added')
+                    return redirect('manage_drivers')
+                else:
+                    messages.error(request, 'something went wrong. please, try again')
+               
+                return render(request, 'Agent/add-driver.html',context)
+        except Exception as e:
+            messages.error(request, 'Vihecle already assigned')
+            return redirect('add_driver')
+
     return render(request, 'Agent/add-driver.html',context)
+
+
 
 
 def manage_drivers(request):

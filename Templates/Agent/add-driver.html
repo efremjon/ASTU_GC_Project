@@ -12,6 +12,16 @@
       </ol>
     </nav>
   </div><!-- End Page Title -->
+
+  {% if messages %}
+  {% for mess in messages %}
+  {% if mess.tags in "error" %}
+  <div class="alert alert-danger" role="alert">
+    {{mess}}
+  </div>
+  {% endif %}
+  {% endfor %}
+  {% endif %}
   <section class="section add-agent">
     <div class="row">
       <div class="row justify-content-center">
@@ -28,11 +38,16 @@
                   <div class="invalid-feedback">Please enter driver's name!</div>
                 </div>
 
-                <div class="col-lg-6 col-md-6 col-sm-12">
-                  <label for="driver" class="form-label">Phone</label>
-                  <input type="tel" name="driverphone" id="driverphone" class="form-control" required>
-                  <div class="invalid-feedback">Please enter driver's phone!</div>
+              
+                <div class="col-md-4">
+                  <label for="validationCustomUsername" class="form-label">Phone</label>
+                  <div class="input-group has-validation">
+                    <span class="input-group-text" id="inputGroupPrepend">+251</span>
+                    <input type="text" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required>
+                   
+                  </div>
                 </div>
+
 
                 <div class="col-lg-6 col-md-6 col-sm-12">
                   <label for="photo" class="form-label">Prfile_Pic</label>
@@ -50,7 +65,7 @@
                   <label for="driver role" class="form-label">Driver</label>
                   <select class="form-select" name="vechile" id="driver_role">
                     {% for vihecle in all_vechil %}
-                    <option value="{{vihecle}}">{{vihecle}}</option>
+                    <option value="{{vihecle.vichel_No}}">{{vihecle.vichel_No}}</option>
                     {% endfor %}
                   </select>
                 </div>

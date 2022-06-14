@@ -37,7 +37,7 @@ class Vehicle(models.Model):
     vichel_name = models.CharField(max_length=100, null=True)
     vichel_type = models.CharField(
         max_length=200, null=True, choices=Product_Type)
-    vichel_No = models.CharField(max_length=200, null=True)
+    vichel_No = models.CharField(max_length=200, null=True,unique=True)
     vichel_pic = models.ImageField(
         null=True, blank=True, upload_to='vichel_pic/')
 
