@@ -22,6 +22,13 @@
             <div class="col-lg-12">
                 <div class="row">
                     <!-- Vehicles view -->
+                    {% if messages %}
+                    {% for mess in messages %}
+                    <div class="alert alert-success" role="alert">
+                        {{mess}}
+                    </div>
+                    {% endfor %}
+                    {% endif %}
                     <div class="col">
                         <div class="card recent-sales overflow-auto">
 
@@ -39,31 +46,24 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        {% for vichel in all_vechil %}
                                         <tr>
-                                            <th scope="row"><img src="{% static 'assets/img/scania.jpg' %}" alt=""
-                                                    width="120"></th>
-                                            <td>Scania</a></td>
-                                            <td>A.A 94529</td>
-                                            <td>Fetch</td>
+                                            {% if vichel.vichel_pic %}
+                                            <th scope="row"><img style="width: 100px;" src="{{vichel.vichel_pic.url}}"
+                                                    alt=""></th>
+                                            {% else %}
+                                            <th scope="row">No Image </th>
+                                            {% endif %}
+                                            <td>{{vichel.vichel_name}}</td>
+                                            <td>{{vichel.vichel_type}}</td>
+                                            <td>{{vichel.vichel_No}}</td>
                                             <td>
-                                                <a href="#">
+                                                <a href="{% url 'delete-vihecle' vichel.id %}">
                                                     <h3 class="text-danger"><i class="bi bi-trash"></i></h3>
                                                 </a>
                                             </td>
                                         </tr>
-
-                                        <tr>
-                                            <th scope="row"><img src="{% static 'assets/img/isuzu.jpg' %}" alt=""
-                                                    width="120"></th>
-                                            <td>Isuzu</a></td>
-                                            <td>O.R 78001</td>
-                                            <td>Distibution</td>
-                                            <td>
-                                                <a href="#">
-                                                    <h3 class="text-danger"><i class="bi bi-trash"></i></h3>
-                                                </a>
-                                            </td>
-                                        </tr>
+                                        {% endfor %}
 
                                     </tbody>
                                 </table>

@@ -1,6 +1,8 @@
 from multiprocessing import context
 from operator import attrgetter
 from statistics import quantiles
+from django import http
+from django.forms import EmailField
 from django.shortcuts import render
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
@@ -32,17 +34,47 @@ def Agent_dashboard(request):
                 return HttpResponse('404,User: Data Not Found')
 
             try:
-                request_agent = Agent.objects.get(user=users)
-                all_customer = Customer.objects.filter(Agent=request_agent)
+
+                request_agent = Agent.objects.filter(user=users)
+                all_customer = Customer.objects.filter(Agent=request_agent[0])
                 total_customer = all_customer.count()
+                penndig_order_customer = []
+                agent_custome = []
+                cust_order = {}
+                customer_order = []
+                customer_transaction = []
+                for agent_cust in all_customer:
+                    cust_order[agent_cust] = Customer_order.objects.filter(
+                        Customer=agent_cust)
+
+                for customer, order in cust_order.items():
+
+                    for ord in order:
+                        customer_order.append(ord)
+                        customer_transaction.append(
+                            Customer_Transaction.objects.get(Customer_order_id=ord.id))
+
+                data = zip(customer_order, customer_transaction)
+
+                total_pending_order = 0
+                for order in penndig_order_customer:
+                    total_pending_order = total_pending_order + 1
+                # penndig_order_customer.append(Customer_order.objects.filter(Customer=customer,status='Pending'))
+
                 adds = Advertisment.objects.all()
                 context = {
                     'all_customer': all_customer,
                     'total_customer': total_customer,
-                    'adds': adds
+                    'adds': adds,
+                    'data': data,
+                    'cust_order': cust_order,
+                    'total_pending_order': total_pending_order,
+                    'penndig_order_customer': penndig_order_customer,
+
+
                 }
                 return render(request, 'Agent/agent-dashboard.html', context)
-            except request_agent.DoesNotExist:
+            except UnboundLocalError as e:
                 return HttpResponse('404,User: Data Not Found')
         messages.error(request, 'permission denied ')
         return redirect('logout')
@@ -66,10 +98,25 @@ def my_product(request):
     return render(request, 'Agent/my_product.html', {})
 
 
-# user profile part
+# ///////////////////////////////////////////////////////////////  user profile part  ////////////////////////////////////////////////////////////////////////////
 
 def show_profile(request):
-    return render(request, 'Agent/profile/show_profile.html')
+
+    try:
+        if request.user.groups.all()[0].name == 'Agent':
+            users = User.objects.get(id=request.user.id)
+
+            Agent = users.agent
+
+            context = {
+                'admin': Agent,
+            }
+            return render(request, 'Agent/profile/show_profile.html', context)
+        messages.error(request, 'permission denied ')
+        return redirect('logout')
+    except IndexError as e:
+        messages.error(request, 'Login Before ')
+        return redirect('logout')
 
 
 def edit_profile(request):
@@ -84,19 +131,26 @@ def edit_profile(request):
             if request.method == 'POST':
                 admin.about = request.POST['about']
                 admin.phone1 = request.POST['phone']
-                admin.Company = request.POST['company']
-                admin.Country = request.POST['country']
-                admin.Job = request.POST['job']
                 admin.address = request.POST['address']
                 admin.facebook = request.POST['facebook']
                 admin.telegram = request.POST['telegram']
                 admin.instagram = request.POST['instagram']
                 users.first_name = request.POST['first_name']
                 users.last_name = request.POST['last_name']
+
+                Email = request.POST['email']
+                # email uniqueness
+                # email_user=User.objects.get(email=Email)
                 users.email = request.POST['email']
+                new = User.objects.filter(email=Email)
+                x = new.count()
+                if x > 1:
+                    messages.error(request, 'Email Already Exist')
+                    return render(request, 'Agent/profile/edit_profile.html', context)
+
                 admin.save()
                 users.save()
-                return redirect('show_profile')
+                return redirect('show_profile_agent')
             return render(request, 'Agent/profile/edit_profile.html', context)
         messages.error(request, 'permission denied ')
         return redirect('logout')
@@ -118,7 +172,7 @@ def change_password(request):
                     update_session_auth_hash(request, user)  # Important!
                     messages.success(
                         request, 'Your password was successfully updated!')
-                    return redirect('show_profile')
+                    return redirect('show_profile_agent')
                 else:
                     messages.error(request, 'Please correct the error below.')
             else:
@@ -150,10 +204,12 @@ def change_profile_pic(request):
                     admin.profile_pic.delete()
                     admin.profile_pic = request.FILES['img']
                     admin.save()
-                    return redirect('edit_profile')
+                    return redirect('edit_profile_agent')
                 else:
-                    return render(request, 'Company/profile/change_profile_pic.html', context)
+                    return render(request, 'Agent/profile/change_profile_pic.html', context)
+
             return render(request, 'Agent/profile/change_profile_pic.html', context)
+
         messages.error(request, 'permission denied ')
         return redirect('logout')
     except IndexError as e:
@@ -172,7 +228,7 @@ def delete_profile_pic(request):
             }
             if len(admin.profile_pic) != 0:
                 admin.profile_pic.delete()
-                return redirect('edit_profile')
+                return redirect('edit_profile_agent')
 
             return render(request, 'Agent/profile/edit_profile.html', context)
         messages.error(request, 'permission denied ')
@@ -181,38 +237,37 @@ def delete_profile_pic(request):
         messages.error(request, 'Login Before ')
         return redirect('logout')
 
-# end user profile part
+# /////////////////////////////////////////////////////////////// end user profile part ////////////////////////////////////////////////////////////////////////////
 
 
 def customer_order(request):
     try:
+
         if request.user.groups.all()[0].name == 'Agent':
             cust_order = {}
             customer_order = []
             agent_custome = []
             cust_tran = []
-
-            users = User.objects.get(id=request.user.id)
-            request_agent = Agent.objects.get(user=users)
-            agent_customer = Customer.objects.filter(Agent=request_agent)
-
-            for agent_cust in agent_customer:
+            request_agent = Agent.objects.filter(user=request.user)
+            all_customer = Customer.objects.filter(Agent=request_agent[0])
+            total_customer = all_customer.count()
+            penndig_order_customer = []
+            agent_custome = []
+            cust_order = {}
+            customer_order = []
+            customer_transaction = []
+            for agent_cust in all_customer:
                 cust_order[agent_cust] = Customer_order.objects.filter(
                     Customer=agent_cust)
 
             for customer, order in cust_order.items():
-                customer_order.append(order)
-                agent_custome.append(customer)
 
-            for key, value in cust_order.items():
-                for val in value:
-                    print(val)
+                for ord in order:
+                    customer_order.append(ord)
+                    customer_transaction.append(
+                        Customer_Transaction.objects.get(Customer_order_id=ord.id))
 
-            all = Customer_Transaction.objects.all()
-            for key in all:
-                print(key.Customer_order_id)
-
-            data = zip(customer_order, agent_custome)
+                data = zip(customer_order, customer_transaction)
 
             context = {
 
@@ -595,20 +650,59 @@ def transaction_detail(request, pk):
         return redirect('logout')
 
 
+# ////////////////////////////////////////////////////// Vichel Managemetn //////////////////////////
+
 def add_vehicle(request):
-    return render(request, 'Agent/add-vehicle.html', {})
+
+    if request.method == 'POST':
+        vichel_type = request.POST.get('car_type')
+        vichel_name = request.POST.get('vehicle_name')
+        vichel_No = request.POST.get('plate_num')
+        vichel_pic = request.FILES.get('vehiclePhoto')
+        print(vichel_pic)
+        new = Vehicle.objects.create(
+            vichel_type=vichel_type, vichel_name=vichel_name, vichel_No=vichel_No, vichel_pic=vichel_pic)
+        if new:
+            messages.success(request, 'vihecle successfully added')
+            return redirect('manage_vehicles')
+        else:
+            messages.error(request, 'something went wrong. please, try again')
+    return render(request, 'Agent/add-vehicle.html',)
+
+
+
+def delete_vehicle(request,pk):
+
+    vihecle=Vehicle.objects.get(id=pk)
+    agent=Agent.objects.get(user=request.user)
+    if agent==vihecle.Agent:
+       vihecle.delete()
+       messages.success(request,'Vihelce successfully deleted')
+       return redirect('manage_vehicles')
+      
 
 
 def manage_vehicles(request):
-    return render(request, 'Agent/manage-vehicles.html', {})
+
+    agent=Agent.objects.get(user=request.user)
+    all_vechil = Vehicle.objects.filter(Agent=agent)
+    context = {
+        'all_vechil': all_vechil,
+    }
+    return render(request, 'Agent/manage-vehicles.html', context)
+
+# ///////////////////////////////////////////////////// End Vichel /////////////////////////////////////
 
 
+# ////////////////////////////////////////////////////// Driver Managemetn //////////////////////////
 def add_driver(request):
     return render(request, 'Agent/add-driver.html', {})
 
 
 def manage_drivers(request):
     return render(request, 'Agent/manage-drivers.html', {})
+
+# ////////////////////////////////////////////////////// End Managemetn //////////////////////////
 
 
 def transactions(request):

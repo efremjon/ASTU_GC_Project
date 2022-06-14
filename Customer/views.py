@@ -465,7 +465,7 @@ def order_summer(request):
         messages.error(request, 'permission denied ')
         return redirect('logout')
     except IndexError as e:
-        messages.error(request, 'permission denied ')
+        messages.error(request, 'Login Before ')
         return redirect('logout')
 
 
@@ -521,7 +521,7 @@ def success(request):
         messages.error(request, 'permission denied ')
         return redirect('logout')
     except IndexError as e:
-        messages.error(request, 'permission denied ')
+        messages.error(request, 'Login Before ')
         return redirect('logout')
 
 # def cancel(request):

@@ -22,9 +22,9 @@ class Customer_order(models.Model):
   def __str__(self) -> str:
       return str(self.Customer) + " |" + " Order " + str(self.id)
       
-# products=Product.objects.all()
-# for product in products:
-#      Customer_order.add_to_class(product.Product_Name,models.IntegerField(default=0,null=True,blank=True))  
+products=Product.objects.all()
+for product in products:
+    Customer_order.add_to_class(product.Product_Name,models.IntegerField(default=0,null=True,blank=True))  
 
 class Customer_Transaction(models.Model):
   Paid_status = (

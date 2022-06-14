@@ -16,7 +16,7 @@
       <div class="row">
         <div class="col-lg-12">
           <div class="row"> -->
-            <!-- Recent Sales -->
+  <!-- Recent Sales -->
   <div class="col">
     <div class="card recent-sales overflow-auto">
 
@@ -40,40 +40,46 @@
             </tr>
           </thead>
           <tbody>
+            <!-- sdfsdfsdfs -->
+            {%for row1 , row2 in data %}
 
 
-            {%for key ,value in cust_order.items%}
-            {% for val in value %}
-            {{val.customer_Transaction_set.all}}
             <tr>
 
-              <td>{{val.date_created}}</td>
-              <td class="text-primary">{{val.Customer}}</td>
-              <td>{{val.Customer.Adderes}}</a></td>
-              <td>{{val.Customer.House_No}}</td>
-              <td>{{val.Customer.Adderes}}</td>
+              <td>{{row1.date_created}}</td>
 
-              {% if val.status == 'Pending' %}
+              <td class="text-primary">{{row1.Customer}}</td>
+              <td>{{row1.Customer.Address}}</a></td>
+              <td>{{row1.Customer.House_No}}</td>
+              <td>{{row2.TransactionCode}}</td>
+
+              {% if row1.status == 'Pending' %}
               <td><span class="badge bg-warning">Pending</span></td>
-              {% elif val.status == 'Not Recived' %}
+              {% elif row1.status == 'Not Recived' %}
               <td><span class="badge bg-danger">Not delivered</span></td>
-              {% elif val.status == 'Delivered' %}
+              {% elif row1.status == 'Delivered' %}
               <td><span class="badge bg-success">delivered</span></td>
               {% endif %}
-
-              <td><a href="{% url 'cusomer_order_ditel' val.id %}" class="btn btn-sm btn-primary">View</a></td>
-
-              {% if val.driver == 'Assigned' %}
+              <td><a href="{% url 'cusomer_order_ditel' row1.id %}" class="btn btn-sm btn-primary">View</a></td>
+              {% if row1.driver == 'Assigned' %}
               <td><span class="badge bg-success">Assigned</span></td>
-              {% elif val.driver == 'Not Assigned' %}
+              {% elif row1.driver == 'Not Assigned' %}
               <td><span class="badge bg-danger">Not Assigned</span></td>
               {% endif %}
 
 
             </tr>
 
+
             {% endfor %}
-            {% endfor %}
+
+
+
+
+
+            <!-- fgdfgdgd -->
+
+
 
             <!-- <tr>
               <th>4</th>

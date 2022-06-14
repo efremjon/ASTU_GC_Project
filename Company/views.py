@@ -324,7 +324,9 @@ def show_profile(request):
     try:
         if request.user.groups.all()[0].name == 'Admin':
             users = User.objects.get(id=request.user.id)
-            admin = users.admin
+           
+            admin = users.admin 
+            print(admin)
             context = {
                 'admin': admin,
             }
