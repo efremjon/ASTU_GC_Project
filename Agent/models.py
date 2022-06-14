@@ -37,7 +37,7 @@ class Vehicle(models.Model):
     vichel_name = models.CharField(max_length=100, null=True)
     vichel_type = models.CharField(
         max_length=200, null=True, choices=Product_Type)
-    vichel_No = models.CharField(max_length=200, null=True,unique=True)
+    vichel_No = models.CharField(max_length=200, null=True,)
     vichel_pic = models.ImageField(
         null=True, blank=True, upload_to='vichel_pic/')
 
@@ -61,6 +61,7 @@ class Driver(models.Model):
     vehicle = models.OneToOneField(
         Vehicle, null=True, blank=True, on_delete=models.CASCADE)
     phone1 = models.CharField(max_length=200, null=True)
+    salary = models.CharField(max_length=500, null=True)
     profile_pic = models.ImageField(
         null=True, blank=True, upload_to='Profile/')
     Drive_license = models.FileField(

@@ -59,6 +59,8 @@ urlpatterns = [
 
     path('add_driver/', views.add_driver, name="add_driver"),
     path('manage_drivers/', views.manage_drivers, name="manage_drivers"),
+    path('view_drivers_profile/<int:pk>', views.view_drivers_profile, name="view_drivers_profile"),
+    path('delete_drivers/<int:pk>', views.delete_drivers, name="delete_drivers"),
 
     path('transactions/', views.transactions, name="transactions"),
     path('send_message/', views.send_message, name="send_message"),

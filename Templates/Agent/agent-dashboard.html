@@ -47,8 +47,11 @@
                         <i class="ri-steering-2-line"></i>
                       </div>
                       <div class="ps-3">
-                        <h6>240</h6>
-
+                        {% if total_driver %}
+                        <h6>{{total_driver}}</h6>
+                        {% else %}
+                        <h6>0</h6>
+                        {% endif %}
 
                       </div>
                     </div>
@@ -70,7 +73,12 @@
                         <i class="bi bi-truck"></i>
                       </div>
                       <div class="ps-3">
+                        {% if total_driver %}
                         <h6>{{total_vichel}}</h6>
+                        {% else %}
+                        <h6>0</h6>
+                        {% endif %}
+
                       </div>
                     </div>
                 </div>

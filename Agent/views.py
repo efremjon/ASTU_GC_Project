@@ -1,3 +1,4 @@
+
 from multiprocessing import context
 from operator import attrgetter
 from statistics import quantiles
@@ -37,9 +38,11 @@ def Agent_dashboard(request):
 
                 request_agent = Agent.objects.filter(user=users)
                 all_customer = Customer.objects.filter(Agent=request_agent[0])
-
                 all_vechil = Vehicle.objects.filter(Agent=request_agent[0])
+                all_driver = Driver.objects.filter(Agent=request_agent[0])
                 total_vichel = all_vechil.count()
+                total_driver = all_driver.count()
+                print(total_driver)
                 print(total_vichel)
                 total_customer = all_customer.count()
                 penndig_order_customer = []
@@ -75,6 +78,7 @@ def Agent_dashboard(request):
                     'total_pending_order': total_pending_order,
                     'penndig_order_customer': penndig_order_customer,
                     'total_vichel': total_vichel,
+                    'total_driver': total_driver,
 
 
                 }
@@ -298,10 +302,24 @@ def customer_order(request):
 def cusomer_order_ditel(request, pk):
     try:
         if request.user.groups.all()[0].name == 'Agent':
+            request_agent = Agent.objects.get(user=request.user)
+            
+                
+            try:
+                drivers=Driver.objects.filter(Agent=request_agent)
+                print(drivers)
+            except 	ValueError as e:
+                drivers=''
+
             transaction = Customer_Transaction.objects.get(id=pk)
             products = Product.objects.all()
+
             order = Customer_order.objects.get(
                 id=transaction.Customer_order_id.id)
+            if request.method=='POST':
+                driver_id = request.POST.get('driver')
+                driver = Driver.objects.get(id=driver_id)
+                
             price = []
             prods = []
             quantity = []
@@ -321,6 +339,7 @@ def cusomer_order_ditel(request, pk):
                 'transaction': transaction,
                 'data': data,
                 'total_quantity': total_quantity,
+                'drivers':drivers,
             }
             return render(request, 'Agent/customer_order_ditel.html', context)
         messages.error(request, 'permission denied ')
@@ -669,15 +688,16 @@ def transaction_detail(request, pk):
 # ////////////////////////////////////////////////////// Vichel Managemetn //////////////////////////
 
 def add_vehicle(request):
-
+    request_agent=Agent.objects.get(user=request.user)
     if request.method == 'POST':
+        
         vichel_type = request.POST.get('car_type')
         vichel_name = request.POST.get('vehicle_name')
         vichel_No = request.POST.get('plate_num')
         vichel_pic = request.FILES.get('vehiclePhoto')
         print(vichel_pic)
         new = Vehicle.objects.create(
-            vichel_type=vichel_type, vichel_name=vichel_name, vichel_No=vichel_No, vichel_pic=vichel_pic)
+            vichel_type=vichel_type, vichel_name=vichel_name, vichel_No=vichel_No, vichel_pic=vichel_pic,Agent=request_agent)
         if new:
             messages.success(request, 'vihecle successfully added')
             return redirect('manage_vehicles')
@@ -714,46 +734,72 @@ def add_driver(request):
     agent = Agent.objects.get(user=request.user)
     all_vechil = Vehicle.objects.filter(Agent=agent)
     context = {
-                'all_vechil':all_vechil,
-            }
+        'all_vechil': all_vechil,
+    }
     if request.method == 'POST':
         Full_name = request.POST.get('fullname')
         phone1 = request.POST.get('driverphone')
         vehicle = request.POST.get('vechile')
-        assign_=Vehicle.objects.get(vichel_No=vehicle)
+        assign_ = Vehicle.objects.get(vichel_No=vehicle)
         profile_pic = request.FILES.get('licence')
         Drive_license = request.FILES.get('driverPhoto')
         try:
-                
-                driver = Driver.objects.create(Agent=agent,Full_name=Full_name,phone1=phone1,vehicle=assign_,profile_pic=profile_pic,Drive_license=Drive_license)
-                if driver:
-                    messages.success(request, 'Driver successfully added')
-                    return redirect('manage_drivers')
-                else:
-                    messages.error(request, 'something went wrong. please, try again')
-               
-                return render(request, 'Agent/add-driver.html',context)
+
+            driver = Driver.objects.create(Agent=agent, Full_name=Full_name, phone1=phone1,
+                                           vehicle=assign_, profile_pic=profile_pic, Drive_license=Drive_license)
+            if driver:
+                messages.success(request, 'Driver successfully added')
+                return redirect('manage_drivers')
+            else:
+                messages.error(
+                    request, 'something went wrong. please, try again')
+
+            return render(request, 'Agent/add-driver.html', context)
         except Exception as e:
             messages.error(request, 'Vihecle already assigned')
             return redirect('add_driver')
 
-    return render(request, 'Agent/add-driver.html',context)
-
-
+    return render(request, 'Agent/add-driver.html', context)
 
 
 def manage_drivers(request):
     agent = Agent.objects.get(user=request.user)
     all_drive = Driver.objects.filter(Agent=agent)
     context = {
-        'all_drive':all_drive,
+        'all_drive': all_drive,
     }
     return render(request, 'Agent/manage-drivers.html', context)
 
 
-def delete_drivers(request):
+def view_drivers_profile(request, pk):
+    agent = Agent.objects.get(user=request.user)
+    drive = Driver.objects.get(Agent=agent, id=pk)
+    all_vechil = Vehicle.objects.filter(Agent=agent)
+    if request.method == 'POST':
+        salary = request.POST.get('Salary')
+        vichile = request.POST.get('vihecle')
+        vehicle = Vehicle.objects.get(vichel_No=vichile)
+        drive.salary = salary
+        drive.vehicle = vehicle
+        drive.save()
+    context = {
+        'drive': drive,
+        'all_vechil': all_vechil,
+    }
+    return render(request, 'Agent/driver_profile.html', context)
 
-    return render(request, 'Agent/manage-drivers.html', {})
+
+def delete_drivers(request, pk):
+    agent = Agent.objects.get(user=request.user)
+    drive = Driver.objects.get(Agent=agent, id=pk)
+    all_drive = Driver.objects.filter(Agent=agent)
+    drive.delete()
+    messages.success(request, 'Driver successfully removed')
+
+    context = {
+        'all_drive': all_drive,
+    }
+    return render(request, 'Agent/manage-drivers.html', context)
 # ////////////////////////////////////////////////////// End Driver Managemetn //////////////////////////
 
 

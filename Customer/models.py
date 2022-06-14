@@ -1,5 +1,5 @@
 from django.db import models
-from Agent.models import Customer,Product_in_Agent_Stor
+from Agent.models import Customer,Product_in_Agent_Stor,Driver
 from Company.models import Product
 
 # Create your models here.
@@ -11,13 +11,14 @@ class Customer_order(models.Model):
       ('Not Recived', 'Not Recived'),
       ('Delivered', 'Delivered'),
       ) 
-  Driver = (
+  Driver_choice = (
       ('Assigned', 'Assigned'),
       ('Not Assigned', 'Not Assigned'),
       ) 
   Customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True)
   date_created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
-  driver = models.CharField(max_length=200, null=True, choices=Driver)
+  driver_status = models.CharField(max_length=200, null=True, choices=Driver_choice)
+  driver=models.ForeignKey(Driver, on_delete=models.SET_NULL, null=True )
   status = models.CharField(max_length=200, null=True, choices=STATUS, default='Not Assigned')
   def __str__(self) -> str:
       return str(self.Customer) + " |" + " Order " + str(self.id)

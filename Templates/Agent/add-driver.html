@@ -38,13 +38,14 @@
                   <div class="invalid-feedback">Please enter driver's name!</div>
                 </div>
 
-              
+
                 <div class="col-md-4">
                   <label for="validationCustomUsername" class="form-label">Phone</label>
                   <div class="input-group has-validation">
                     <span class="input-group-text" id="inputGroupPrepend">+251</span>
-                    <input type="text" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required>
-                   
+                    <input type="text" class="form-control" id="validationCustomUsername"
+                      aria-describedby="inputGroupPrepend" required>
+
                   </div>
                 </div>
 
@@ -56,13 +57,19 @@
                 </div>
 
                 <div class="col-lg-6 col-md-6 col-sm-12">
+                  <label for="photo" class="form-label">Salary</label>
+                  <input type="text" name="salary" class="form-control" id="photo" required>
+                  <div class="invalid-feedback">Please enter Salary!</div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12">
                   <label for="plate" class="form-label">Diver's Licence</label>
                   <input type="file" name="licence" class="form-control" id="licence" required>
                   <div class="invalid-feedback">Please upload licence!</div>
                 </div>
 
                 <div class="col-lg-6 col-md-6 col-sm-12">
-                  <label for="driver role" class="form-label">Driver</label>
+                  <label for="driver role" class="form-label">Vihecle</label>
                   <select class="form-select" name="vechile" id="driver_role">
                     {% for vihecle in all_vechil %}
                     <option value="{{vihecle.vichel_No}}">{{vihecle.vichel_No}}</option>
