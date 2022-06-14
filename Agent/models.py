@@ -40,21 +40,35 @@ class Vehicle(models.Model):
     vichel_No = models.CharField(max_length=200, null=True)
     vichel_pic = models.ImageField(
         null=True, blank=True, upload_to='vichel_pic/')
+
     Agent = models.ForeignKey(
         Agent, null=True, blank=True, on_delete=models.CASCADE)
 
+    def __str__(self) -> str:
+        return self.vichel_name
+
 
 class Driver(models.Model):
-    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
-    Agent = models.OneToOneField(Agent, null=True, on_delete=models.CASCADE)
+    status_Type = (
+        ('on_duty', 'on_duty'),
+        ('on_garage', 'on_garage'),
+        ('on_wating', 'on_wating'),
+    )
+    Status = models.CharField(
+        max_length=200, null=True, choices=status_Type, default='on_wating')
+    Full_name = models.CharField(max_length=200, null=True)
+    Agent = models.ForeignKey(Agent, null=True, on_delete=models.CASCADE)
     vehicle = models.OneToOneField(
         Vehicle, null=True, blank=True, on_delete=models.CASCADE)
     phone1 = models.CharField(max_length=200, null=True)
-    Adderes = models.CharField(max_length=200, null=True)
+    profile_pic = models.ImageField(
+        null=True, blank=True, upload_to='Profile/')
+    Drive_license = models.FileField(
+        null=True, blank=True, upload_to='License')
     date_created = models.DateTimeField(auto_now_add=True, null=True)
 
     def __str__(self):
-        return self.user.first_name
+        return self.Full_name
 
 
 class Agent_finance(models.Model):

@@ -37,6 +37,10 @@ def Agent_dashboard(request):
 
                 request_agent = Agent.objects.filter(user=users)
                 all_customer = Customer.objects.filter(Agent=request_agent[0])
+
+                all_vechil = Vehicle.objects.filter(Agent=request_agent[0])
+                total_vichel = all_vechil.count()
+                print(total_vichel)
                 total_customer = all_customer.count()
                 penndig_order_customer = []
                 agent_custome = []
@@ -70,6 +74,7 @@ def Agent_dashboard(request):
                     'cust_order': cust_order,
                     'total_pending_order': total_pending_order,
                     'penndig_order_customer': penndig_order_customer,
+                    'total_vichel': total_vichel,
 
 
                 }
@@ -239,6 +244,8 @@ def delete_profile_pic(request):
 
 # /////////////////////////////////////////////////////////////// end user profile part ////////////////////////////////////////////////////////////////////////////
 
+# ///////////////////////////////////////////////////////////////// Customer Order ///////////////////////////////////////////////////////////////////////////////////
+
 
 def customer_order(request):
     try:
@@ -283,6 +290,10 @@ def customer_order(request):
         messages.error(request, 'Login Before ')
         return redirect('logout')
 
+# //////////////////////////////////////////////////////////////////////////////////// End Customer Order ////////////////////////////////////////////////////////////////////
+
+
+# //////////////////////////////////////////////////////////////////////////////////// cusomer_order_ditel////////////////////////////////////////////////////////////////////
 
 def cusomer_order_ditel(request, pk):
     try:
@@ -317,7 +328,10 @@ def cusomer_order_ditel(request, pk):
     except IndexError as e:
         messages.error(request, 'Login Before ')
         return redirect('logout')
+# ////////////////////////////////////////////////////////////////////////////// End cusomer_order_ditel /////////////////////////////////////////////////////////////////////////
 
+
+# ////////////////////////////////////////////////////////////////////////////// make_order /////////////////////////////////////////////////////////////////////////
 
 def make_order(request):
     try:
@@ -336,10 +350,11 @@ def make_order(request):
         messages.error(request, 'Login Before ')
         return redirect('logout')
 
+# ////////////////////////////////////////////////////////////////////////////// End make_order /////////////////////////////////////////////////////////////////////////
 
+
+# ////////////////////////////////////////////////////////////////////////////// order_summer /////////////////////////////////////////////////////////////////////////
 def order_summer(request):
-
-    #  b = Blog(name='Beatles Blog', tagline='All the latest Beatles news.')
     try:
         if request.user.groups.all()[0].name == 'Agent':
             all_product = Product.objects.all()
@@ -406,6 +421,7 @@ def order_summer(request):
     except IndexError as e:
         messages.error(request, 'Login Before ')
         return redirect('logout')
+# ///////////////////////////////////////////////////////////////////////////////////////// end order_summer /////////////////////////////////////////////////////////
 
 
 def success(request):
@@ -670,21 +686,19 @@ def add_vehicle(request):
     return render(request, 'Agent/add-vehicle.html',)
 
 
+def delete_vehicle(request, pk):
 
-def delete_vehicle(request,pk):
-
-    vihecle=Vehicle.objects.get(id=pk)
-    agent=Agent.objects.get(user=request.user)
-    if agent==vihecle.Agent:
-       vihecle.delete()
-       messages.success(request,'Vihelce successfully deleted')
-       return redirect('manage_vehicles')
-      
+    vihecle = Vehicle.objects.get(id=pk)
+    agent = Agent.objects.get(user=request.user)
+    if agent == vihecle.Agent:
+        vihecle.delete()
+        messages.success(request, 'Vihelce successfully deleted')
+        return redirect('manage_vehicles')
 
 
 def manage_vehicles(request):
 
-    agent=Agent.objects.get(user=request.user)
+    agent = Agent.objects.get(user=request.user)
     all_vechil = Vehicle.objects.filter(Agent=agent)
     context = {
         'all_vechil': all_vechil,
@@ -696,13 +710,40 @@ def manage_vehicles(request):
 
 # ////////////////////////////////////////////////////// Driver Managemetn //////////////////////////
 def add_driver(request):
-    return render(request, 'Agent/add-driver.html', {})
+    agent = Agent.objects.get(user=request.user)
+    all_vechil = Vehicle.objects.filter(Agent=agent)
+
+    if request.method == 'POST':
+        Full_name = request.POST.get('fullname')
+        phone1 = request.POST.get('driverphone')
+        vehicle = request.POST.get('vechile')
+        profile_pic = request.FILES.get('licence')
+        Drive_license = request.FILES.get('driverPhoto')
+        driver = Driver.objects.create(Agent=agent,Full_name=Full_name,phone1=phone1,vehicle=vehicle,profile_pic=profile_pic,Drive_license=Drive_license)
+        if driver:
+            messages.success(request, 'Driver successfully added')
+            return redirect('manage_drivers')
+        else:
+            messages.error(request, 'something went wrong. please, try again')
+    context = {
+        'all_vechil':all_vechil,
+    }
+    return render(request, 'Agent/add-driver.html',context)
 
 
 def manage_drivers(request):
-    return render(request, 'Agent/manage-drivers.html', {})
+    agent = Agent.objects.get(user=request.user)
+    all_drive = Driver.objects.filter(Agent=agent)
+    context = {
+        'all_drive':all_drive,
+    }
+    return render(request, 'Agent/manage-drivers.html', context)
 
-# ////////////////////////////////////////////////////// End Managemetn //////////////////////////
+
+def delete_drivers(request):
+
+    return render(request, 'Agent/manage-drivers.html', {})
+# ////////////////////////////////////////////////////// End Driver Managemetn //////////////////////////
 
 
 def transactions(request):

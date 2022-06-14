@@ -1,74 +1,87 @@
 {% extends 'Agent/agent-base.html' %}
 {% block content %}
 
- <!-- ====== Main -->
- <main id="main" class="main">
-    <div class="pagetitle">
-        <h1>Manage Drivers</h1>
-        <nav>
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{% url 'agent_dashbord' %}">Home</a></li>
-            <li class="breadcrumb-item active">Add driver</li>
-          </ol>
-        </nav>
-      </div><!-- End Page Title -->
-    <section class="section add-agent">
-        <div class="row">
-          <div class="row justify-content-center">
-            <div class="col-lg-12 d-flex flex-column align-items-center justify-content-center">
-              <div class="card mb-5">
-                <div class="card-body">         
-                    <h5 class="card-title text-center pb-0 fs-4">Driver Registration Form</h5>
-                  <form class="row g-3 needs-validation" novalidate>
-                    
-                    <div class="col-lg-6 col-md-6 col-sm-12">
-                        <label for="driver" class="form-label">Full name</label>
-                        <input type="text" name="driver" id="driver" class="form-control" required>
-                        <div class="invalid-feedback">Please enter driver's name!</div>
-                    </div>
-                    
-                    <div class="col-lg-6 col-md-6 col-sm-12">
-                      <label for="driver" class="form-label">Phone</label>
-                      <input type="tel" name="driverphone" id="driverphone" class="form-control" required>
-                      <div class="invalid-feedback">Please enter driver's phone!</div>
-                    </div>
+<!-- ====== Main -->
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Manage Drivers</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'agent_dashbord' %}">Home</a></li>
+        <li class="breadcrumb-item active">Add driver</li>
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
+  <section class="section add-agent">
+    <div class="row">
+      <div class="row justify-content-center">
+        <div class="col-lg-12 d-flex flex-column align-items-center justify-content-center">
+          <div class="card mb-5">
+            <div class="card-body">
+              <h5 class="card-title text-center pb-0 fs-4">Driver Registration Form</h5>
+              <form class="row g-3 needs-validation" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
 
-
-                    <div class="col-lg-6 col-md-6 col-sm-12">
-                        <label for="driver role" class="form-label">Driver Role</label>
-                        <select class="form-select" id="driver_role">
-                            <option value="">Fetch</option>
-                            <option value="">Distribution</option>
-                        </select>
-                    </div>
-                    
-                    <div class="col-lg-6 col-md-6 col-sm-12">
-                        <label for="plate" class="form-label">Diver's Licence</label>
-                        <input type="file" name="licence" class="form-control" id="licence" required>
-                        <div class="invalid-feedback">Please upload licence!</div>
-                    </div>
-
-
-
-                    <div class="col-lg-6 col-md-6 col-sm-12">
-                        <label for="photo" class="form-label">Photo</label>
-                        <input type="file" name="driverPhoto" class="form-control" id="driverPhoto" required>
-                        <div class="invalid-feedback">Please upload photo!</div>
-                    </div>
-
-
-                    <hr class="mb-4">
-                      <div class="col-4">
-                        <button id="add_driver" class="btn btn-warning w-100 text-white" type="submit">Add</button>
-                      </div>
-                  </form>
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                  <label for="driver" class="form-label">Full name</label>
+                  <input type="text" name="fullname" id="driver" class="form-control" required>
+                  <div class="invalid-feedback">Please enter driver's name!</div>
                 </div>
-              </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                  <label for="driver" class="form-label">Phone</label>
+                  <input type="tel" name="driverphone" id="driverphone" class="form-control" required>
+                  <div class="invalid-feedback">Please enter driver's phone!</div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                  <label for="photo" class="form-label">Prfile_Pic</label>
+                  <input type="file" name="driverPhoto" class="form-control" id="driverPhoto" required>
+                  <div class="invalid-feedback">Please upload photo!</div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                  <label for="plate" class="form-label">Diver's Licence</label>
+                  <input type="file" name="licence" class="form-control" id="licence" required>
+                  <div class="invalid-feedback">Please upload licence!</div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                  <label for="driver role" class="form-label">Driver</label>
+                  <select class="form-select" name="vechile" id="driver_role">
+                    {% for vihecle in all_vechil %}
+                    <option value="{{vihecle}}">{{vihecle}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+
+
+
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                  <label for="Vehicle role" class="form-label">Vehicle Role</label>
+                  <select class="form-select" name="car_type" id="vehicle_role">
+                    <option value="on_duty">On duity</option>
+                    <option value="on_garage">On garage</option>
+                    <option value="on_wating">On wating</option>
+
+                  </select>
+                </div>
+
+
+
+
+                <hr class="mb-4">
+                <div class="col-4">
+                  <button id="add_driver" class="btn btn-warning w-100 text-white" type="submit">Add</button>
+                </div>
+              </form>
             </div>
           </div>
         </div>
-      </section>
+      </div>
+    </div>
+  </section>
 
-  </main><!-- End #main -->
+</main><!-- End #main -->
 
 {% endblock %}

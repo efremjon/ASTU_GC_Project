@@ -41,12 +41,14 @@
                     </tr>
                   </thead>
                   <tbody>
+
+                    {% for driver in all_drive %}
                     <tr>
                       <th>1</th>
-                      <td><a href="#">Belete Asake</a></td>
-                      <td>Lorry</a></td>
-                      <td>0937990877</td>
-                      <td>On duty</td>
+                      <td><a href="#">{{driver.Full_name}}</a></td>
+                      <td></a></td>
+                      <td></td>
+                      <td></td>
                       <td>
                         <a href="#">
                           <h3><i class="bi bi-eye"></i></h3>
@@ -58,92 +60,8 @@
                         </a>
                       </td>
                     </tr>
-
-                    <tr>
-                      <th>2</th>
-                      <td><a href="#">Getsh Amare</a></td>
-                      <td>Isuzu</a></td>
-                      <td>0910100245</td>
-                      <td>In garage</td>
-                      <td>
-                        <a href="#">
-                          <h3><i class="bi bi-eye"></i></h3>
-                        </a>
-                      </td>
-                      <td>
-                        <a href="#">
-                          <h3 class="text-danger"><i class="bi bi-trash"></i></h3>
-                        </a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th>3</th>
-                      <td>Belete Asake</td>
-                      <td>Isuzu</a></td>
-                      <td>0937990877</td>
-                      <td>On duty</td>
-                      <td><a href="#">
-                          <h3><i class="bi bi-eye"></i></h3>
-                        </a>
-                      </td>
-                      <td>
-                        <a href="#">
-                          <h3 class="text-danger"><i class="bi bi-trash"></i></h3>
-                        </a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th>1</th>
-                      <td>Belete Asake</td>
-                      <td>Lorry</a></td>
-                      <td>0937990877</td>
-                      <td>On duty</td>
-                      <td>
-                        <a href="#">
-                          <h3><i class="bi bi-eye"></i></h3>
-                        </a>
-                      </td>
-                      <td>
-                        <a href="#">
-                          <h3 class="text-danger"><i class="bi bi-trash"></i></h3>
-                        </a>
-                      </td>
-                    </tr>
-
-                    <tr>
-                      <th>2</th>
-                      <td>Getsh Amare</td>
-                      <td>Isuzu</a></td>
-                      <td>0910100245</td>
-                      <td>On duty</td>
-                      <td>
-                        <a href="#">
-                          <h3><i class="bi bi-eye"></i></h3>
-                        </a>
-                      </td>
-                      <td>
-                        <a href="#">
-                          <h3 class="text-danger"><i class="bi bi-trash"></i></h3>
-                        </a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th>3</th>
-                      <td>Belete Asake</td>
-                      <td>Lorry</a></td>
-                      <td>0937990877</td>
-                      <td>On duty</td>
-                      <td>
-                        <a href="#">
-                          <h3><i class="bi bi-eye"></i></h3>
-                        </a>
-                      </td>
-                      <td>
-                        <a href="#">
-                          <h3 class="text-danger"><i class="bi bi-trash"></i></h3>
-                        </a>
-                      </td>
-                    </tr>
+                    {% endfor %}
+                    
                   </tbody>
                 </table>
               </div>
