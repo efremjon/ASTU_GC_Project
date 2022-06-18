@@ -22,7 +22,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 import datetime
 from django.contrib.auth.models import Group
-from Customer.models import Customer_order
+# from Customer.models import Customer_order
 # Create your views here.
 
 

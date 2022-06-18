@@ -55,11 +55,12 @@
               <td><span class="badge bg-success">delivered</span></td>
               {% endif %}
               <td><a href="{% url 'cusomer_order_ditel' row1.id %}" class="btn btn-sm btn-primary">View</a></td>
-              {% if row1.driver_choice == 'Assigned' %}
+
+              <!-- {% if row1.driver_choice == 'Assigned' %}
               <td><span class="badge bg-success">Assigned</span></td>
               {% elif row1.driver_choice == 'Not Assigned' %}
               <td><span class="badge bg-danger">Not Assigned</span></td>
-              {% endif %}
+              {% endif %} -->
 
             </tr>
 

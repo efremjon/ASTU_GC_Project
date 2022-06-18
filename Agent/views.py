@@ -15,7 +15,7 @@ from django.contrib.auth.decorators import login_required
 from .form import *
 from .models import *
 from Company.models import *
-from Customer.models import Customer_order, Customer_Transaction
+# from Customer.models import Customer_order, Customer_Transaction
 import requests
 from passlib.hash import pbkdf2_sha256
 import json

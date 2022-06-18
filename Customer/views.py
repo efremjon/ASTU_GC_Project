@@ -13,7 +13,7 @@ from Account.views import login_view
 from Agent.models import Customer
 from Agent.views import transactions
 from Company.models import Product
-from .models import Customer_order, Customer_Transaction
+# from .models import Customer_order, Customer_Transaction
 from .form import passwordform
 from django.core.mail import send_mail
 import requests
